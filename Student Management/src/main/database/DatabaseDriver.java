@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.StringJoiner;
 
 public class DatabaseDriver {
     private Connection connection = null;
@@ -22,17 +23,20 @@ public class DatabaseDriver {
         
     }
 
-    public ResultSet readFromTable(String table){
-        try {
-            ResultSet resultSet = statement.executeQuery(
-                "SELECT * from " + table
-            );
-            return resultSet;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public ResultSet readFromTable(String table) throws SQLException{
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT * from " + table);
+        return resultSet;
+    }
 
-        return null;
-        
+    public void addToTable(String[] data, String table) throws SQLException{
+        StringJoiner valuesJoiner = new StringJoiner(",");
+        for(String dataEntry : data){
+            valuesJoiner.add(dataEntry);
+        }
+        String values = "(" + valuesJoiner.toString() + ")";
+        statement.executeUpdate(
+            "INSERT INTO " + table + "VALUES" + values + ";"
+        );
     }
 }

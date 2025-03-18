@@ -5,10 +5,8 @@ import javax.swing.table.DefaultTableModel;
 import main.data.maps.DataMap;
 import main.database.DatabaseDriver;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.nio.file.Files;
@@ -59,32 +57,9 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     private String tableName;
 
-    /**
-     * Gets data from the {@code CSVHandlingTableModel}'s designated csv 
-     * file. Also adds this data to the {@code DataMap}.
-     * @param dMap - {@code DataMap} that handles and maps all data during 
-     * the application's runtime.
-     */
-    protected void getData(DataMap dMap){   
-        try{  
-            String line = "";  
-            String splitBy = ",";
-            //parsing a CSV file into BufferedReader class constructor  
-            BufferedReader br = new BufferedReader(new FileReader(this.getFile()));  
-            while ((line = br.readLine()) != null) {   //returns a Boolean value   
-                String[] row = line.split(splitBy);    //use comma as separator
-                this.addRow(row);
-                this.addToMap(row, dMap);
-            }  
-            br.close();         
-        } catch (IOException e)   {  
-            e.printStackTrace(); 
-        }
-    }
-
     protected void getData(DatabaseDriver dbDriver){
-        ResultSet resultSet = dbDriver.readFromTable(tableName);
         try {
+            ResultSet resultSet = dbDriver.readFromTable(tableName);
             ResultSetMetaData rsmd = resultSet.getMetaData();
             int c = rsmd.getColumnCount();
             while(resultSet.next()){
@@ -112,6 +87,12 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
      */
     public void addData(String[] data, DataMap dMap){
         this.addToMap(data, dMap);
+        this.addRow(data);
+        this.setChange(true);
+    }
+
+    public void addData(String[] data, DatabaseDriver dbDriver) throws SQLException{
+        dbDriver.addToTable(data, tableName);
         this.addRow(data);
         this.setChange(true);
     }
