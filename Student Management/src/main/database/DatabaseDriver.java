@@ -22,13 +22,17 @@ public class DatabaseDriver {
         
     }
 
-    public void readFromTable(String table){
+    public ResultSet readFromTable(String table){
         try {
             ResultSet resultSet = statement.executeQuery(
                 "SELECT * from " + table
             );
+            return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return null;
+        
     }
 }

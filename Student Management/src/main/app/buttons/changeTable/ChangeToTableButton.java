@@ -9,7 +9,7 @@ import main.app.buttons.edit.EditDataButton;
 import main.app.input.fields.SearchBar;
 import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
-import main.app.tables.tableModels.CSVHandlingTableModel;
+import main.app.tables.tableModels.DatabaseHandlingTableModel;
 
 /**
  * Abstract {@link JToggleButton} that changes {@link ManagementTable}'s
@@ -20,7 +20,7 @@ import main.app.tables.tableModels.CSVHandlingTableModel;
  * @see ChangeToCollegeTableButton {@code ChangeToCollegeTableButton}
  */
 public abstract class ChangeToTableButton extends JToggleButton{
-    public void changeToTable(JScrollPane sp, CSVHandlingTableModel tm, ManagementTable mTable, 
+    public void changeToTable(JScrollPane sp, DatabaseHandlingTableModel tm, ManagementTable mTable, 
         AddDataButton[] aDButtons, DeleteDataButton[] dDButtons, EditDataButton[] eDButtons,
         SearchBar searchBar, SearchFieldList searchFieldList){
         mTable.setModel(tm);

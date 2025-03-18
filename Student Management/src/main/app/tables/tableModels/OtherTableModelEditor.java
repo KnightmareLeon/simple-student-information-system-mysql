@@ -3,7 +3,7 @@ package main.app.tables.tableModels;
 /**
  * Interface that allows {@code CSVHandlingTableModel} to handle data of another
  * {@code CSVHandlingTableModel}
- * @see CSVHandlingTableModel {@code CSVHandlingTableModel}
+ * @see DatabaseHandlingTableModel {@code CSVHandlingTableModel}
  */
 public interface OtherTableModelEditor {
     

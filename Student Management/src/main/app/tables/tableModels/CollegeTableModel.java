@@ -14,7 +14,7 @@ import main.data.maps.DataMap;
  * It has two columns: "Code" and "Name"
  * 
  */
-public class CollegeTableModel extends CSVHandlingTableModel implements OtherTableModelEditor{
+public class CollegeTableModel extends DatabaseHandlingTableModel implements OtherTableModelEditor{
     private ProgramTableModel ptm;
     public CollegeTableModel(DataMap dMap){
         this.setColumnCount(2);

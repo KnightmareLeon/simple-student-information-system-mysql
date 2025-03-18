@@ -4,7 +4,7 @@ import main.data.maps.DataMap;
 
 
 /**
- * A {@link CSVHandlingTableModel} that handles {@link main.data.dataClass.Program 
+ * A {@link DatabaseHandlingTableModel} that handles {@link main.data.dataClass.Program 
  * Programs}' data. Its designated file is "programs.csv". It implements 
  * {@link OtherTableModelEditor}, with the {@code CSVHandlingTableModel} that it edits is 
  * the {@link StudentTableModel}.
@@ -12,7 +12,7 @@ import main.data.maps.DataMap;
  * It has three columns: "Code", "Name", and "College Code"
  * 
  */
-public class ProgramTableModel extends CSVHandlingTableModel implements OtherTableModelEditor{
+public class ProgramTableModel extends DatabaseHandlingTableModel implements OtherTableModelEditor{
     private StudentTableModel stm;
 
     public ProgramTableModel(DataMap dMap){

@@ -96,6 +96,7 @@ public class MainFrame extends JFrame{
     public MainFrame(){
 
         DatabaseDriver what = new DatabaseDriver();
+        what.readFromTable("colleges");
         this.setResizable(true);     
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Student Management System");

@@ -18,7 +18,7 @@ import main.data.maps.DataMap;
 
 /**
  * Custom {@code JTable} that the application uses. Has three initialized
- * {@link main.app.tables.tableModels.CSVHandlingTableModel CSVHandlingTableModels}:
+ * {@link main.app.tables.tableModels.DatabaseHandlingTableModel CSVHandlingTableModels}:
  * the {@link main.app.tables.tableModels.StudentTableModel StudentTableModel}, 
  * the {@link main.app.tables.tableModels.ProgramTableModel ProgramTableModel}, and
  * the {@link main.app.tables.tableModels.CollegeTableModel CollegeTableModel}.
@@ -35,7 +35,7 @@ public class ManagementTable extends JTable{
     private List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
     /**
-     * Sets up all the {@link main.app.tables.tableModels.CSVHandlingTableModel
+     * Sets up all the {@link main.app.tables.tableModels.DatabaseHandlingTableModel
      * CSVHandlingTableModels} and specific {@code JTable} customizations.
      */
     public ManagementTable(){
