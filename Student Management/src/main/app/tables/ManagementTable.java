@@ -15,6 +15,7 @@ import main.app.tables.tableModels.CollegeTableModel;
 import main.app.tables.tableModels.ProgramTableModel;
 import main.app.tables.tableModels.StudentTableModel;
 import main.data.maps.DataMap;
+import main.database.DatabaseDriver;
 
 /**
  * Custom {@code JTable} that the application uses. Has three initialized
@@ -32,6 +33,7 @@ public class ManagementTable extends JTable{
     private StudentTableModel stm;
     private TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>();
     private DataMap dMap = new DataMap();
+    private DatabaseDriver dbDriver = new DatabaseDriver();
     private List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
     /**
@@ -39,9 +41,9 @@ public class ManagementTable extends JTable{
      * CSVHandlingTableModels} and specific {@code JTable} customizations.
      */
     public ManagementTable(){
-        this.ctm = new CollegeTableModel(this.dMap);
-        this.ptm = new ProgramTableModel(this.dMap);
-        this.stm = new StudentTableModel(this.dMap);
+        this.ctm = new CollegeTableModel(this.dMap, this.dbDriver);
+        this.ptm = new ProgramTableModel(this.dMap, this.dbDriver);
+        this.stm = new StudentTableModel(this.dMap, this.dbDriver);
         this.ctm.setPTM(this.ptm);
         this.ptm.setSTM(this.stm);
         //this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

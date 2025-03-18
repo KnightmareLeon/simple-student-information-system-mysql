@@ -22,7 +22,6 @@ import main.app.buttons.edit.*;
 import main.app.input.fields.SearchBar;
 import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
-import main.database.DatabaseDriver;
 
 /**
  * The main {@code JFrame} of the application. The 
@@ -95,8 +94,6 @@ public class MainFrame extends JFrame{
      */
     public MainFrame(){
 
-        DatabaseDriver what = new DatabaseDriver();
-        what.readFromTable("colleges");
         this.setResizable(true);     
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("Student Management System");

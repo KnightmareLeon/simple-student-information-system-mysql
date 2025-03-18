@@ -3,6 +3,7 @@ package main.app.tables.tableModels;
 import javax.swing.table.DefaultTableModel;
 
 import main.data.maps.DataMap;
+import main.database.DatabaseDriver;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,6 +13,9 @@ import java.io.FileWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.io.IOException;
 
 /**
@@ -78,6 +82,22 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         }
     }
 
+    protected void getData(DatabaseDriver dbDriver){
+        ResultSet resultSet = dbDriver.readFromTable(tableName);
+        try {
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+            int c = rsmd.getColumnCount();
+            while(resultSet.next()){
+                String[] data = new String[c];
+                for(int i = 1; i <= c; i++){
+                    data[i - 1] = resultSet.getString(i);    
+                }
+                this.addRow(data);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     
 
     /**
@@ -265,6 +285,8 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
      * @param changed - {@code boolean} value
      */
     public void setChange(boolean changed){this.changed = changed;}
+
+    protected void setTableName(String tableName){this.tableName = tableName;}
 
     @Override
     public boolean isCellEditable(int row, int column) {return false;}

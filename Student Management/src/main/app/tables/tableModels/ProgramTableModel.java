@@ -1,6 +1,7 @@
 package main.app.tables.tableModels;
 
 import main.data.maps.DataMap;
+import main.database.DatabaseDriver;
 
 
 /**
@@ -15,14 +16,15 @@ import main.data.maps.DataMap;
 public class ProgramTableModel extends DatabaseHandlingTableModel implements OtherTableModelEditor{
     private StudentTableModel stm;
 
-    public ProgramTableModel(DataMap dMap){
+    public ProgramTableModel(DataMap dMap, DatabaseDriver dbDriver){
         this.setColumnCount(3);
+        this.setTableName("programs");
         this.setFileName("programs.csv");
         this.setColumnIdentifiers(new String[]{
             "Code",
             "Name",
             "College Code"});
-        this.getData(dMap);
+        this.getData(dbDriver);
     }
 
     @Override

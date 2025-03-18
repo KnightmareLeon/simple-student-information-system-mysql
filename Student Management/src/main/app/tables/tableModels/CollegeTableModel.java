@@ -1,6 +1,7 @@
 package main.app.tables.tableModels;
 
 import main.data.maps.DataMap;
+import main.database.DatabaseDriver;
 
 /**
  * A {@lnk CSVHandlingTableModel} that handles {@link main.data.dataClass.College Colleges}'
@@ -16,13 +17,14 @@ import main.data.maps.DataMap;
  */
 public class CollegeTableModel extends DatabaseHandlingTableModel implements OtherTableModelEditor{
     private ProgramTableModel ptm;
-    public CollegeTableModel(DataMap dMap){
+    public CollegeTableModel(DataMap dMap, DatabaseDriver dbDriver){
         this.setColumnCount(2);
         this.setFileName("colleges.csv");
+        this.setTableName("colleges");
         this.setColumnIdentifiers(new String[]{
             "Code",
             "Name"});
-        this.getData(dMap);
+        this.getData(dbDriver);
     }
 
     @Override

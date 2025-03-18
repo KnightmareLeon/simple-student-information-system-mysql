@@ -1,6 +1,7 @@
 package main.app.tables.tableModels;
 
 import main.data.maps.DataMap;
+import main.database.DatabaseDriver;
 
 /**
  * A {@link DatabaseHandlingTableModel} that handles {@link main.data.dataClass.Student 
@@ -10,8 +11,9 @@ import main.data.maps.DataMap;
  * ,and "Program Code"
  */
 public class StudentTableModel extends DatabaseHandlingTableModel{
-    public StudentTableModel(DataMap dMap){
+    public StudentTableModel(DataMap dMap, DatabaseDriver dbDriver){
         this.setColumnCount(6);
+        this.setTableName("students");
         this.setFileName("students.csv");
         this.setColumnIdentifiers(new String[]{
             "ID",
@@ -20,7 +22,7 @@ public class StudentTableModel extends DatabaseHandlingTableModel{
             "Year Level",
             "Gender",
             "Program Code"});
-        this.getData(dMap);
+        this.getData(dbDriver);
     }
 
     @Override
