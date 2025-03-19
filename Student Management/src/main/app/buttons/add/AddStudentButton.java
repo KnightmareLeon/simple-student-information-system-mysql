@@ -3,6 +3,7 @@ package main.app.buttons.add;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -44,7 +45,7 @@ public class AddStudentButton extends AddDataButton{
             public void actionPerformed(ActionEvent event){
                 try{
                     boolean confirm = true;
-                    if(mTable.getDMap().hasID(stdInput.getID())){
+                    if(mTable.getdBDriver().ifRecordExists("id", "students", stdInput.getID())){
                         throw new ExistingIDException();
                     }
 
@@ -73,6 +74,9 @@ public class AddStudentButton extends AddDataButton{
                 } catch(EmptyInputException | NullPointerExceptionWithWindow | ExistingIDException e) {
                     e.printStackTrace();
                     e.startErrorWindow(getActionButton());
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 } 
             }
         });

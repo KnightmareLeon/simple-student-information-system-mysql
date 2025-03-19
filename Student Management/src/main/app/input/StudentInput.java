@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.time.Year;
 
 import javax.swing.ButtonGroup;
@@ -131,17 +132,26 @@ public class StudentInput extends DataInput{
         this.gList.add(othersButton); this.gPanel.add(othersButton); this.othersButton.setActionCommand(othersButton.getText());
         
         //Setting up Input Program List
-        this.prgCodeList = mTable.getDMap().getProgramList();
-        this.pcList = new AutoCompletingComboBox(prgCodeList);
-
-        //Setting up Program Name
+        try {
+            this.prgCodeList = mTable.getdBDriver().getArrayFromColumn( "code", "programs");
+            this.pcList = new AutoCompletingComboBox(prgCodeList);
+            //Setting up Program Name
+            this.pn.setText(mTable.getdBDriver().getData((String) pcList.getSelectedItem(), "name", "programs"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         this.pn.setPreferredSize(new Dimension(400, 20));
-        this.pn.setText(mTable.getDMap().getProgram((String) this.pcList.getSelectedItem()).getName());
+        
         this.pcList.addActionListener(new ActionListener(){ //To set text of pn when a new selection in pcList is done
             @Override
             public void actionPerformed(ActionEvent e) { 
                 if(!((String) pcList.getSelectedItem()).equals("NO UPDATE")){
-                    pn.setText(mTable.getDMap().getProgram((String) pcList.getSelectedItem()).getName());
+                    try {
+                        pn.setText(mTable.getdBDriver().getData((String) pcList.getSelectedItem(), "name", "programs"));
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
                 } else {
                     pn.setText("");
                 }
