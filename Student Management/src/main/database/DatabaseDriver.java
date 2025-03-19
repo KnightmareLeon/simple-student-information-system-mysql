@@ -43,12 +43,21 @@ public class DatabaseDriver {
     public boolean ifRecordExists(String columnLabel, String tableName, String record) throws SQLException{
         ResultSet resultSet = statement.executeQuery(
             "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
-            columnLabel + "=\'" + record +"\'");
+            columnLabel + "=\'" + record + "\'");
         boolean recordExists = resultSet.next();
         resultSet.close();
         return recordExists;
     }
 
+    public boolean ifRecordExists(String columnLabel1, String columnLabel2, String tableName,
+                                  String record1, String record2) throws SQLException{
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT " + columnLabel1 + "," + columnLabel2 + " from " + tableName + " WHERE " + 
+            columnLabel1 + "=\'" + record1 + "\' and " + columnLabel2 + "=\'" + record2 + "\'");
+        boolean recordExists = resultSet.next();
+        resultSet.close();
+        return recordExists;
+    }
     public String[] getArrayFromColumn(String columnLabel, String tableName) throws SQLException{
         
         ResultSet totalRowsSet = statement.executeQuery(

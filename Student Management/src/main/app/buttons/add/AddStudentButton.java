@@ -57,7 +57,8 @@ public class AddStudentButton extends AddDataButton{
                         stdInput.getG(),
                         stdInput.getPC()
                     };
-                    if(mTable.getDMap().hasStudentName(stdInput.getFN() + " " + stdInput.getLN())){
+                    if(mTable.getdBDriver().ifRecordExists("firstname", "lastname", 
+                                                 "students", stdInput.getFN(), stdInput.getLN())){
                         confirm = (JOptionPane.showConfirmDialog(
                                     getActionButton(), 
                             "Name already exists. Do you want to proceed?", 
@@ -65,7 +66,7 @@ public class AddStudentButton extends AddDataButton{
                                     JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
                     }
                     if(confirm){
-                        mTable.getSTM().addData(data, mTable.getDMap());
+                        mTable.getSTM().addData(data, mTable.getdBDriver());
                         JOptionPane.showMessageDialog(getActionButton(), "Student added successfully!");
                         getDataFrame().dispose();
 
