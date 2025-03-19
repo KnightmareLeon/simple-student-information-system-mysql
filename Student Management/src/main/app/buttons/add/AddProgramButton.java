@@ -1,8 +1,10 @@
 package main.app.buttons.add;
 
 import java.awt.GridBagConstraints;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -43,9 +45,9 @@ public class AddProgramButton extends AddDataButton{
             @Override
             public void actionPerformed(ActionEvent event) {
                 try {
-                    if(mTable.getDMap().hasProgramCode(pInput.getCode())){
+                    if(mTable.getdBDriver().ifRecordExists("code", "programs", pInput.getCode())){
                         throw new ExistingCodeException();
-                    } else if(mTable.getDMap().hasProgramName(pInput.getName())){
+                    } else if(mTable.getdBDriver().ifRecordExists("name","programs",pInput.getName())){
                         throw new ExistingNameException();
                     } else {
                         String[] data = {
@@ -53,13 +55,19 @@ public class AddProgramButton extends AddDataButton{
                             pInput.getName(),
                             pInput.getCCode()   
                         };
-                        mTable.getPTM().addData(data, mTable.getDMap());
+                        mTable.getPTM().addData(data, mTable.getdBDriver());
                         JOptionPane.showMessageDialog(getActionButton(), "Program added successfully!");
                         getDataFrame().dispose();
                     }
                 } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                     e.printStackTrace();
                     e.startErrorWindow(getActionButton());
+                } catch (HeadlessException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 } 
             }
         });

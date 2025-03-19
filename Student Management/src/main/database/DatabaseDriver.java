@@ -44,6 +44,41 @@ public class DatabaseDriver {
         ResultSet resultSet = statement.executeQuery(
             "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
             columnLabel + "=\'" + record +"\'");
-        return resultSet.next();
+        boolean recordExists = resultSet.next();
+        resultSet.close();
+        return recordExists;
+    }
+
+    public String[] getArrayFromColumn(String columnLabel, String tableName) throws SQLException{
+        
+        ResultSet totalRowsSet = statement.executeQuery(
+            "SELECT COUNT(*) FROM " + tableName
+        );
+        totalRowsSet.next();
+        int rows = totalRowsSet.getInt(1);
+        
+        String[] res = new String[rows];
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT " + columnLabel + " from " + tableName
+        );
+        
+        int i = 0;
+        while(resultSet.next()){
+            res[i++] = resultSet.getString(columnLabel);
+        }
+        totalRowsSet.close(); resultSet.close();
+        return res;
+    }
+
+    public String getData(String primaryKey, String columnLabel, String tableName) throws SQLException{
+        String primaryColumn = (tableName.equals("students")) ? "id" : "code" ;
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
+            primaryColumn + "=\'" + primaryKey +"\'"
+        );
+        resultSet.next();
+        String res = resultSet.getString(columnLabel);
+        resultSet.close();
+        return res;
     }
 }

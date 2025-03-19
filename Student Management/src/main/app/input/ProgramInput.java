@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -66,15 +67,25 @@ public class ProgramInput extends DataInput{
                                    ManagementTable mTable, 
                                    GridBagConstraints frameGBC) throws NoRowSelectedException{
         
-        this.cCodeList = new AutoCompletingComboBox(mTable.getDMap().getCollegeList());
+        try {
+            this.cCodeList = new AutoCompletingComboBox(mTable.getdBDriver().getArrayFromColumn("code", "colleges"));
+            
+            this.cName.setText(mTable.getdBDriver().getData((String)this.cCodeList.getSelectedItem(), "name", "colleges"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         this.codeField.setPreferredSize(new Dimension(70, 20));
         this.cName.setPreferredSize(new Dimension(400, 20));
-        this.cName.setText((mTable.getDMap().getCollege((String)this.cCodeList.getSelectedItem())).getName());
         this.cCodeList.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                cName.setText((mTable.getDMap().getCollege((String)cCodeList.getSelectedItem())).getName());
+                try {
+                    cName.setText(mTable.getdBDriver().getData((String)cCodeList.getSelectedItem(), "name", "colleges"));
+                } catch (SQLException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
             
         });
