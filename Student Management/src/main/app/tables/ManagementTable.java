@@ -58,6 +58,8 @@ public class ManagementTable extends JTable{
      */
     public DataMap getDMap(){return dMap;}
 
+    public DatabaseDriver getdBDriver(){return this.dbDriver;}
+    
     /**
      * Gets the {@code CollegeTableModel}that the {@code ManagementTable} uses.
      * @return {@link main.app.tables.tableModels.CollegeTableModel

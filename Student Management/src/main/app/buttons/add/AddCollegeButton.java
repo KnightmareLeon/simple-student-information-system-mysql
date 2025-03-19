@@ -3,6 +3,7 @@ package main.app.buttons.add;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -42,21 +43,24 @@ public class AddCollegeButton extends AddDataButton{
             @Override
             public void actionPerformed(ActionEvent event) {
                 try{
-                    if(mTable.getDMap().hasCollegeCode(clgInput.getCode())){
+                    if(mTable.getdBDriver().ifRecordExists("code", "colleges", clgInput.getCode())){
                         throw new ExistingCodeException();
-                    } else if (mTable.getDMap().hasCollegeName(clgInput.getName())){
+                    } else if (mTable.getdBDriver().ifRecordExists("name", "colleges", clgInput.getName())){
                         throw new ExistingNameException();
                     }
                     String[] data = {
                         clgInput.getCode(),
                         clgInput.getName()
                     };
-                    mTable.getCTM().addData(data, mTable.getDMap());
+                    mTable.getCTM().addData(data, mTable.getdBDriver());
                     JOptionPane.showMessageDialog(getActionButton(), "College added successfully!");
                     getDataFrame().dispose();
                 } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){
                     e.printStackTrace();
                     e.startErrorWindow(getActionButton());
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
                 }  
             }
         });

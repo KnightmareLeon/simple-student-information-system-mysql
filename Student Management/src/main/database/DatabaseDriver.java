@@ -23,20 +23,28 @@ public class DatabaseDriver {
         
     }
 
-    public ResultSet readFromTable(String table) throws SQLException{
+    public ResultSet readFromTable(String tableName) throws SQLException{
         ResultSet resultSet = statement.executeQuery(
-            "SELECT * from " + table);
+            "SELECT * from " + tableName);
         return resultSet;
     }
 
-    public void addToTable(String[] data, String table) throws SQLException{
+    public void addToTable(String[] data, String tableName) throws SQLException{
         StringJoiner valuesJoiner = new StringJoiner(",");
         for(String dataEntry : data){
-            valuesJoiner.add(dataEntry);
+            valuesJoiner.add("\'" + dataEntry + "\'");
         }
         String values = "(" + valuesJoiner.toString() + ")";
+        System.out.println("INSERT INTO " + tableName + "VALUES" + values + ";");
         statement.executeUpdate(
-            "INSERT INTO " + table + "VALUES" + values + ";"
+            "INSERT INTO " + tableName + " VALUES " + values + ";"
         );
+    }
+
+    public boolean ifRecordExists(String columnLabel, String tableName, String record) throws SQLException{
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
+            columnLabel + "=\'" + record +"\'");
+        return resultSet.getRow() == 1;
     }
 }
