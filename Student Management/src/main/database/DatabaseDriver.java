@@ -35,7 +35,6 @@ public class DatabaseDriver {
             valuesJoiner.add("\'" + dataEntry + "\'");
         }
         String values = "(" + valuesJoiner.toString() + ")";
-        System.out.println("INSERT INTO " + tableName + "VALUES" + values + ";");
         statement.executeUpdate(
             "INSERT INTO " + tableName + " VALUES " + values + ";"
         );
@@ -45,6 +44,6 @@ public class DatabaseDriver {
         ResultSet resultSet = statement.executeQuery(
             "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
             columnLabel + "=\'" + record +"\'");
-        return resultSet.getRow() == 1;
+        return resultSet.next();
     }
 }
