@@ -90,4 +90,23 @@ public class DatabaseDriver {
         resultSet.close();
         return res;
     }
+
+    public void updateRecordInTable(String primaryKey, String[] columnLabels, String[] newData, String tableName) throws SQLException{
+        String primaryColumn = (tableName.equals("students")) ? "id" : "code" ;
+        StringJoiner valuesJoiner = new StringJoiner(",");
+        byte c = 0;
+        for(int i = 0; i < columnLabels.length; i++){
+            if(newData[i] != null){
+                valuesJoiner.add(columnLabels[i] + "=\'" + newData[i] + "\'");
+            } else {c++;}
+        }
+        if(c < newData.length){
+            statement.executeUpdate(
+            "UPDATE " + tableName +
+            " SET " + valuesJoiner.toString() +
+            " WHERE " + primaryColumn + "=\'" + 
+            primaryKey + "\'"
+        );
+        }
+    }
 }

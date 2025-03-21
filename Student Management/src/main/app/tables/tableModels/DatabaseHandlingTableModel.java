@@ -94,7 +94,6 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     public void addData(String[] data, DatabaseDriver dbDriver) throws SQLException{
         dbDriver.addToTable(data, tableName);
         this.addRow(data);
-        this.setChange(true);
     }
 
     /**
@@ -128,6 +127,21 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             this.setValueAt(newData[i], row, i);
         }
         this.setChange(true);
+    }
+
+    public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
+        String primaryKey = (String) this.getValueAt(row, 0);
+        String[] record = new String[newData.length];
+        String[] columnLabels = new String[newData.length];
+        for(int i = 0; i < newData.length; i++){
+            columnLabels[i] = this.getColumnName(i).replaceAll(" ", "").toLowerCase();
+            record[i] = (!newData[i].equals((String) this.getValueAt(row, i))) ?
+                newData[i] : null;
+        }
+        dBDriver.updateRecordInTable(primaryKey, columnLabels, record, tableName);
+        for(int i = 0; i < this.getColumnCount(); i++){
+            this.setValueAt(newData[i], row, i);
+        }
     }
 
     /**

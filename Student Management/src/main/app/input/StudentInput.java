@@ -80,7 +80,7 @@ public class StudentInput extends DataInput{
     private JRadioButton yFourButton = new JRadioButton("4");
     private JRadioButton yFiveButton = new JRadioButton("5");
     private JRadioButton yFivePlusButton = new JRadioButton("5+");
-    private JRadioButton yNoUpdateButton = new JRadioButton("NO UPDATE");
+    private JRadioButton yNoUpdateButton = new JRadioButton("-");
 
     //Input Buttons for Gender
     private ButtonGroup gList = new ButtonGroup();
@@ -88,7 +88,7 @@ public class StudentInput extends DataInput{
     private JRadioButton maleButton = new JRadioButton("M");
     private JRadioButton femaleButton = new JRadioButton("F");
     private JRadioButton othersButton = new JRadioButton("O");
-    private JRadioButton gNoUpdateButton = new JRadioButton("NO UPDATE");
+    private JRadioButton gNoUpdateButton = new JRadioButton("-");
 
     //Input List for Program Code
     private JComboBox<String> pcList;
@@ -211,8 +211,8 @@ public class StudentInput extends DataInput{
         } else {
             this.ylList.add(this.yNoUpdateButton); this.ylPanel.add(this.yNoUpdateButton); this.yNoUpdateButton.setActionCommand(this.yNoUpdateButton.getText());
             this.gList.add(this.gNoUpdateButton); this.gPanel.add(this.gNoUpdateButton); this.gNoUpdateButton.setActionCommand(this.gNoUpdateButton.getText());
-            this.pcList.addItem("NO UPDATE");
-            this.pcList.setSelectedItem("NO UPDATE");
+            this.pcList.addItem("-");
+            this.pcList.setSelectedItem("-");
             this.panelGBC.gridx = panelGBC.gridy = 0; this.panelGBC.fill = GridBagConstraints.HORIZONTAL;
             this.inputPanel.add(this.ylLabel, this.panelGBC);
             this.panelGBC.gridy = 1; this.inputPanel.add(this.gLabel, this.panelGBC);

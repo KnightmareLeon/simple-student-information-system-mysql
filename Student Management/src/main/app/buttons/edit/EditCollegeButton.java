@@ -3,6 +3,7 @@ package main.app.buttons.edit;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -62,10 +63,10 @@ public class EditCollegeButton extends EditDataButton{
     protected void editData(ManagementTable mTable) {
         try{
             int row = mTable.getSelectedRow();
-            if(mTable.getDMap().hasCollegeCode(clgInput.getCode())
+            if(mTable.getdBDriver().ifRecordExists("code", "colleges",clgInput.getCode())
             && !mTable.getValueAt(row, 0).equals(clgInput.getCode())){
                 throw new ExistingCodeException();
-            } else if (mTable.getDMap().hasCollegeName(clgInput.getName())
+            } else if (mTable.getdBDriver().ifRecordExists("name", "colleges",clgInput.getName())
                 && !mTable.getValueAt(row, 1).equals(clgInput.getName())){
                 throw new ExistingNameException();
             } 
@@ -73,12 +74,15 @@ public class EditCollegeButton extends EditDataButton{
                 clgInput.getCode(),
                 clgInput.getName()
             };
-            mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getDMap());
+            mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getdBDriver());
             JOptionPane.showMessageDialog(getActionButton(), "College edited successfully!");
             getDataFrame().dispose();
         } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){
             e.printStackTrace();
             e.startErrorWindow(getActionButton());
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }
