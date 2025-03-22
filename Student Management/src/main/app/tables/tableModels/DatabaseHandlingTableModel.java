@@ -65,7 +65,9 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             while(resultSet.next()){
                 String[] data = new String[c];
                 for(int i = 1; i <= c; i++){
-                    data[i - 1] = resultSet.getString(i);    
+                    data[i - 1] = (resultSet.getString(i) == null) ?
+                    "NULL" : resultSet.getString(i);
+                    System.out.println(resultSet.getString(i));    
                 }
                 this.addRow(data);
             }
