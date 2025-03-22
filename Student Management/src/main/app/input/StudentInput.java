@@ -150,7 +150,8 @@ public class StudentInput extends DataInput{
         this.pcList.addActionListener(new ActionListener(){ //To set text of pn when a new selection in pcList is done
             @Override
             public void actionPerformed(ActionEvent e) { 
-                if(!((String) pcList.getSelectedItem()).equals("NO UPDATE")){
+                if(!((String) pcList.getSelectedItem()).equals("-") &&
+                   !((String) pcList.getSelectedItem()).equals("NULL")){
                     try {
                         pn.setText(mTable.getdBDriver().getData((String) pcList.getSelectedItem(), "name", "programs"));
                     } catch (SQLException e1) {

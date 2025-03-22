@@ -80,10 +80,15 @@ public class ProgramInput extends DataInput{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    cName.setText(mTable.getdBDriver().getData((String)cCodeList.getSelectedItem(), "name", "colleges"));
-                } catch (SQLException e1) {
-                    e1.printStackTrace();
+                if(!((String) cCodeList.getSelectedItem()).equals("-") &&
+                   !((String) cCodeList.getSelectedItem()).equals("NULL")){
+                    try {
+                        cName.setText(mTable.getdBDriver().getData((String)cCodeList.getSelectedItem(), "name", "colleges"));
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    cName.setText("");
                 }
             }
             
@@ -105,6 +110,8 @@ public class ProgramInput extends DataInput{
             frameGBC.gridy = 2; dFrame.add(this.cCodeList, frameGBC);
             frameGBC.gridy = 3; dFrame.add(this.cName, frameGBC);
         } else {
+            this.cCodeList.addItem("-");
+            this.cCodeList.setSelectedItem("-");
             frameGBC.gridx = frameGBC.gridy = 0; dFrame.add(this.cCodeLabel,frameGBC);
             frameGBC.gridy = 1; dFrame.add(this.cNameLabel, frameGBC);
             frameGBC.gridx = 1; frameGBC.gridy = 0; frameGBC.gridwidth = 2;

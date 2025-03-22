@@ -1,5 +1,6 @@
 package main.app.buttons.delete;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -22,37 +23,34 @@ public class DeleteCollegeButton extends DeleteDataButton{
     }
 
     @Override
-    protected boolean delete(ManagementTable mTable) {
+    protected boolean delete(ManagementTable mTable) throws SQLException {
         boolean confirm = true;
         int totalPrgs = 0;
-        int totalStds = 0;
         int[] rowArray = new int[mTable.getSelectedRowCount()];
         if(mTable.getSelectedRowCount() == 1){
-            totalPrgs = mTable.getDMap().getCollege((String) mTable.getValueAt(mTable.getSelectedRow(), 0)).getTotalProgram();
-            totalStds = mTable.getDMap().getCollege((String) mTable.getValueAt(mTable.getSelectedRow(), 0)).getTotalStudents();
+            totalPrgs = mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRow(), 0), "programs");
+
         } else {
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
-                totalPrgs += mTable.getDMap().getCollege((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0)).getTotalProgram();
-                totalStds += mTable.getDMap().getCollege((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0)).getTotalStudents();
+                totalPrgs += mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), "programs");
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
             Arrays.sort(rowArray);
         }
 
-        if(totalStds > 0){
+        if(totalPrgs > 0){
             confirm = (JOptionPane.showConfirmDialog(
                         mainFrame, 
-                        "There are a total of " + totalPrgs + " program(s) and a total of " +
-                        totalStds + " student(s) that will be deleted if you proceed to delete " +
-                        "the selected college(s). Proceed to delete?", 
+                        "There are a total of " + totalPrgs + " program(s) that will be affected" +
+                        " if you proceed to delete the selected college(s). Proceed to delete?", 
                   "College Deletion Confirmation", 
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
         } 
         if(confirm && mTable.getSelectedRowCount() == 1){
-            mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getDMap());
+            mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
         } else if(confirm){
             for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getDMap());
+                mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
             }
         }
         return confirm;
