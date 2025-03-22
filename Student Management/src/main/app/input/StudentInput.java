@@ -87,8 +87,9 @@ public class StudentInput extends DataInput{
     private JPanel gPanel = new JPanel();
     private JRadioButton maleButton = new JRadioButton("M");
     private JRadioButton femaleButton = new JRadioButton("F");
-    private JRadioButton othersButton = new JRadioButton("*");
+    private JRadioButton othersButton = new JRadioButton("LGBTQIA+");
     private JRadioButton gNoUpdateButton = new JRadioButton("-");
+    private GridBagConstraints gPanelGBC = new GridBagConstraints();
 
     //Input List for Program Code
     private JComboBox<String> pcList;
@@ -126,10 +127,13 @@ public class StudentInput extends DataInput{
         this.ylList.add(yFivePlusButton); this.ylPanel.add(this.yFivePlusButton); this.yFivePlusButton.setActionCommand(this.yFivePlusButton.getText());
 
         //Setting up Gender Buttons
-        this.gPanel.setLayout(new GridLayout(1,3));
-        this.gList.add(maleButton); this.gPanel.add(maleButton); this.maleButton.setActionCommand(maleButton.getText());
-        this.gList.add(femaleButton); this.gPanel.add(femaleButton); this.femaleButton.setActionCommand(femaleButton.getText());
-        this.gList.add(othersButton); this.gPanel.add(othersButton); this.othersButton.setActionCommand(othersButton.getText());
+        this.gPanel.setLayout(new GridBagLayout());
+        gPanelGBC.gridx = gPanelGBC.gridy = 0;
+        this.gList.add(maleButton); this.gPanel.add(maleButton, gPanelGBC); this.maleButton.setActionCommand(maleButton.getText());
+        gPanelGBC.gridx = 1;
+        this.gList.add(femaleButton); this.gPanel.add(femaleButton, gPanelGBC); this.femaleButton.setActionCommand(femaleButton.getText());
+        gPanelGBC.gridx = 2;
+        this.gList.add(othersButton); this.gPanel.add(othersButton, gPanelGBC); this.othersButton.setActionCommand(othersButton.getText());
         
         //Setting up Input Program List
         try {
@@ -210,7 +214,8 @@ public class StudentInput extends DataInput{
             this.panelGBC.gridy = 6; this.inputPanel.add(this.pn, this.panelGBC);
         } else {
             this.ylList.add(this.yNoUpdateButton); this.ylPanel.add(this.yNoUpdateButton); this.yNoUpdateButton.setActionCommand(this.yNoUpdateButton.getText());
-            this.gList.add(this.gNoUpdateButton); this.gPanel.add(this.gNoUpdateButton); this.gNoUpdateButton.setActionCommand(this.gNoUpdateButton.getText());
+            gPanelGBC.gridx = 3;
+            this.gList.add(this.gNoUpdateButton); this.gPanel.add(this.gNoUpdateButton, gPanelGBC); this.gNoUpdateButton.setActionCommand(this.gNoUpdateButton.getText());
             this.pcList.addItem("-");
             this.pcList.setSelectedItem("-");
             this.panelGBC.gridx = panelGBC.gridy = 0; this.panelGBC.fill = GridBagConstraints.HORIZONTAL;
@@ -263,7 +268,7 @@ public class StudentInput extends DataInput{
                 this.gList.setSelected(maleButton.getModel(), true);
             } else if(prevG.equals("F")){
                 this.gList.setSelected(femaleButton.getModel(), true);
-            } else if(prevG.equals("*")){
+            } else if(prevG.equals("LGBTQIA+")){
                 this.gList.setSelected(othersButton.getModel(), true);
             }
             
