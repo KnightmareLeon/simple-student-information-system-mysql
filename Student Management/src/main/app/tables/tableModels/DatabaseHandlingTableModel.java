@@ -135,7 +135,7 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         String[] record = new String[newData.length];
         String[] columnLabels = new String[newData.length];
         for(int i = 0; i < newData.length; i++){
-            columnLabels[i] = this.getColumnName(i).replaceAll(" ", "").toLowerCase();
+            columnLabels[i] = this.getColumnName(i).replaceAll(" ", "");
             record[i] = (!newData[i].equals((String) this.getValueAt(row, i))) ?
                 newData[i] : null;
         }

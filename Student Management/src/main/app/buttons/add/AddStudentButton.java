@@ -85,7 +85,6 @@ public class AddStudentButton extends AddDataButton{
                     e.printStackTrace();
                     e.startErrorWindow(getActionButton());
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 } 
             }

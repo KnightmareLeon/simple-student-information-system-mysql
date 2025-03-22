@@ -80,7 +80,7 @@ public class DatabaseDriver {
     }
 
     public String getData(String primaryKey, String columnLabel, String tableName) throws SQLException{
-        String primaryColumn = (tableName.equals("Students")) ? "ID" : "Code" ;
+        String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         ResultSet resultSet = statement.executeQuery(
             "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
             primaryColumn + "=\'" + primaryKey +"\'"
@@ -92,7 +92,7 @@ public class DatabaseDriver {
     }
 
     public void updateRecordInTable(String primaryKey, String[] columnLabels, String[] newData, String tableName) throws SQLException{
-        String primaryColumn = (tableName.equals("Students")) ? "ID" : "Code" ;
+        String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         StringJoiner valuesJoiner = new StringJoiner(",");
         byte c = 0;
         for(int i = 0; i < columnLabels.length; i++){

@@ -3,6 +3,7 @@ package main.app.buttons.edit;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -63,10 +64,11 @@ public class EditProgramButton extends EditDataButton{
         if(mTable.getSelectedRowCount() == 1){
             try {
                 int row = mTable.getSelectedRow();
-                if(mTable.getDMap().hasProgramCode(prgInput.getCode())
+                String tableName = mTable.getPTM().getTableName();
+                if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), tableName, prgInput.getCode())
                     && !mTable.getValueAt(row, 0).equals(prgInput.getCode())){
                     throw new ExistingCodeException();
-                } else if(mTable.getDMap().hasProgramName(prgInput.getName())
+                } else if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(1), tableName, prgInput.getName())
                     && !(mTable.getValueAt(row, 1)).equals(prgInput.getName())){
                     throw new ExistingNameException();
                 }
@@ -76,13 +78,15 @@ public class EditProgramButton extends EditDataButton{
                     prgInput.getCCode()   
                 };
     
-                mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getDMap());
+                mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getdBDriver());
                 JOptionPane.showMessageDialog(getActionButton(), "Program edited successfully!");
                 getDataFrame().dispose();
         
             } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                 e.printStackTrace();
                 e.startErrorWindow(getActionButton());
+            } catch (SQLException e) {
+                e.printStackTrace();
             } 
         } else {
             String[] data = {

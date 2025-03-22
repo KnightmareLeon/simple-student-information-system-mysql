@@ -83,7 +83,6 @@ public class ProgramInput extends DataInput{
                 try {
                     cName.setText(mTable.getdBDriver().getData((String)cCodeList.getSelectedItem(), "name", "colleges"));
                 } catch (SQLException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }

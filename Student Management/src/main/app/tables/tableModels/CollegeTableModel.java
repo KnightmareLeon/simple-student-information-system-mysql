@@ -1,5 +1,7 @@
 package main.app.tables.tableModels;
 
+import java.sql.SQLException;
+
 import main.data.maps.DataMap;
 import main.database.DatabaseDriver;
 
@@ -25,6 +27,16 @@ public class CollegeTableModel extends DatabaseHandlingTableModel implements Oth
             "Code",
             "Name"});
         this.getData(dbDriver);
+    }
+
+    @Override
+    public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
+        String prevCode = (String) this.getValueAt(row, 0);
+        super.editData(row, newData, dBDriver);
+        if(!prevCode.equals(newData[0])){
+            this.editOtherTableModel(prevCode, newData[0]);
+        }
+        
     }
 
     @Override

@@ -3,6 +3,7 @@ package main.app.buttons.edit;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -59,9 +60,11 @@ public class EditStudentButton extends EditDataButton{
         if(mTable.getSelectedRowCount() == 1){
             try{
                 int row = mTable.getSelectedRow();
+                String tableName = mTable.getSTM().getTableName();
                 boolean confirm = true;
-                if(mTable.getDMap().hasID(stdInput.getID()) 
-                    && !mTable.getValueAt(row, 0).equals(stdInput.getID())){
+                if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), 
+                   tableName, stdInput.getID()) 
+                   && !mTable.getValueAt(row, 0).equals(stdInput.getID())){
                     throw new ExistingIDException();
                 }
     
@@ -73,7 +76,12 @@ public class EditStudentButton extends EditDataButton{
                     stdInput.getG(),
                     stdInput.getPC()};
                 
-                if (mTable.getDMap().hasStudentName(stdInput.getFN() + " " + stdInput.getLN())
+                if (mTable.getdBDriver().ifRecordExists(
+                    "FirstName", 
+                    "LastName", 
+                                 tableName, 
+                                 stdInput.getFN(), 
+                                 stdInput.getLN())
                     && !(mTable.getValueAt(row, 1) + " " + mTable.getValueAt(row, 2)).equals(
                     stdInput.getFN() + " " + stdInput.getLN())){
                     confirm = (JOptionPane.showConfirmDialog(
@@ -84,7 +92,7 @@ public class EditStudentButton extends EditDataButton{
                 }
     
                 if(confirm){
-                    mTable.getSTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getDMap());
+                    mTable.getSTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getdBDriver());
                     JOptionPane.showMessageDialog(getActionButton(), "Student edited successfully!");
                     getDataFrame().dispose();
                 }
@@ -92,6 +100,8 @@ public class EditStudentButton extends EditDataButton{
             } catch(EmptyInputException | NullPointerExceptionWithWindow | ExistingIDException e) {
                 e.printStackTrace();
                 e.startErrorWindow(getActionButton());
+            } catch (SQLException e) {
+                e.printStackTrace();
             } 
         } else {
             try{

@@ -1,7 +1,6 @@
 package main.app.buttons.add;
 
 import java.awt.GridBagConstraints;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -63,11 +62,7 @@ public class AddProgramButton extends AddDataButton{
                 } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                     e.printStackTrace();
                     e.startErrorWindow(getActionButton());
-                } catch (HeadlessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (SQLException e) {
-                    // TODO Auto-generated catch block
+                }  catch (SQLException e) {
                     e.printStackTrace();
                 } 
             }

@@ -1,5 +1,7 @@
 package main.app.tables.tableModels;
 
+import java.sql.SQLException;
+
 import main.data.maps.DataMap;
 import main.database.DatabaseDriver;
 
@@ -27,6 +29,15 @@ public class ProgramTableModel extends DatabaseHandlingTableModel implements Oth
         this.getData(dbDriver);
     }
 
+    @Override
+    public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
+        String prevCode = (String) this.getValueAt(row, 0);
+        super.editData(row, newData, dBDriver);
+        if(!prevCode.equals(newData[0])){
+            this.editOtherTableModel(prevCode, newData[0]);
+        }
+    }
+    
     @Override
     public String reformatData(String[] data){return "\n" + data[0] + "," + data[1] + "," + data[2];}
 
