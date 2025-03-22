@@ -16,12 +16,4 @@ public interface OtherTableModelEditor {
      * previous data
      */
     public void editOtherTableModel(String prevData, String newData);
-
-    /**
-     * Deletes data from another {@code CSVHandlingTableModel}
-     * @param code - {@code String} key that is also present in
-     * the other table model, which is used to identify which row
-     * to delete.
-     */
-    public void deleteFromOtherTableModel(String code);
 }

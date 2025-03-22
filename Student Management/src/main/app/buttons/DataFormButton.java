@@ -41,7 +41,7 @@ public abstract class DataFormButton extends DataButton{
      * @param mTable
      */
     private void setUp(ManagementTable mTable){
-        this.dFrame = new DataFrame(mTable.getCTM(), mTable.getDMap());
+        this.dFrame = new DataFrame();
         this.gbl = new GridBagLayout();
         this.gbc = new GridBagConstraints();
         this.dFrame.setLayout(gbl);

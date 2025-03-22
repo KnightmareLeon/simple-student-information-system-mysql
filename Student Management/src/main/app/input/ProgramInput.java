@@ -11,7 +11,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import main.data.maps.DataMap;
 import main.app.errors.EmptyInputException;
 import main.app.errors.NoRowSelectedException;
 import main.app.frames.DataFrame;

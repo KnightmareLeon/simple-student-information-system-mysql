@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
-import main.app.buttons.SaveButton;
 import main.app.buttons.add.*;
 import main.app.buttons.changeTable.*;
 import main.app.buttons.delete.*;
@@ -38,7 +37,6 @@ public class MainFrame extends JFrame{
 
     private SearchFieldList searchFieldList = new SearchFieldList(this.mTable);
     private SearchBar searchBar = new SearchBar(this.mTable.getRowSorter(), this.searchFieldList);
-    private SaveButton saveButton = new SaveButton(this.mTable, this);
 
     private AddDataButton addStdButton = new AddStudentButton(mTable, this);
     private AddDataButton addPrgButton = new AddProgramButton(mTable, this);
@@ -86,8 +84,6 @@ public class MainFrame extends JFrame{
 
     private Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
-    private SaveChecker saveChecker = new SaveChecker(saveButton);
-
     /**
      * Adds all components needed to the frame. Also adds the 
      * {@link main.app.frames.SaveChecker SaveChecker}.
@@ -95,7 +91,7 @@ public class MainFrame extends JFrame{
     public MainFrame(){
 
         this.setResizable(true);     
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Student Management System");
         this.setLayout(new BorderLayout());
 
@@ -103,11 +99,9 @@ public class MainFrame extends JFrame{
         this.changeTableGroup.add(this.cPrgTblButton);
         this.changeTableGroup.add(this.cClgTblButton);
 
-        this.dataButtonsGBC.gridx = 0; this.dataButtonsGBC.gridy = 0;
+        this.dataButtonsGBC.gridx = this.dataButtonsGBC.gridy = 0;
         this.dataButtonsGBC.insets = new Insets(0, 10, 0, 0);
         this.dataButtonsGBC.fill = GridBagConstraints.VERTICAL;
-        this.dataButtons.add(this.saveButton, this.dataButtonsGBC);
-        this.dataButtonsGBC.gridx = 1;
         this.dataButtons.add(this.addStdButton, this.dataButtonsGBC);
         this.dataButtons.add(this.addPrgButton, this.dataButtonsGBC);
         this.dataButtons.add(this.addClgButton, this.dataButtonsGBC);
@@ -167,8 +161,6 @@ public class MainFrame extends JFrame{
         this.setLocationRelativeTo(null);
         this.setVisible(true);  
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        this.addWindowListener(this.saveChecker);
 
     }
 }

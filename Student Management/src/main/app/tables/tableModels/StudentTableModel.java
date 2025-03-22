@@ -1,6 +1,5 @@
 package main.app.tables.tableModels;
 
-import main.data.maps.DataMap;
 import main.database.DatabaseDriver;
 
 /**
@@ -11,10 +10,9 @@ import main.database.DatabaseDriver;
  * ,and "Program Code"
  */
 public class StudentTableModel extends DatabaseHandlingTableModel{
-    public StudentTableModel(DataMap dMap, DatabaseDriver dbDriver){
+    public StudentTableModel(DatabaseDriver dbDriver){
         this.setColumnCount(6);
         this.setTableName("students");
-        this.setFileName("students.csv");
         this.setColumnIdentifiers(new String[]{
             "ID",
             "First Name",
@@ -25,18 +23,4 @@ public class StudentTableModel extends DatabaseHandlingTableModel{
         this.getData(dbDriver);
     }
 
-    @Override
-    public String reformatData(String[] data){return "\n" + data[0] + "," + data[1] + "," + data[2] + "," +  data[3] + "," + data[4] + "," +  data[5];}
-
-    @Override
-    public void addToMap(String[] data, DataMap dMap) {dMap.addStudent(data);}
-
-    @Override
-    public void deleteFromMap(String code, DataMap dMap){dMap.removeStudent(code);}
-
-    @Override
-    public void editDataOnMap(String prevCode, String[] newData, DataMap dMap){dMap.editStudent(prevCode, newData);}
-
-    @Override
-    protected void multiEditDataOnMap(String[] keys, String[] newData, DataMap dMap) {dMap.editMultiStudent(keys, newData);}
 }

@@ -14,7 +14,6 @@ import javax.swing.table.TableRowSorter;
 import main.app.tables.tableModels.CollegeTableModel;
 import main.app.tables.tableModels.ProgramTableModel;
 import main.app.tables.tableModels.StudentTableModel;
-import main.data.maps.DataMap;
 import main.database.DatabaseDriver;
 
 /**
@@ -32,7 +31,6 @@ public class ManagementTable extends JTable{
     private ProgramTableModel ptm;
     private StudentTableModel stm;
     private TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>();
-    private DataMap dMap = new DataMap();
     private DatabaseDriver dbDriver = new DatabaseDriver();
     private List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
@@ -41,22 +39,15 @@ public class ManagementTable extends JTable{
      * CSVHandlingTableModels} and specific {@code JTable} customizations.
      */
     public ManagementTable(){
-        this.ctm = new CollegeTableModel(this.dMap, this.dbDriver);
-        this.ptm = new ProgramTableModel(this.dMap, this.dbDriver);
-        this.stm = new StudentTableModel(this.dMap, this.dbDriver);
+        this.ctm = new CollegeTableModel(this.dbDriver);
+        this.ptm = new ProgramTableModel(this.dbDriver);
+        this.stm = new StudentTableModel(this.dbDriver);
         this.ctm.setPTM(this.ptm);
         this.ptm.setSTM(this.stm);
         //this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.setModel(this.stm);
         this.getTableHeader().setResizingAllowed(false);
     }
-
-    /**
-     * Gets the {@code DataMap} that the 
-     * {@code ManagementTable} uses.
-     * @return {@link main.data.maps.DataMap DataMap}
-     */
-    public DataMap getDMap(){return dMap;}
 
     public DatabaseDriver getdBDriver(){return this.dbDriver;}
     

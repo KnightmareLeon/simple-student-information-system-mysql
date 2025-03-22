@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import main.data.maps.DataMap;
 import main.app.errors.EmptyInputException;
 import main.app.errors.NoRowSelectedException;
 import main.app.errors.NullPointerExceptionWithWindow;

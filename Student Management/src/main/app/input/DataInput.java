@@ -5,7 +5,6 @@ import java.awt.GridBagConstraints;
 import main.app.errors.NoRowSelectedException;
 import main.app.frames.DataFrame;
 import main.app.tables.ManagementTable;
-import main.data.maps.DataMap;
 
 /**
  * Abstract class for setting up components and getting data for data handling.

@@ -2,9 +2,6 @@ package main.app.frames;
 
 import javax.swing.JFrame;
 
-import main.app.tables.tableModels.DatabaseHandlingTableModel;
-import main.data.maps.DataMap;
-
 /**
  * A custom {@code JFrame} that is initialized by
  * {@link main.app.buttons.DataFormButton DataButtons} that also
@@ -12,7 +9,7 @@ import main.data.maps.DataMap;
  * be added or edited in to existing data.
  */
 public class DataFrame extends JFrame {
-    public DataFrame(DatabaseHandlingTableModel tm, DataMap dMap){
+    public DataFrame(){
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }

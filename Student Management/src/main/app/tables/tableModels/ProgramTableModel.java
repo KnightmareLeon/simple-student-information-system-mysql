@@ -2,7 +2,6 @@ package main.app.tables.tableModels;
 
 import java.sql.SQLException;
 
-import main.data.maps.DataMap;
 import main.database.DatabaseDriver;
 
 
@@ -18,10 +17,9 @@ import main.database.DatabaseDriver;
 public class ProgramTableModel extends DatabaseHandlingTableModel implements OtherTableModelEditor{
     private StudentTableModel stm;
 
-    public ProgramTableModel(DataMap dMap, DatabaseDriver dbDriver){
+    public ProgramTableModel(DatabaseDriver dbDriver){
         this.setColumnCount(3);
         this.setTableName("programs");
-        this.setFileName("programs.csv");
         this.setColumnIdentifiers(new String[]{
             "Code",
             "Name",
@@ -45,46 +43,11 @@ public class ProgramTableModel extends DatabaseHandlingTableModel implements Oth
         }
     }
 
-
-
-    @Override
-    public String reformatData(String[] data){return "\n" + data[0] + "," + data[1] + "," + data[2];}
-
-    @Override
-    public void addToMap(String[] data, DataMap dMap) {dMap.addProgram(data);}
-
-    @Override
-    public void deleteFromMap(String code, DataMap dMap){
-        int stdSize = dMap.getProgram(code).getTotalStudents();
-        dMap.removeProgram(code);
-        if(stdSize > 0){this.deleteFromOtherTableModel(code);}
-    }
-
-    @Override
-    public void editDataOnMap(String prevCode, String[] newData, DataMap dMap) {
-        dMap.editProgram(prevCode, newData);
-        if(!prevCode.equals(newData[0])){this.editOtherTableModel(prevCode, newData[0]);}
-    }
-
     @Override
     public void editOtherTableModel(String prevData, String newData){
         for(int row = 0; row < this.stm.getRowCount(); row++){
             if(((String)this.stm.getValueAt(row, 5)).equals(prevData)){
                 this.stm.setValueAt(newData, row, 5);
-            }
-        }
-    }
-
-    @Override
-    protected void multiEditDataOnMap(String[] keys, String[] newData, DataMap dMap) {dMap.editMultiProgram(keys, newData[0]);}
-
-    @Override
-    public void deleteFromOtherTableModel(String code) {
-        int rowCount = this.stm.getRowCount();
-        for(int row = 0; row < rowCount; row++){
-            if(((String)this.stm.getValueAt(row, 5)).equals(code)){
-                this.stm.removeRow(row);
-                row--; rowCount--;
             }
         }
     }
