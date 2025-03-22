@@ -32,7 +32,7 @@ public class DeleteStudentButton extends DeleteDataButton{
             Arrays.sort(rowArray);
 
             for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getSTM().deleteData(rowArray[i], mTable.getDMap());
+                mTable.getSTM().deleteData(rowArray[i], mTable.getdBDriver());
             }
         }
         return true;
