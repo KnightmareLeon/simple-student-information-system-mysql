@@ -31,7 +31,7 @@ public class DeleteProgramButton extends DeleteDataButton{
             totalStds = mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRow(), 0), "students");
         } else {
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
-                totalStds += mTable.getDMap().getProgram((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0)).getTotalStudents();
+                totalStds += mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), "students");
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
             Arrays.sort(rowArray);
@@ -41,7 +41,7 @@ public class DeleteProgramButton extends DeleteDataButton{
             confirm = (JOptionPane.showConfirmDialog(
                         mainFrame, 
                         "There are a total of " + totalStds + " student(s) that will be " +
-                        "deleted if you proceed to delete the selected program(s). Proceed " + 
+                        "affected if you proceed to delete the selected program(s). Proceed " + 
                         "to delete?", 
                   "Program Deletion Confirmation", 
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
@@ -50,7 +50,7 @@ public class DeleteProgramButton extends DeleteDataButton{
             mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
         } else if(confirm){
             for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getDMap());
+                mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
             }
         }
         return confirm;
