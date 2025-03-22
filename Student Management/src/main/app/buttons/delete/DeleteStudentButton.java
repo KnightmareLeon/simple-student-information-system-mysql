@@ -3,6 +3,7 @@ package main.app.buttons.delete;
 import main.app.frames.MainFrame;
 import main.app.tables.ManagementTable;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 /**
  * Deletes a {@link main.data.dataClass.Student Student}'s data based
@@ -19,9 +20,9 @@ public class DeleteStudentButton extends DeleteDataButton{
     }
 
     @Override
-    protected boolean delete(ManagementTable mTable) {
+    protected boolean delete(ManagementTable mTable) throws SQLException {
         if(mTable.getSelectedRowCount() == 1){
-            mTable.getSTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getDMap());
+            mTable.getSTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
         } else {
             int[] rowArray = new int[mTable.getSelectedRowCount()];
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){

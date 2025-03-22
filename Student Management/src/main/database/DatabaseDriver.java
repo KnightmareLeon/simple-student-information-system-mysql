@@ -109,4 +109,13 @@ public class DatabaseDriver {
         );
         }
     }
+
+    public void deleteRecordInTable(String primaryKey, String tableName) throws SQLException{
+        String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
+        statement.executeUpdate(
+            "DELETE FROM " + tableName +
+            " WHERE " + primaryColumn +
+            "=\'" + primaryKey + "\';"
+        );
+    }
 }

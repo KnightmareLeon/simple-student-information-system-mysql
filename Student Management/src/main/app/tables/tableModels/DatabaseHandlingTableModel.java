@@ -111,6 +111,10 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         this.setChange(true);
     }
 
+    public void deleteData(int row, DatabaseDriver dBDriver) throws SQLException{
+        dBDriver.deleteRecordInTable((String) this.getValueAt(row, 0), tableName);
+        this.removeRow(row);
+    }
     /**
      * Edits data on a selected row in the {@code CSVHandlingTableModel} and in 
      * the {@link DataMap}.

@@ -30,6 +30,13 @@ public class ProgramTableModel extends DatabaseHandlingTableModel implements Oth
     }
 
     @Override
+    public void deleteData(int row, DatabaseDriver dbDriver) throws SQLException {
+        String code = (String) this.getValueAt(row, 0);
+        super.deleteData(row, dbDriver);
+        this.editOtherTableModel(code, "NULL");
+    }
+    
+    @Override
     public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
         String prevCode = (String) this.getValueAt(row, 0);
         super.editData(row, newData, dBDriver);
@@ -37,7 +44,9 @@ public class ProgramTableModel extends DatabaseHandlingTableModel implements Oth
             this.editOtherTableModel(prevCode, newData[0]);
         }
     }
-    
+
+
+
     @Override
     public String reformatData(String[] data){return "\n" + data[0] + "," + data[1] + "," + data[2];}
 

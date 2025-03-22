@@ -1,9 +1,11 @@
 package main.app.buttons.delete;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -53,11 +55,15 @@ public abstract class DeleteDataButton extends DataButton {
                 } catch(NoRowSelectedException e){
                     e.printStackTrace();
                     e.startErrorWindow(mainFrame);
+                } catch (HeadlessException e) {
+                    e.printStackTrace();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         });
 
     }
 
-    protected abstract boolean delete(ManagementTable mTable);
+    protected abstract boolean delete(ManagementTable mTable) throws SQLException;
 }

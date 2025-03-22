@@ -125,6 +125,9 @@ public class ProgramInput extends DataInput{
 
             codeField.setText(prevCode);
             nameField.setText(prevName);
+            if(prevCCode.equals("NULL")){
+                cCodeList.addItem("NULL");
+            }
             cCodeList.setSelectedItem(prevCCode);
         }
         

@@ -30,6 +30,13 @@ public class CollegeTableModel extends DatabaseHandlingTableModel implements Oth
     }
 
     @Override
+    public void deleteData(int row, DatabaseDriver dbDriver) throws SQLException {
+        String code = (String) this.getValueAt(row, 0);
+        super.deleteData(row, dbDriver);
+        this.editOtherTableModel(code, "NULL");
+    }
+
+    @Override
     public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
         String prevCode = (String) this.getValueAt(row, 0);
         super.editData(row, newData, dBDriver);

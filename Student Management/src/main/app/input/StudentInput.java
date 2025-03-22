@@ -273,6 +273,9 @@ public class StudentInput extends DataInput{
             }
             
             this.lnField.setText(prevLN);
+            if(prevPC.equals("NULL")){
+                this.pcList.addItem("NULL");
+            }
             this.pcList.setSelectedItem(prevPC);
         }
         
