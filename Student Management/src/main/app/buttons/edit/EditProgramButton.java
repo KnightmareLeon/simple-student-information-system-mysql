@@ -96,7 +96,11 @@ public class EditProgramButton extends EditDataButton{
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
-            mTable.getPTM().multiEditData(rowArray, data, mTable.getDMap());
+            try {
+                mTable.getPTM().batchEdit(rowArray, data, mTable.getdBDriver());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             JOptionPane.showMessageDialog(getActionButton(), "Programs edited successfully!");
             getDataFrame().dispose();
         }
