@@ -168,7 +168,7 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         int tableI = this.getColumnCount() - 1;
         for(int row: rows){
             for(int i = newData.length - 1; i > -1; i--){
-                if(!newData[i].equals("NO UPDATE")){
+                if(!newData[i].equals("-")){
                     this.setValueAt(newData[i], row, tableI--);
                 } else {
                     tableI--;
@@ -177,6 +177,29 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             tableI = this.getColumnCount() - 1;
         }
         this.setChange(true);
+    }
+
+    public void batchEdit(int[] rows, String[] newData, DatabaseDriver dbDriver) throws SQLException{
+        String[] primaryKeys = new String[rows.length];
+        for(int i = 0; i < primaryKeys.length; i++){
+            primaryKeys[i] = (String) this.getValueAt(rows[i], 0);
+        } 
+        String[] columnLabels = new String[newData.length];
+        for(int i = newData.length ; i > 0; i--){
+            columnLabels[newData.length - i] = this.getColumnName(this.getColumnCount() - i).replaceAll(" ", "");
+        }
+        dbDriver.batchUpdateRecordsInTable(primaryKeys, columnLabels, newData, tableName);
+        int tableI = this.getColumnCount() - 1;
+        for(int row: rows){
+            for(int i = newData.length - 1; i > -1; i--){
+                if(!newData[i].equals("-")){
+                    this.setValueAt(newData[i], row, tableI--);
+                } else {
+                    tableI--;
+                }
+            }
+            tableI = this.getColumnCount() - 1;
+        }
     }
 
     /**

@@ -23,7 +23,7 @@ import main.app.tables.ManagementTable;
  * https://www.svgrepo.com/svg/78105/subtract.
  */
 public abstract class DeleteDataButton extends DataButton {
-    private ImageIcon thrashCan = new ImageIcon("Student Management/src/resources/icons/subtract-svgrepo-com.png");
+    private ImageIcon thrashCan = new ImageIcon("src/resources/icons/subtract-svgrepo-com.png");
     private Image thrashCanImg = thrashCan.getImage();
     private Image scaledImg = thrashCanImg.getScaledInstance((int)(WIDTH * 0.13),(int)(HEIGHT * 0.55), Image.SCALE_SMOOTH);
     public DeleteDataButton(ManagementTable mTable, MainFrame mainFrame){

@@ -113,12 +113,15 @@ public class EditStudentButton extends EditDataButton{
                 for(int i = 0; i < mTable.getSelectedRowCount(); i++){
                     rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
                 }
-                mTable.getSTM().multiEditData(rowArray, data, mTable.getDMap());
+                mTable.getSTM().batchEdit(rowArray, data, mTable.getdBDriver());
                 JOptionPane.showMessageDialog(getActionButton(), "Students edited successfully!");
                 getDataFrame().dispose();
             } catch (NullPointerExceptionWithWindow e){
                 e.printStackTrace();
                 e.startErrorWindow(getActionButton());
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             
         }

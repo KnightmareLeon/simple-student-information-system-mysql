@@ -13,7 +13,7 @@ public class DataButton extends JButton{
     protected MainFrame mainFrame;
     protected final int WIDTH = 135;
     protected final int HEIGHT = 30;
-    protected final String ICON_FILE_DIRECTORY = "Student Management/src/resources/icons/";
+    protected final String ICON_FILE_DIRECTORY = "src/resources/icons/";
 
     public DataButton(MainFrame mainFrame){
         this.mainFrame = mainFrame;

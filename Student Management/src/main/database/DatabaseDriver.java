@@ -93,20 +93,45 @@ public class DatabaseDriver {
 
     public void updateRecordInTable(String primaryKey, String[] columnLabels, String[] newData, String tableName) throws SQLException{
         String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
-        StringJoiner valuesJoiner = new StringJoiner(",");
+        StringJoiner columnsJoiner = new StringJoiner(",");
         byte c = 0;
         for(int i = 0; i < columnLabels.length; i++){
             if(newData[i] != null){
-                valuesJoiner.add(columnLabels[i] + "=\'" + newData[i] + "\'");
+                columnsJoiner.add(columnLabels[i] + "=\'" + newData[i] + "\'");
             } else {c++;}
         }
         if(c < newData.length){
             statement.executeUpdate(
-            "UPDATE " + tableName +
-            " SET " + valuesJoiner.toString() +
-            " WHERE " + primaryColumn + "=\'" + 
-            primaryKey + "\'"
-        );
+                "UPDATE " + tableName +
+                " SET " + columnsJoiner.toString() +
+                " WHERE " + primaryColumn + "=\'" + 
+                primaryKey + "\'"
+            );
+        }
+    }
+
+    public void batchUpdateRecordsInTable(String[] primaryKeys, String[] columnLabels, String[] newData, String tableName) throws SQLException{
+        String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
+        StringJoiner columnsJoiner = new StringJoiner(",");
+        StringJoiner primaryKeysJoiner = new StringJoiner(",");
+        byte c = 0;
+        for(int i = 0; i < columnLabels.length; i++){
+            if(!newData[i].equals("-")){
+                columnsJoiner.add(columnLabels[i] + "=\'" + newData[i] + "\'");
+                
+            } else {c++;}
+        }
+        for(int i = 0; i < primaryKeys.length; i++){
+            primaryKeysJoiner.add("\'"  + primaryKeys[i] + "\'");
+        }
+
+        if(c < newData.length){
+            statement.executeUpdate(
+                "UPDATE " + tableName +
+                " SET " + columnsJoiner.toString() +
+                " WHERE " + primaryColumn + " IN (" + 
+                primaryKeysJoiner.toString() + ")"
+            );
         }
     }
 
