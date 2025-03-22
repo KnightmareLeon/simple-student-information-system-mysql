@@ -87,7 +87,7 @@ public class StudentInput extends DataInput{
     private JPanel gPanel = new JPanel();
     private JRadioButton maleButton = new JRadioButton("M");
     private JRadioButton femaleButton = new JRadioButton("F");
-    private JRadioButton othersButton = new JRadioButton("O");
+    private JRadioButton othersButton = new JRadioButton("*");
     private JRadioButton gNoUpdateButton = new JRadioButton("-");
 
     //Input List for Program Code
@@ -263,7 +263,7 @@ public class StudentInput extends DataInput{
                 this.gList.setSelected(maleButton.getModel(), true);
             } else if(prevG.equals("F")){
                 this.gList.setSelected(femaleButton.getModel(), true);
-            } else if(prevG.equals("O")){
+            } else if(prevG.equals("*")){
                 this.gList.setSelected(othersButton.getModel(), true);
             }
             

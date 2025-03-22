@@ -44,8 +44,10 @@ public class AddStudentButton extends AddDataButton{
             @Override
             public void actionPerformed(ActionEvent event){
                 try{
+                    String tableName = mTable.getSTM().getTableName();
                     boolean confirm = true;
-                    if(mTable.getdBDriver().ifRecordExists("id", "students", stdInput.getID())){
+                    if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), 
+                    tableName, stdInput.getID())){
                         throw new ExistingIDException();
                     }
 
@@ -57,13 +59,20 @@ public class AddStudentButton extends AddDataButton{
                         stdInput.getG(),
                         stdInput.getPC()
                     };
-                    if(mTable.getdBDriver().ifRecordExists("firstname", "lastname", 
-                                                 "students", stdInput.getFN(), stdInput.getLN())){
+
+                    if(mTable.getdBDriver().ifRecordExists(
+               "FirstName", 
+               "LastName", 
+                            tableName, 
+                            stdInput.getFN(), 
+                            stdInput.getLN()))
+                    {
                         confirm = (JOptionPane.showConfirmDialog(
                                     getActionButton(), 
                             "Name already exists. Do you want to proceed?", 
                               "Same Name Confirmation", 
-                                    JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
+                                    JOptionPane.YES_NO_OPTION) 
+                                    == JOptionPane.YES_OPTION) ? true : false;
                     }
                     if(confirm){
                         mTable.getSTM().addData(data, mTable.getdBDriver());

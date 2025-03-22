@@ -63,10 +63,11 @@ public class EditCollegeButton extends EditDataButton{
     protected void editData(ManagementTable mTable) {
         try{
             int row = mTable.getSelectedRow();
-            if(mTable.getdBDriver().ifRecordExists("code", "colleges",clgInput.getCode())
+            String tableName = mTable.getCTM().getTableName();
+            if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), tableName,clgInput.getCode())
             && !mTable.getValueAt(row, 0).equals(clgInput.getCode())){
                 throw new ExistingCodeException();
-            } else if (mTable.getdBDriver().ifRecordExists("name", "colleges",clgInput.getName())
+            } else if (mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), tableName,clgInput.getName())
                 && !mTable.getValueAt(row, 1).equals(clgInput.getName())){
                 throw new ExistingNameException();
             } 

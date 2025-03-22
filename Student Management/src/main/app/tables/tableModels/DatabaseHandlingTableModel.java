@@ -283,6 +283,8 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     protected void setTableName(String tableName){this.tableName = tableName;}
 
+    public String getTableName(){return tableName;}
+
     @Override
     public boolean isCellEditable(int row, int column) {return false;}
 }

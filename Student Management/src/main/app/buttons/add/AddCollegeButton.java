@@ -43,9 +43,12 @@ public class AddCollegeButton extends AddDataButton{
             @Override
             public void actionPerformed(ActionEvent event) {
                 try{
-                    if(mTable.getdBDriver().ifRecordExists("code", "colleges", clgInput.getCode())){
+                    String tableName = mTable.getCTM().getTableName();
+                    if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), 
+                    tableName, clgInput.getCode())){
                         throw new ExistingCodeException();
-                    } else if (mTable.getdBDriver().ifRecordExists("name", "colleges", clgInput.getName())){
+                    } else if (mTable.getdBDriver().ifRecordExists(mTable.getColumnName(1), 
+                    tableName, clgInput.getName())){
                         throw new ExistingNameException();
                     }
                     String[] data = {

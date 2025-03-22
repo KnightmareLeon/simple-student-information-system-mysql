@@ -45,9 +45,10 @@ public class AddProgramButton extends AddDataButton{
             @Override
             public void actionPerformed(ActionEvent event) {
                 try {
-                    if(mTable.getdBDriver().ifRecordExists("code", "programs", pInput.getCode())){
+                    String tableName = mTable.getPTM().getTableName();
+                    if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(0), tableName, pInput.getCode())){
                         throw new ExistingCodeException();
-                    } else if(mTable.getdBDriver().ifRecordExists("name","programs",pInput.getName())){
+                    } else if(mTable.getdBDriver().ifRecordExists(mTable.getColumnName(1),tableName,pInput.getName())){
                         throw new ExistingNameException();
                     } else {
                         String[] data = {
