@@ -118,4 +118,15 @@ public class DatabaseDriver {
             "=\'" + primaryKey + "\';"
         );
     }
+
+    public int matchesWithForeignKey(String foreignKey, String tableName) throws SQLException{
+        String foreignKeyColumn = (tableName.equals("students")) ? "ProgramCode": "CollegeCode" ;
+        ResultSet totalMatchesSet = statement.executeQuery(
+            "SELECT COUNT(*) FROM " + tableName +
+            " WHERE " + foreignKeyColumn + "=\'" +
+            foreignKey + "\'"
+        );
+        totalMatchesSet.next();
+        return totalMatchesSet.getInt(1);
+    }
 }

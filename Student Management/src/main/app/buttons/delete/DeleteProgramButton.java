@@ -1,5 +1,6 @@
 package main.app.buttons.delete;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 
 import javax.swing.JOptionPane;
@@ -22,12 +23,12 @@ public class DeleteProgramButton extends DeleteDataButton{
     }
 
     @Override
-    protected boolean delete(ManagementTable mTable) {
+    protected boolean delete(ManagementTable mTable) throws SQLException {
         boolean confirm = true;
         int totalStds = 0;
         int[] rowArray = new int[mTable.getSelectedRowCount()];
         if(mTable.getSelectedRowCount() == 1){
-            totalStds = mTable.getDMap().getProgram((String) mTable.getValueAt(mTable.getSelectedRow(), 0)).getTotalStudents();
+            totalStds = mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRow(), 0), "students");
         } else {
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
                 totalStds += mTable.getDMap().getProgram((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0)).getTotalStudents();
@@ -46,7 +47,7 @@ public class DeleteProgramButton extends DeleteDataButton{
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
         } 
         if(confirm && mTable.getSelectedRowCount() == 1){
-            mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getDMap());
+            mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
         } else if(confirm){
             for(int i = rowArray.length - 1; i > -1; i--){
                 mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getDMap());
