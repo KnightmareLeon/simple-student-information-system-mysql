@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import main.app.errors.EmptyInputException;
+import main.app.errors.EmptyTableException;
 import main.app.errors.ExistingIDException;
 import main.app.errors.NoRowSelectedException;
 import main.app.errors.NullPointerExceptionWithWindow;
@@ -34,7 +35,7 @@ public class EditStudentButton extends EditDataButton{
     }
     
     @Override
-    protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException {
+    protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException {
         this.getDataFrame().setTitle("Edit Student");
 
         if(mTable.getSelectedRowCount() == 1){
@@ -120,7 +121,6 @@ public class EditStudentButton extends EditDataButton{
                 e.printStackTrace();
                 e.startErrorWindow(getActionButton());
             } catch (SQLException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             

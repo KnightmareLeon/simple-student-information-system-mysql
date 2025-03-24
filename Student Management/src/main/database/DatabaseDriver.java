@@ -154,4 +154,12 @@ public class DatabaseDriver {
         totalMatchesSet.next();
         return totalMatchesSet.getInt(1);
     }
+
+    public boolean isTableEmpty(String tableName) throws SQLException{
+        ResultSet emptyCheckerSet = statement.executeQuery(
+            "SELECT EXISTS (SELECT 1 FROM " + tableName + ")"
+        );
+        emptyCheckerSet.next();
+        return emptyCheckerSet.getInt(1) == 0;
+    }
 }

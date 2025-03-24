@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import main.app.errors.EmptyInputException;
+import main.app.errors.EmptyTableException;
 import main.app.errors.NoRowSelectedException;
 import main.app.frames.DataFrame;
 import main.app.input.fields.AutoCompletingComboBox;
@@ -55,8 +56,9 @@ public class ProgramInput extends DataInput{
      * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataFrame}
      * @throws NoRowSelectedException when user doesn't select a row in the 
      * {@code ManagementTable}.
-     */
-    public ProgramInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException{
+          * @throws EmptyTableException 
+          */
+         public ProgramInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
         this.setUpComponents(dFrame, mTable, frameGBC);
     }
@@ -64,9 +66,12 @@ public class ProgramInput extends DataInput{
     @Override
     protected void setUpComponents(DataFrame dFrame, 
                                    ManagementTable mTable, 
-                                   GridBagConstraints frameGBC) throws NoRowSelectedException{
+                                   GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
         
         try {
+            if(mTable.getdBDriver().isTableEmpty("colleges")){
+                throw new EmptyTableException();
+            }
             this.cCodeList = new AutoCompletingComboBox(mTable.getdBDriver().getArrayFromColumn("code", "colleges"));
             
             this.cName.setText(mTable.getdBDriver().getData((String)this.cCodeList.getSelectedItem(), "name", "colleges"));

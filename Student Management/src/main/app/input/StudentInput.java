@@ -18,6 +18,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import main.app.errors.EmptyInputException;
+import main.app.errors.EmptyTableException;
 import main.app.errors.NoRowSelectedException;
 import main.app.errors.NullPointerExceptionWithWindow;
 import main.app.frames.DataFrame;
@@ -102,8 +103,9 @@ public class StudentInput extends DataInput{
      * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataFrame}.
      * @throws NoRowSelectedException when user doesn't select a row in the 
      * {@code ManagementTable}.
-     */
-    public StudentInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException{
+     * @throws EmptyTableException 
+    */
+    public StudentInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
         this.setUpComponents(dFrame, mTable, frameGBC);
     }
@@ -111,7 +113,7 @@ public class StudentInput extends DataInput{
     @Override
     protected void setUpComponents(DataFrame dFrame, 
                                    ManagementTable mTable, 
-                                   GridBagConstraints frameGBC) throws NoRowSelectedException{
+                                   GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
         frameGBC.insets = new Insets(5, 5, 5, 5);
         
         this.inputPanel.setLayout(panelGBL);
@@ -136,6 +138,9 @@ public class StudentInput extends DataInput{
         
         //Setting up Input Program List
         try {
+            if(mTable.getdBDriver().isTableEmpty("programs")){
+                throw new EmptyTableException();
+            }
             this.prgCodeList = mTable.getdBDriver().getArrayFromColumn( "code", "programs");
             this.pcList = new AutoCompletingComboBox(prgCodeList);
             //Setting up Program Name

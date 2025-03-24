@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import main.app.errors.EmptyInputException;
+import main.app.errors.EmptyTableException;
 import main.app.errors.ExistingCodeException;
 import main.app.errors.ExistingNameException;
 import main.app.errors.NoRowSelectedException;
@@ -33,7 +34,7 @@ public class AddProgramButton extends AddDataButton{
     }
 
     @Override
-    protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException{
+    protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException{
         this.getDataFrame().setTitle("Add Program");
 
         ProgramInput pInput = new ProgramInput(this.getDataFrame(), mTable, this.getGBC(), InputType.ADD);

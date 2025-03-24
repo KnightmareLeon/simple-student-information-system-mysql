@@ -2,6 +2,7 @@ package main.app.input;
 
 import java.awt.GridBagConstraints;
 
+import main.app.errors.EmptyTableException;
 import main.app.errors.NoRowSelectedException;
 import main.app.frames.DataFrame;
 import main.app.tables.ManagementTable;
@@ -34,6 +35,6 @@ public abstract class DataInput {
     protected abstract void setUpComponents(DataFrame dFrame, 
                                             ManagementTable mTable, 
                                             GridBagConstraints frameGBC
-                                            ) throws NoRowSelectedException;
+                                            ) throws NoRowSelectedException, EmptyTableException;
 
 }

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import main.app.errors.EmptyInputException;
+import main.app.errors.EmptyTableException;
 import main.app.errors.ExistingIDException;
 import main.app.errors.NoRowSelectedException;
 import main.app.errors.NullPointerExceptionWithWindow;
@@ -33,7 +34,7 @@ public class AddStudentButton extends AddDataButton{
     }
     
     @Override
-    protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException{
+    protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException{
         this.getDataFrame().setTitle("Add Student");
 
         StudentInput stdInput = new StudentInput(this.getDataFrame(), mTable, this.getGBC(), InputType.ADD);

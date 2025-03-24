@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import main.app.errors.EmptyTableException;
 import main.app.errors.MultiEditCollegeException;
 import main.app.errors.NoRowSelectedException;
 import main.app.frames.DataFrame;
@@ -51,7 +52,7 @@ public abstract class DataFormButton extends DataButton{
             this.dFrame.pack();
             this.dFrame.setLocationRelativeTo(null);
             this.dFrame.setVisible(true);
-        } catch (NoRowSelectedException | MultiEditCollegeException e) {
+        } catch (NoRowSelectedException | MultiEditCollegeException | EmptyTableException e) {
             e.startErrorWindow(mainFrame);
             e.printStackTrace();
         }
@@ -65,7 +66,7 @@ public abstract class DataFormButton extends DataButton{
      * EditDataButtons} will throw this.)
      * @throws MultiEditCollegeException when users try to multi-edit colleges.
      */
-    protected abstract void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, MultiEditCollegeException;
+    protected abstract void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException, MultiEditCollegeException;
 
     /**
      * Gets the JButton that will do the action of handling data.
