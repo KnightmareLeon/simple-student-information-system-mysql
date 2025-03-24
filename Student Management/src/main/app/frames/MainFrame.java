@@ -4,13 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
@@ -69,11 +74,17 @@ public class MainFrame extends JFrame{
 
     private JLabel searchLabel = new JLabel("Search: ");
     private JLabel by = new JLabel("By: ");
-        
+    
+    private JButton nextPage = new JButton("Next Page");
+    private JButton prevPage = new JButton("Previous Page");
+
+    private ActionListener pageHandler;
+
     private JPanel content = new JPanel(new BorderLayout());
 
     private JPanel tools = new JPanel(new GridBagLayout());
     private JPanel table = new JPanel(new BorderLayout());
+    private JPanel pageHandlingButtons = new JPanel();
 
     private JPanel dataButtons = new JPanel(new GridBagLayout());
     private JPanel changeTables = new JPanel(new GridBagLayout());
@@ -95,6 +106,27 @@ public class MainFrame extends JFrame{
         this.setTitle("Student Management System");
         this.setLayout(new BorderLayout());
 
+        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
+        pageHandler = new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Rectangle rect = sp.getVisibleRect();
+                JScrollBar bar = sp.getVerticalScrollBar();
+                int blockIncr = sp.getViewport().getViewRect().height;
+                if(e.getSource() == nextPage){
+                    bar.setValue(bar.getValue() + blockIncr);
+                } else if (e.getSource() == prevPage){
+                    bar.setValue(bar.getValue() - blockIncr);
+                }
+                sp.scrollRectToVisible(rect);
+            }
+            
+        };
+
+        nextPage.addActionListener(pageHandler);
+        prevPage.addActionListener(pageHandler);
         this.changeTableGroup.add(this.cStdTblButton);
         this.changeTableGroup.add(this.cPrgTblButton);
         this.changeTableGroup.add(this.cClgTblButton);
@@ -150,8 +182,12 @@ public class MainFrame extends JFrame{
         this.table.add(this.changeTables, BorderLayout.NORTH);
         this.table.add(this.sp, BorderLayout.CENTER);
         
+        this.pageHandlingButtons.add(nextPage);
+        this.pageHandlingButtons.add(prevPage);
+
         this.content.add(this.tools, BorderLayout.NORTH);
         this.content.add(this.table, BorderLayout.CENTER);
+        this.content.add(this.pageHandlingButtons, BorderLayout.SOUTH);
 
         this.content.setBorder(this.padding);
 
