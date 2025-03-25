@@ -3,23 +3,18 @@ package main.app.frames;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -31,6 +26,7 @@ import main.app.buttons.add.*;
 import main.app.buttons.changeTable.*;
 import main.app.buttons.delete.*;
 import main.app.buttons.edit.*;
+import main.app.buttons.pageHandler.PageHandlingButton;
 import main.app.input.fields.SearchBar;
 import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
@@ -45,6 +41,13 @@ import main.app.tables.ManagementTable;
  * {@link main.app.tables.ManagementTable ManagementTable} are initialized here.
  */
 public class MainFrame extends JFrame{
+
+    private final int itemsPerPage = 50;
+    private int maxPageIndex;
+    private int currentPageIndex = 1;
+    private int rowCount;
+    private int v;
+
     private ManagementTable mTable = new ManagementTable();
     private JScrollPane sp = new JScrollPane(this.mTable);
 
@@ -63,37 +66,40 @@ public class MainFrame extends JFrame{
     private EditDataButton editPrgButton = new EditProgramButton(mTable, this);
     private EditDataButton editClgButton = new EditCollegeButton(mTable, this);
 
-    private ChangeToTableButton cStdTblButton = new ChangeToStudentTableButton(sp, mTable, 
+    private ChangeToTableButton cStdTblButton = new ChangeToStudentTableButton(this, sp, mTable, 
         new AddDataButton[]{addStdButton, addPrgButton, addClgButton}, 
         new DeleteDataButton[]{delStdButton, delPrgButton, delClgButton},
         new EditDataButton[]{editStdButton, editPrgButton, editClgButton},
         searchBar, searchFieldList);
-    private ChangeToTableButton cPrgTblButton = new ChangeToProgramTableButton(sp, mTable,
+    private ChangeToTableButton cPrgTblButton = new ChangeToProgramTableButton(this, sp, mTable,
         new AddDataButton[]{addPrgButton, addStdButton, addClgButton}, 
         new DeleteDataButton[]{delPrgButton, delStdButton, delClgButton},
         new EditDataButton[]{editPrgButton, editStdButton, editClgButton},
         searchBar, searchFieldList);
-    private ChangeToTableButton cClgTblButton = new ChangeToCollegeTableButton(sp, mTable, 
+    private ChangeToTableButton cClgTblButton = new ChangeToCollegeTableButton(this, sp, mTable, 
         new AddDataButton[]{addClgButton, addStdButton, addPrgButton},
         new DeleteDataButton[]{delClgButton, delPrgButton, delStdButton},
         new EditDataButton[]{editClgButton, editStdButton, editPrgButton},
         searchBar, searchFieldList);
     private ButtonGroup changeTableGroup = new ButtonGroup();
 
+    private final PageHandlingButton first = new PageHandlingButton(this, "|<", PageHandlingButton.FIRST);
+    private final PageHandlingButton prev  = new PageHandlingButton(this, "<", PageHandlingButton.PREV);
+    private final PageHandlingButton next = new PageHandlingButton(this, ">", PageHandlingButton.NEXT);
+    private final PageHandlingButton last = new PageHandlingButton(this, ">|", PageHandlingButton.LAST);
+
+    private final JTextField pageField = new JTextField(3);
+
     private JLabel searchLabel = new JLabel("Search: ");
     private JLabel by = new JLabel("By: ");
-    
-    private JButton nextPage = new JButton("Next Page");
-    private JButton prevPage = new JButton("Previous Page");
-
-    private ActionListener pageHandler;
 
     private JPanel content = new JPanel(new BorderLayout());
 
     private JPanel tools = new JPanel(new GridBagLayout());
     private JPanel table = new JPanel(new BorderLayout());
     private JPanel po = new JPanel();
-    private JPanel pageHandlingButtons = new JPanel(new GridLayout(1,4,2,2));
+    private JPanel pageHandlingButtons = new JPanel();
+    private final JLabel pageLabel = new JLabel();
 
     private JPanel dataButtons = new JPanel(new GridBagLayout());
     private JPanel changeTables = new JPanel(new GridBagLayout());
@@ -104,37 +110,6 @@ public class MainFrame extends JFrame{
 
     private Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
-    private final int itemsPerPage = 50;
-    private int maxPageIndex;
-    private int currentPageIndex = 1;
-
-    private final JButton first = new JButton(new AbstractAction("|<") {
-    @Override public void actionPerformed(ActionEvent e) {
-      currentPageIndex = 1;
-      initFilterAndButton();
-    }
-    });
-    private final JButton prev  = new JButton(new AbstractAction("<") {
-        @Override public void actionPerformed(ActionEvent e) {
-        currentPageIndex -= 1;
-        initFilterAndButton();
-        }
-    });
-    private final JButton next = new JButton(new AbstractAction(">") {
-        @Override public void actionPerformed(ActionEvent e) {
-        currentPageIndex += 1;
-        initFilterAndButton();
-        }
-    });
-    private final JButton last = new JButton(new AbstractAction(">|") {
-        @Override public void actionPerformed(ActionEvent e) {
-        currentPageIndex = maxPageIndex;
-        initFilterAndButton();
-        }
-    });
-
-    private final JTextField field = new JTextField(2);
-    private final JLabel label = new JLabel();
     /**
      * Adds all components needed to the frame. Also adds the 
      * {@link main.app.frames.SaveChecker SaveChecker}.
@@ -146,27 +121,6 @@ public class MainFrame extends JFrame{
         this.setTitle("Student Management System");
         this.setLayout(new BorderLayout());
 
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-
-        pageHandler = new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Rectangle rect = sp.getVisibleRect();
-                JScrollBar bar = sp.getVerticalScrollBar();
-                int blockIncr = sp.getViewport().getViewRect().height;
-                if(e.getSource() == nextPage){
-                    bar.setValue(bar.getValue() + blockIncr);
-                } else if (e.getSource() == prevPage){
-                    bar.setValue(bar.getValue() - blockIncr);
-                }
-                sp.scrollRectToVisible(rect);
-            }
-            
-        };
-
-        nextPage.addActionListener(pageHandler);
-        prevPage.addActionListener(pageHandler);
         this.changeTableGroup.add(this.cStdTblButton);
         this.changeTableGroup.add(this.cPrgTblButton);
         this.changeTableGroup.add(this.cClgTblButton);
@@ -222,8 +176,8 @@ public class MainFrame extends JFrame{
         this.table.add(this.changeTables, BorderLayout.NORTH);
         this.table.add(this.sp, BorderLayout.CENTER);
 
-        this.po.add(field);
-        this.po.add(label);
+        this.po.add(pageField);
+        this.po.add(pageLabel);
 
         this.pageHandlingButtons.add(first);
         this.pageHandlingButtons.add(prev);
@@ -239,17 +193,14 @@ public class MainFrame extends JFrame{
 
         this.add(this.content, BorderLayout.CENTER);
         
-        int rowCount = mTable.getSTM().getRowCount();
-        int v = rowCount%itemsPerPage==0 ? 0 : 1;
-        maxPageIndex = rowCount/itemsPerPage + v;
-        initFilterAndButton();
-        label.setText(String.format("/ %d", maxPageIndex));
+        this.setUpPageHandling();
+        this.setPageText();
         KeyStroke enter = KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0);
-        field.getInputMap(JComponent.WHEN_FOCUSED).put(enter, "Enter");
-        field.getActionMap().put("Enter", new AbstractAction() {
+        this.pageField.getInputMap(JComponent.WHEN_FOCUSED).put(enter, "Enter");
+        this.pageField.getActionMap().put("Enter", new AbstractAction() {
         @Override public void actionPerformed(ActionEvent e) {
             try {
-            int v = Integer.parseInt(field.getText());
+            int v = Integer.parseInt(pageField.getText());
                 if(v>0 && v<=maxPageIndex) {
                     currentPageIndex = v;
                 }
@@ -267,20 +218,37 @@ public class MainFrame extends JFrame{
 
     }
 
-    private void initFilterAndButton() {
-    mTable.getRowSorter().setRowFilter(new RowFilter<TableModel, Integer>() {
-      @Override public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-        int ti = currentPageIndex - 1;
-        int ei = entry.getIdentifier();
-        return ti*itemsPerPage<=ei && ei<ti*itemsPerPage+itemsPerPage;
-      }
-    });
-    first.setEnabled(currentPageIndex>1);
-    prev.setEnabled(currentPageIndex>1);
-    next.setEnabled(currentPageIndex<maxPageIndex);
-    last.setEnabled(currentPageIndex<maxPageIndex);
-    field.setText(Integer.toString(currentPageIndex));
-  }
+    public void initFilterAndButton() {
+        mTable.getRowSorter().setRowFilter(new RowFilter<TableModel, Integer>() {
+            @Override public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+                int ti = currentPageIndex - 1;
+                int ei = entry.getIdentifier();
+                return ti*itemsPerPage<=ei && ei<ti*itemsPerPage+itemsPerPage;
+            }
+        });
+        first.setEnabled(currentPageIndex>1);
+        prev.setEnabled(currentPageIndex>1);
+        next.setEnabled(currentPageIndex<maxPageIndex);
+        last.setEnabled(currentPageIndex<maxPageIndex);
+        pageField.setText(Integer.toString(currentPageIndex));
+    }
+
+    public int getCurrentPageIndex(){return this.currentPageIndex;}
+    public void setCurrentPageIndex(int currentPageIndex){this.currentPageIndex = currentPageIndex;}
+
+    public int getMaxPageIndex(){return this.maxPageIndex;}
+    public void setMaxPageIndex(int maxPageIndex){this.maxPageIndex = maxPageIndex;}
+
+    public int getRowCount(){return this.rowCount;}
+    public void setRowCount(int rowCount){this.rowCount = rowCount;}
+
+    public void setPageText(){this.pageLabel.setText(String.format("/ %d", maxPageIndex));}
+    public void setUpPageHandling(){
+        rowCount = mTable.getModel().getRowCount();
+        v = rowCount % itemsPerPage == 0 ? 0 : 1;
+        maxPageIndex = rowCount / itemsPerPage + v;
+        initFilterAndButton();
+    }
 }
 
 
