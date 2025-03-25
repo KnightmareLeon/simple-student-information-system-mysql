@@ -6,6 +6,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import main.app.frames.MainFrame;
+
 /**
  * A custom {@code JTextField} that is a child class of {@link UpperCaseTextField}.
  * Filters a {@code JTable} by whatever is the input text of this text field 
@@ -20,7 +22,7 @@ import javax.swing.table.TableRowSorter;
  * @see main.app.tables.ManagementTable {@code ManagementTable}
  */
 public class SearchBar extends UpperCaseTextField{
-    public SearchBar(TableRowSorter<TableModel> rowSorter, SearchFieldList searchFieldList){
+    public SearchBar(MainFrame mFrame, TableRowSorter<TableModel> rowSorter, SearchFieldList searchFieldList){
         this.getDocument().addDocumentListener(new DocumentListener(){
 
             @Override
@@ -29,11 +31,14 @@ public class SearchBar extends UpperCaseTextField{
 
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
+                    mFrame.setUpPageHandling();
+                    mFrame.setPageText();
                 } else if (searchFieldList.getIndex() == -1){
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
                 } else {
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
                 }
+                mFrame.setCurrentPageIndex(1);
             }
 
             @Override
@@ -42,11 +47,15 @@ public class SearchBar extends UpperCaseTextField{
 
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
+                    
+                    mFrame.setUpPageHandling();
+                    mFrame.setPageText();
                 } else if (searchFieldList.getIndex() == -1){
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
                 } else {
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
                 }
+                mFrame.setCurrentPageIndex(1);
             }
 
             @Override

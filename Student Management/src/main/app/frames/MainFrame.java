@@ -52,7 +52,7 @@ public class MainFrame extends JFrame{
     private JScrollPane sp = new JScrollPane(this.mTable);
 
     private SearchFieldList searchFieldList = new SearchFieldList(this.mTable);
-    private SearchBar searchBar = new SearchBar(this.mTable.getRowSorter(), this.searchFieldList);
+    private SearchBar searchBar = new SearchBar(this, this.mTable.getRowSorter(), this.searchFieldList);
 
     private AddDataButton addStdButton = new AddStudentButton(mTable, this);
     private AddDataButton addPrgButton = new AddProgramButton(mTable, this);
@@ -219,8 +219,10 @@ public class MainFrame extends JFrame{
     }
 
     public void initFilterAndButton() {
+        searchBar.setText("");
         mTable.getRowSorter().setRowFilter(new RowFilter<TableModel, Integer>() {
-            @Override public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+            @Override 
+            public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
                 int ti = currentPageIndex - 1;
                 int ei = entry.getIdentifier();
                 return ti*itemsPerPage<=ei && ei<ti*itemsPerPage+itemsPerPage;
