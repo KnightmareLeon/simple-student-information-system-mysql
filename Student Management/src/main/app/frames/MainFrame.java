@@ -33,7 +33,6 @@ import main.app.tables.pageHandler.PageHandler;
  */
 public class MainFrame extends JFrame{
 
-
     /**
      * Adds all components needed to the frame. 
      */
@@ -43,6 +42,7 @@ public class MainFrame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Student Management System");
         setLayout(new BorderLayout());
+        
         final ManagementTable mTable = new ManagementTable();
         final JScrollPane sp = new JScrollPane(mTable);
     
@@ -98,6 +98,7 @@ public class MainFrame extends JFrame{
         final GridBagConstraints changeTablesGBC = new GridBagConstraints();
     
         final Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+        
         changeTableGroup.add(cStdTblButton);
         changeTableGroup.add(cPrgTblButton);
         changeTableGroup.add(cClgTblButton);
@@ -153,7 +154,6 @@ public class MainFrame extends JFrame{
         table.add(changeTables, BorderLayout.NORTH);
         table.add(sp, BorderLayout.CENTER);
 
-
         content.add(tools, BorderLayout.NORTH);
         content.add(table, BorderLayout.CENTER);
         content.add(pageHandler, BorderLayout.SOUTH);
@@ -165,16 +165,12 @@ public class MainFrame extends JFrame{
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
         
-        
-
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 100, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100);
         setLocationRelativeTo(null);
         setVisible(true);  
         setExtendedState(JFrame.MAXIMIZED_BOTH);
 
     }
-
-    
 
 }
 
