@@ -6,7 +6,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import main.app.frames.MainFrame;
+import main.app.tables.pageHandler.PageHandler;
 
 /**
  * A custom {@code JTextField} that is a child class of {@link UpperCaseTextField}.
@@ -22,7 +22,9 @@ import main.app.frames.MainFrame;
  * @see main.app.tables.ManagementTable {@code ManagementTable}
  */
 public class SearchBar extends UpperCaseTextField{
-    public SearchBar(MainFrame mFrame, TableRowSorter<TableModel> rowSorter, SearchFieldList searchFieldList){
+
+    private PageHandler pageHandler;
+    public SearchBar(TableRowSorter<TableModel> rowSorter, SearchFieldList searchFieldList){
         this.getDocument().addDocumentListener(new DocumentListener(){
 
             @Override
@@ -31,14 +33,14 @@ public class SearchBar extends UpperCaseTextField{
 
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
-                    mFrame.setUpPageHandling();
-                    mFrame.setPageText();
+                    pageHandler.setUpPageHandling();
+                    pageHandler.setPageText();
                 } else if (searchFieldList.getIndex() == -1){
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
                 } else {
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
                 }
-                mFrame.setCurrentPageIndex(1);
+                pageHandler.setCurrentPageIndex(1);
             }
 
             @Override
@@ -48,14 +50,14 @@ public class SearchBar extends UpperCaseTextField{
                 if (text.trim().length() == 0) {
                     rowSorter.setRowFilter(null);
                     
-                    mFrame.setUpPageHandling();
-                    mFrame.setPageText();
+                    pageHandler.setUpPageHandling();
+                    pageHandler.setPageText();
                 } else if (searchFieldList.getIndex() == -1){
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
                 } else {
                     rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
                 }
-                mFrame.setCurrentPageIndex(1);
+                pageHandler.setCurrentPageIndex(1);
             }
 
             @Override
@@ -65,4 +67,6 @@ public class SearchBar extends UpperCaseTextField{
 
         });
     }
+
+    public void setPageHandler(PageHandler pageHandler){this.pageHandler = pageHandler;}
 }

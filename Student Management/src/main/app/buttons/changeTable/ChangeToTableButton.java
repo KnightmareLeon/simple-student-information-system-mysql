@@ -6,10 +6,10 @@ import javax.swing.JToggleButton;
 import main.app.buttons.add.AddDataButton;
 import main.app.buttons.delete.DeleteDataButton;
 import main.app.buttons.edit.EditDataButton;
-import main.app.frames.MainFrame;
 import main.app.input.fields.SearchBar;
 import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
+import main.app.tables.pageHandler.PageHandler;
 import main.app.tables.tableModels.DatabaseHandlingTableModel;
 
 /**
@@ -21,7 +21,7 @@ import main.app.tables.tableModels.DatabaseHandlingTableModel;
  * @see ChangeToCollegeTableButton {@code ChangeToCollegeTableButton}
  */
 public abstract class ChangeToTableButton extends JToggleButton{
-    public void changeToTable(MainFrame mFrame, JScrollPane sp, DatabaseHandlingTableModel tm,
+    public void changeToTable(PageHandler pageHandler, JScrollPane sp, DatabaseHandlingTableModel tm,
         ManagementTable mTable, AddDataButton[] aDButtons, DeleteDataButton[] dDButtons,
         EditDataButton[] eDButtons, SearchBar searchBar, SearchFieldList searchFieldList){
         mTable.setModel(tm);
@@ -42,8 +42,8 @@ public abstract class ChangeToTableButton extends JToggleButton{
         searchBar.setText("");
         searchFieldList.set();
         
-        mFrame.setCurrentPageIndex(1);
-        mFrame.setUpPageHandling();
-        mFrame.setPageText();
+        pageHandler.setCurrentPageIndex(1);
+        pageHandler.setUpPageHandling();
+        pageHandler.setPageText();
     }
 }

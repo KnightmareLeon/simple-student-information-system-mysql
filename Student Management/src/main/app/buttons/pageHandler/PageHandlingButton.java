@@ -5,41 +5,41 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
-import main.app.frames.MainFrame;
+import main.app.tables.pageHandler.PageHandler;
 
 public class PageHandlingButton extends JButton{
     public static final byte FIRST = 0;
     public static final byte PREV = 1;
     public static final byte NEXT = 2;
     public static final byte LAST = 3;
-    private MainFrame mFrame;
-    public PageHandlingButton (MainFrame mFrame, String actionText, byte action){
+    private PageHandler pageHandler;
+    public PageHandlingButton (PageHandler pageHandler, String actionText, byte action){
         
         super(actionText);
         this.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 changePageIndex(action);
-                mFrame.initFilterAndButton();
+                pageHandler.initFilterAndButton();
             }
             
         });
-        this.mFrame = mFrame;
+        this.pageHandler = pageHandler;
     }
 
     private void changePageIndex(byte action){
         switch (action) {
             case FIRST:
-                mFrame.setCurrentPageIndex(1);
+                pageHandler.setCurrentPageIndex(1);
                 break;
             case PREV:
-                mFrame.setCurrentPageIndex(mFrame.getCurrentPageIndex() - 1);
+                pageHandler.setCurrentPageIndex(pageHandler.getCurrentPageIndex() - 1);
                 break;
             case NEXT:
-                mFrame.setCurrentPageIndex(mFrame.getCurrentPageIndex() + 1);
+                pageHandler.setCurrentPageIndex(pageHandler.getCurrentPageIndex() + 1);
                 break;
             case LAST:
-                mFrame.setCurrentPageIndex(mFrame.getMaxPageIndex());
+                pageHandler.setCurrentPageIndex(pageHandler.getMaxPageIndex());
                 break;
         }
     }
