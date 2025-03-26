@@ -31,14 +31,15 @@ public class ManagementTable extends JTable{
     private ProgramTableModel ptm;
     private StudentTableModel stm;
     private TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>();
-    private DatabaseDriver dbDriver = new DatabaseDriver();
+    private DatabaseDriver dbDriver;
     private List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
     /**
      * Sets up all the {@link main.app.tables.tableModels.DatabaseHandlingTableModel
      * CSVHandlingTableModels} and specific {@code JTable} customizations.
      */
-    public ManagementTable(){
+    public ManagementTable(DatabaseDriver dbDriver){
+        this.dbDriver = dbDriver;
         this.ctm = new CollegeTableModel(this.dbDriver);
         this.ptm = new ProgramTableModel(this.dbDriver);
         this.stm = new StudentTableModel(this.dbDriver);

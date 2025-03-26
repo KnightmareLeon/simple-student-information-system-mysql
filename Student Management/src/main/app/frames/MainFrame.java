@@ -22,6 +22,7 @@ import main.app.input.fields.SearchBar;
 import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
 import main.app.tables.pageHandler.PageHandler;
+import main.database.DatabaseDriver;
 
 /**
  * The main {@code JFrame} of the application. The 
@@ -36,14 +37,14 @@ public class MainFrame extends JFrame{
     /**
      * Adds all components needed to the frame. 
      */
-    public MainFrame(){
+    public MainFrame(DatabaseDriver dbDriver){
 
         setResizable(true);     
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Student Management System");
         setLayout(new BorderLayout());
         
-        final ManagementTable mTable = new ManagementTable();
+        final ManagementTable mTable = new ManagementTable(dbDriver);
         final JScrollPane sp = new JScrollPane(mTable);
     
         final SearchFieldList searchFieldList = new SearchFieldList(mTable);

@@ -10,14 +10,14 @@ import java.util.StringJoiner;
 public class DatabaseDriver {
     private Connection connection = null;
     private Statement statement;
-    public DatabaseDriver(){
+    public DatabaseDriver(String username, String password) throws SQLException{
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(
             "jdbc:mysql://localhost:3306/ssis",
-            "root", "Solluna247sasaki@");
+            username, password);
             statement = connection.createStatement();
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         
