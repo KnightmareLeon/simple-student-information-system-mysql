@@ -98,7 +98,7 @@ public class LogInFrame extends JFrame{
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, 
-            "Wrong password or username, please try again.", 
+            e.getMessage(), 
             "Error",
             JOptionPane.ERROR_MESSAGE);
         }
