@@ -49,7 +49,6 @@ public class MainFrame extends JFrame{
     
         final SearchFieldList searchFieldList = new SearchFieldList(mTable);
         final SearchBar searchBar = new SearchBar(mTable.getRowSorter(), searchFieldList);
-    
         final AddDataButton addStdButton = new AddStudentButton(mTable, this);
         final AddDataButton addPrgButton = new AddProgramButton(mTable, this);
         final AddDataButton addClgButton = new AddCollegeButton(mTable, this);
