@@ -2,6 +2,8 @@ package main.app.tables.pageHandler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -14,6 +16,7 @@ import javax.swing.table.TableModel;
 
 import main.app.buttons.pageHandler.PageHandlingButton;
 import main.app.input.fields.SearchBar;
+import main.app.input.filters.PageFilter;
 import main.app.tables.ManagementTable;
 
 public class PageHandler extends JPanel{
@@ -73,28 +76,38 @@ public class PageHandler extends JPanel{
 
     public int getMaxPageIndex(){return maxPageIndex;}
     public void setMaxPageIndex(int maxPageIndex){this.maxPageIndex = maxPageIndex;}
+    public void setMaxPageIndex(){
+        v = rowCount % ITEM_PER_PAGE == 0 ? 0 : 1;
+        maxPageIndex = rowCount / ITEM_PER_PAGE + v;
+    }
 
     public int getRowCount(){return rowCount;}
     public void setRowCount(int rowCount){this.rowCount = rowCount;}
+    public void setRowCount(boolean fromModel){rowCount = (fromModel) ? mTable.getModel().getRowCount() : mTable.getRowCount();}
+
+    public int getItemPerPage(){return this.ITEM_PER_PAGE;}
 
     public void setPageText(){pageLabel.setText(String.format("/ %d", maxPageIndex));}
     public void setUpPageHandling(){
-        rowCount = mTable.getModel().getRowCount();
-        v = rowCount % ITEM_PER_PAGE == 0 ? 0 : 1;
-        maxPageIndex = rowCount / ITEM_PER_PAGE + v;
+        setRowCount(true);
+        setMaxPageIndex();
         initFilterAndButton();
     }
 
     public void initFilterAndButton() {
-        searchBar.setText("");
-        mTable.getRowSorter().setRowFilter(new RowFilter<TableModel, Integer>() {
-            @Override 
-            public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
-                int ti = currentPageIndex - 1;
-                int ei = entry.getIdentifier();
-                return ti*ITEM_PER_PAGE<=ei && ei<ti*ITEM_PER_PAGE+ITEM_PER_PAGE;
-            }
-        });
+        mTable.getRowSorter().setRowFilter(new PageFilter(this));
+        first.setEnabled(currentPageIndex>1);
+        prev.setEnabled(currentPageIndex>1);
+        next.setEnabled(currentPageIndex<maxPageIndex);
+        last.setEnabled(currentPageIndex<maxPageIndex);
+        pageField.setText(Integer.toString(currentPageIndex));
+    }
+
+    public void initFilterAndButton(RowFilter<TableModel, Integer> rowFilter) {
+        List<RowFilter<TableModel, Integer>> filters = new ArrayList<RowFilter<TableModel, Integer>>(2);
+        filters.add(rowFilter);
+        filters.add(new PageFilter(this));
+        mTable.getRowSorter().setRowFilter(RowFilter.andFilter(filters));
         first.setEnabled(currentPageIndex>1);
         prev.setEnabled(currentPageIndex>1);
         next.setEnabled(currentPageIndex<maxPageIndex);

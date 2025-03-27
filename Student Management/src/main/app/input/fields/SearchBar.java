@@ -32,15 +32,18 @@ public class SearchBar extends UpperCaseTextField{
                 String text = getText();
 
                 if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
                     pageHandler.setUpPageHandling();
-                    pageHandler.setPageText();
+                    
                 } else if (searchFieldList.getIndex() == -1){
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                    pageHandler.setRowCount(false);
+                    pageHandler.setMaxPageIndex();
+                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text));
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
+                    pageHandler.setRowCount(false);
+                    pageHandler.setMaxPageIndex();
+                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
                 }
-                pageHandler.setCurrentPageIndex(1);
+                pageHandler.setPageText();
             }
 
             @Override
@@ -48,16 +51,17 @@ public class SearchBar extends UpperCaseTextField{
                 String text = getText();
 
                 if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                    
                     pageHandler.setUpPageHandling();
-                    pageHandler.setPageText();
                 } else if (searchFieldList.getIndex() == -1){
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                    pageHandler.setRowCount(false);
+                    pageHandler.setMaxPageIndex();
+                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text));
                 } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
+                    pageHandler.setRowCount(false);
+                    pageHandler.setMaxPageIndex();
+                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
                 }
-                pageHandler.setCurrentPageIndex(1);
+                pageHandler.setPageText();
             }
 
             @Override
