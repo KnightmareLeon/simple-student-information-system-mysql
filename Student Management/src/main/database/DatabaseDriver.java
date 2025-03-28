@@ -32,9 +32,24 @@ public class DatabaseDriver {
     }
 
     public ResultSet readFromTable(String tableName, int page, String columnLabel, String regex) throws SQLException{
-        ResultSet resultSet = statement.executeQuery(
-            String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' LIMIT %d OFFSET %d", 
-            tableName, columnLabel, regex, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)));
+        String query;
+        if(columnLabel.equals("All")){
+            ResultSet columns = statement.executeQuery(
+                "SHOW COLUMNS FROM " + tableName
+            );
+            StringJoiner valuesJoiner = new StringJoiner(" OR ");
+            while(columns.next()){
+                valuesJoiner.add(columns.getString(1) + 
+                " REGEXP \'(?i)" + regex + "\'");
+            }
+            query = String.format("SELECT * from %s WHERE %s LIMIT %d OFFSET %d", 
+            tableName, valuesJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
+            columns.close();
+        } else {
+            query = String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' LIMIT %d OFFSET %d", 
+            tableName, columnLabel, regex, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
+        }
+        ResultSet resultSet = statement.executeQuery(query);
         return resultSet;
     }
 
@@ -49,10 +64,24 @@ public class DatabaseDriver {
     }
 
     public int totalRowsFromTable(String tableName, String columnLabel, String regex) throws SQLException{
-        ResultSet totalRowsSet = statement.executeQuery(
-            String.format("SELECT COUNT(*) FROM %s WHERE %s REGEXP \'(?i)%s\'" ,
-            tableName, columnLabel, regex)
-        );
+        String query;
+        if(columnLabel.equals("All")){
+            ResultSet columns = statement.executeQuery(
+                "SHOW COLUMNS FROM " + tableName
+            );
+            StringJoiner valuesJoiner = new StringJoiner(" OR ");
+            while(columns.next()){
+                valuesJoiner.add(columns.getString(1) + 
+                " REGEXP \'(?i)" + regex + "\'");
+            }
+            query = String.format("SELECT COUNT(*) from %s WHERE %s", 
+            tableName, valuesJoiner.toString());
+            columns.close();
+        } else {
+            query = String.format("SELECT COUNT(*) from %s WHERE %s REGEXP \'(?i)%s\' ", 
+            tableName, columnLabel, regex);
+        }
+        ResultSet totalRowsSet = statement.executeQuery(query);
         totalRowsSet.next();
         int total = totalRowsSet.getInt(1);
         totalRowsSet.close(); 

@@ -1,7 +1,6 @@
 package main.app.input.fields;
 
 import java.awt.Dimension;
-import java.util.HashMap;
 
 import javax.swing.JComboBox;
 
@@ -14,22 +13,15 @@ import main.app.tables.ManagementTable;
  * {@code ManagementTable}.
  */
 public class SearchFieldList extends JComboBox<String>{
-    String[] studentColumns = {"Any", "ID", "First Name", "Last Name", 
+    String[] studentColumns = {"All", "ID", "First Name", "Last Name", 
                                "Year Level", "Gender", "Program Code"};
-    String[] programColumns = {"Any", "Code", "Name", "College Code"};
-    String[] collegeColumns = {"Any", "Code", "Name"};
-    HashMap<String, Integer> columnIndices = new HashMap<>(10);
+    String[] programColumns = {"All", "Code", "Name", "College Code"};
+    String[] collegeColumns = {"All", "Code", "Name"};
     ManagementTable mTable;
     public SearchFieldList(ManagementTable mTable){
         this.setPreferredSize(new Dimension(115,20));
         this.mTable = mTable;
         this.set();
-        for(int i = -1; i < studentColumns.length - 1; i++){
-            this.columnIndices.put(studentColumns[i + 1], i);
-            if(i != -1 && i < 3){
-                this.columnIndices.put(programColumns[i + 1], i);
-            }
-        }
     }
 
     /**
@@ -54,13 +46,5 @@ public class SearchFieldList extends JComboBox<String>{
         } else if(this.mTable.getModel() == this.mTable.getCTM()){
             this.setFields(this.collegeColumns);
         }
-    }
-
-    /**
-     * 
-     * @return The column index based on the selected item by the user
-     */
-    public int getIndex(){
-        return columnIndices.get((String) this.getSelectedItem());
     }
 }
