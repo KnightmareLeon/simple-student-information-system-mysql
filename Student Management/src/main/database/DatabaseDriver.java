@@ -31,9 +31,27 @@ public class DatabaseDriver {
         return resultSet;
     }
 
+    public ResultSet readFromTable(String tableName, int page, String columnLabel, String regex) throws SQLException{
+        ResultSet resultSet = statement.executeQuery(
+            String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' LIMIT %d OFFSET %d", 
+            tableName, columnLabel, regex, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)));
+        return resultSet;
+    }
+
     public int totalRowsFromTable(String tableName) throws SQLException{
         ResultSet totalRowsSet = statement.executeQuery(
             "SELECT COUNT(*) FROM " + tableName
+        );
+        totalRowsSet.next();
+        int total = totalRowsSet.getInt(1);
+        totalRowsSet.close(); 
+        return total;
+    }
+
+    public int totalRowsFromTable(String tableName, String columnLabel, String regex) throws SQLException{
+        ResultSet totalRowsSet = statement.executeQuery(
+            String.format("SELECT COUNT(*) FROM %s WHERE %s REGEXP \'(?i)%s\'" ,
+            tableName, columnLabel, regex)
         );
         totalRowsSet.next();
         int total = totalRowsSet.getInt(1);

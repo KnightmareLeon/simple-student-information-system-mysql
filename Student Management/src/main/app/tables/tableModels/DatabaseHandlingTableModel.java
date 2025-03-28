@@ -59,6 +59,26 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         }
     }
     
+    public void getData(int page, String columnLabel, String regex){
+        this.setRowCount(0);
+        try {
+            ResultSet resultSet = dbDriver.readFromTable(tableName, page, 
+            columnLabel.replaceAll(" ", ""), regex);
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+            int c = rsmd.getColumnCount();
+            while(resultSet.next()){
+                String[] data = new String[c];
+                for(int i = 1; i <= c; i++){
+                    data[i - 1] = (resultSet.getString(i) == null) ?
+                    "NULL" : resultSet.getString(i);   
+                }
+                this.addRow(data); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addData(String[] data) throws SQLException{
         dbDriver.addToTable(data, tableName);
         this.addRow(data);
@@ -110,6 +130,13 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     public int getTotalRows() throws SQLException{
         return dbDriver.totalRowsFromTable(tableName);
     }
+
+    public int getTotalRows(String columnLabel, String regex) throws SQLException{
+        return dbDriver.totalRowsFromTable(tableName, 
+        columnLabel.replaceAll(" ", "")
+        , regex);
+    }
+
     /**
      * Checks if the {@code CSVHandlingTableModel} has changed
      * @return {@code true} if the {@code CSVHandlingTableModel} has changed,

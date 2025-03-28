@@ -48,7 +48,7 @@ public class MainFrame extends JFrame{
         final JScrollPane sp = new JScrollPane(mTable);
     
         final SearchFieldList searchFieldList = new SearchFieldList(mTable);
-        final SearchBar searchBar = new SearchBar(mTable.getRowSorter(), searchFieldList);
+        final SearchBar searchBar = new SearchBar();
         final AddDataButton addStdButton = new AddStudentButton(mTable, this);
         final AddDataButton addPrgButton = new AddProgramButton(mTable, this);
         final AddDataButton addClgButton = new AddCollegeButton(mTable, this);
@@ -61,8 +61,7 @@ public class MainFrame extends JFrame{
         final EditDataButton editPrgButton = new EditProgramButton(mTable, this);
         final EditDataButton editClgButton = new EditCollegeButton(mTable, this);
         
-        final PageHandler pageHandler = new PageHandler(mTable, searchBar);
-
+        final PageHandler pageHandler = new PageHandler(mTable, searchBar, searchFieldList);
         searchBar.setPageHandler(pageHandler);
 
         final ChangeToTableButton cStdTblButton = new ChangeToStudentTableButton(pageHandler, sp, mTable, 

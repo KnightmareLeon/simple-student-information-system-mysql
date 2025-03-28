@@ -1,10 +1,11 @@
 package main.app.input.fields;
 
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 import main.app.tables.pageHandler.PageHandler;
 
@@ -24,51 +25,26 @@ import main.app.tables.pageHandler.PageHandler;
 public class SearchBar extends UpperCaseTextField{
 
     private PageHandler pageHandler;
-    public SearchBar(TableRowSorter<TableModel> rowSorter, SearchFieldList searchFieldList){
-        this.getDocument().addDocumentListener(new DocumentListener(){
+    public SearchBar(){
+        this.getInputMap(JComponent.WHEN_FOCUSED).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), 
+            "Search"
+        );
+        this.getActionMap().put("Search", new AbstractAction() {
 
             @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = getText();
-
-                if (text.trim().length() == 0) {
-                    pageHandler.setUpPageHandling();
+            public void actionPerformed(ActionEvent e) {
+                if(getText().length() > 0){
+                    pageHandler.setToSearching();
                     
-                } else if (searchFieldList.getIndex() == -1){
-                    pageHandler.setRowCount(false);
-                    pageHandler.setMaxPageIndex();
-                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text));
-                } else {
-                    pageHandler.setRowCount(false);
-                    pageHandler.setMaxPageIndex();
-                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
+                } else{
+                    pageHandler.setToNotSearching();
                 }
+                pageHandler.setCurrentPageIndex(1);
+                pageHandler.setUpPageHandling();
                 pageHandler.setPageText();
             }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = getText();
-
-                if (text.trim().length() == 0) {
-                    pageHandler.setUpPageHandling();
-                } else if (searchFieldList.getIndex() == -1){
-                    pageHandler.setRowCount(false);
-                    pageHandler.setMaxPageIndex();
-                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text));
-                } else {
-                    pageHandler.setRowCount(false);
-                    pageHandler.setMaxPageIndex();
-                    pageHandler.initFilterAndButton(RowFilter.regexFilter("(?i)" + text, searchFieldList.getIndex()));
-                }
-                pageHandler.setPageText();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
+            
         });
     }
 

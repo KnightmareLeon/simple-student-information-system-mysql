@@ -1,12 +1,7 @@
 package main.app.tables;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.RowSorter;
-import javax.swing.SortOrder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -32,7 +27,6 @@ public class ManagementTable extends JTable{
     private StudentTableModel stm;
     private TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>();
     private DatabaseDriver dbDriver;
-    private List<RowSorter.SortKey> sortKeys = new ArrayList<>();
 
     /**
      * Sets up all the {@link main.app.tables.tableModels.DatabaseHandlingTableModel
@@ -45,7 +39,6 @@ public class ManagementTable extends JTable{
         this.stm = new StudentTableModel(this.dbDriver);
         this.ctm.setPTM(this.ptm);
         this.ptm.setSTM(this.stm);
-        //this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.setModel(this.stm);
         this.getTableHeader().setResizingAllowed(false);
     }
@@ -87,7 +80,6 @@ public class ManagementTable extends JTable{
         if(this.rowSorter != null){
             this.rowSorter.setModel(tableModel);
             this.setRowSorter(this.rowSorter);
-            this.initialSort();  
         }
         if(tableModel == this.stm){
             this.setColumns(10, 30, 30, 10, 10, 10);
@@ -96,19 +88,6 @@ public class ManagementTable extends JTable{
         } else if(tableModel == this.ctm){
             this.setColumns(10,90);
         }
-    }
-
-    /**
-     * Programatically sorts the {@code ManagementTable} by the first and last 
-     * columns.
-     * 
-     *  */ 
-    private void initialSort(){
-        this.sortKeys.clear();
-        this.sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-        this.sortKeys.add(new RowSorter.SortKey(this.getColumnCount() - 1, SortOrder.ASCENDING));
-        this.rowSorter.setSortKeys(this.sortKeys);
-        this.rowSorter.sort();
     }
 
     /**

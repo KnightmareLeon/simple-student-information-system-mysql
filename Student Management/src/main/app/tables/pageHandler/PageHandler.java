@@ -3,8 +3,6 @@ package main.app.tables.pageHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -12,12 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.RowFilter;
-import javax.swing.table.TableModel;
 
 import main.app.buttons.pageHandler.PageHandlingButton;
 import main.app.input.fields.SearchBar;
-import main.app.input.filters.PageFilter;
+import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
 import main.app.tables.tableModels.DatabaseHandlingTableModel;
 
@@ -38,8 +34,15 @@ public class PageHandler extends JPanel{
 
     private ManagementTable mTable;
     private SearchBar searchBar;
-    public PageHandler(ManagementTable mTable, SearchBar searchBar){
-        this.mTable = mTable; this.searchBar = searchBar;
+    private SearchFieldList searchFieldList;
+
+    private boolean searching = false;
+    private boolean sorting = false;
+
+    public PageHandler(ManagementTable mTable, SearchBar searchBar, SearchFieldList searchFieldList){
+        this.mTable = mTable; 
+        this.searchBar = searchBar;
+        this.searchFieldList = searchFieldList;
 
         this.po.add(this.pageField); this.po.add(this.pageLabel);
         
@@ -76,26 +79,33 @@ public class PageHandler extends JPanel{
     public int getCurrentPageIndex(){return currentPageIndex;}
     public void setCurrentPageIndex(int currentPageIndex){this.currentPageIndex = currentPageIndex;}
 
-    public int getRowCount(){return rowCount;}
     public void setRowCount(){
         try {
-            rowCount = ((DatabaseHandlingTableModel) mTable.getModel()).getTotalRows();
+            if(!searching){
+                rowCount = ((DatabaseHandlingTableModel) mTable.getModel()).getTotalRows();
+            } else {
+                rowCount = ((DatabaseHandlingTableModel) mTable.getModel()).getTotalRows(
+                    (String) searchFieldList.getSelectedItem(), searchBar.getText()
+                );
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public void setRowCount(int rowCount){this.rowCount = rowCount;}
-    public void setRowCount(boolean fromModel){rowCount = (fromModel) ? mTable.getModel().getRowCount() : mTable.getRowCount();}
-
-    public int getMaxPageIndex(){return maxPageIndex;}
+    public int getRowCount(){return rowCount;}
+    
     public void setMaxPageIndex(int maxPageIndex){this.maxPageIndex = maxPageIndex;}
     public void setMaxPageIndex(){
         v = rowCount % ITEM_PER_PAGE == 0 ? 0 : 1;
         maxPageIndex = rowCount / ITEM_PER_PAGE + v;
     }
-
     
+    public int getMaxPageIndex(){return maxPageIndex;}
 
+    public void setToSearching(){this.searching = true;}
+    public void setToNotSearching(){this.searching = false;}
+    
     public int getItemPerPage(){return this.ITEM_PER_PAGE;}
 
     public void setPageText(){pageLabel.setText(String.format("/ %d", maxPageIndex));}
@@ -106,19 +116,16 @@ public class PageHandler extends JPanel{
     }
 
     public void initFilterAndButton() {
-        ((DatabaseHandlingTableModel)mTable.getModel()).getData(currentPageIndex);
-        first.setEnabled(currentPageIndex>1);
-        prev.setEnabled(currentPageIndex>1);
-        next.setEnabled(currentPageIndex<maxPageIndex);
-        last.setEnabled(currentPageIndex<maxPageIndex);
-        pageField.setText(Integer.toString(currentPageIndex));
-    }
-
-    public void initFilterAndButton(RowFilter<TableModel, Integer> rowFilter) {
-        List<RowFilter<TableModel, Integer>> filters = new ArrayList<RowFilter<TableModel, Integer>>(2);
-        filters.add(rowFilter);
-        filters.add(new PageFilter(this));
-        mTable.getRowSorter().setRowFilter(RowFilter.andFilter(filters));
+        if(!searching){
+            ((DatabaseHandlingTableModel)mTable.getModel()).getData(currentPageIndex);
+        } else {
+            ((DatabaseHandlingTableModel)mTable.getModel()).getData(
+                currentPageIndex,
+                (String) searchFieldList.getSelectedItem(),
+                searchBar.getText()    
+            );
+        }
+        
         first.setEnabled(currentPageIndex>1);
         prev.setEnabled(currentPageIndex>1);
         next.setEnabled(currentPageIndex<maxPageIndex);
