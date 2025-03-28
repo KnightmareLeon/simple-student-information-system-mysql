@@ -22,7 +22,7 @@ public class DeleteStudentButton extends DeleteDataButton{
     @Override
     protected boolean delete(ManagementTable mTable) throws SQLException {
         if(mTable.getSelectedRowCount() == 1){
-            mTable.getSTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
+            mTable.getSTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
         } else {
             int[] rowArray = new int[mTable.getSelectedRowCount()];
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
@@ -32,7 +32,7 @@ public class DeleteStudentButton extends DeleteDataButton{
             Arrays.sort(rowArray);
 
             for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getSTM().deleteData(rowArray[i], mTable.getdBDriver());
+                mTable.getSTM().deleteData(rowArray[i]);
             }
         }
         return true;

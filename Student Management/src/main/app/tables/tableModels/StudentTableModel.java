@@ -11,6 +11,7 @@ import main.database.DatabaseDriver;
  */
 public class StudentTableModel extends DatabaseHandlingTableModel{
     public StudentTableModel(DatabaseDriver dbDriver){
+        super(dbDriver);
         this.setColumnCount(6);
         this.setTableName("students");
         this.setColumnIdentifiers(new String[]{
@@ -20,7 +21,7 @@ public class StudentTableModel extends DatabaseHandlingTableModel{
             "Year Level",
             "Gender",
             "Program Code"});
-        this.getData(dbDriver);
+        this.getData();
     }
 
 }

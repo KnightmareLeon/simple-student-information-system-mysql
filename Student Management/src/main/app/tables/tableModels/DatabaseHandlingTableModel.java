@@ -31,12 +31,19 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
      * Sees if there are any changes to the table model.
      */
     private boolean changed = false;
-    
     private String tableName;
+    private DatabaseDriver dbDriver;
 
-    protected void getData(DatabaseDriver dbDriver){
+    public DatabaseHandlingTableModel(DatabaseDriver dbDriver){
+        this.dbDriver = dbDriver;
+    }
+
+    protected void getData(){getData( 1);}
+
+    public void getData(int page){
+        this.setRowCount(0);
         try {
-            ResultSet resultSet = dbDriver.readFromTable(tableName);
+            ResultSet resultSet = dbDriver.readFromTable(tableName, page);
             ResultSetMetaData rsmd = resultSet.getMetaData();
             int c = rsmd.getColumnCount();
             while(resultSet.next()){
@@ -51,18 +58,18 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             e.printStackTrace();
         }
     }
-
-    public void addData(String[] data, DatabaseDriver dbDriver) throws SQLException{
+    
+    public void addData(String[] data) throws SQLException{
         dbDriver.addToTable(data, tableName);
         this.addRow(data);
     }
 
-    public void deleteData(int row, DatabaseDriver dBDriver) throws SQLException{
-        dBDriver.deleteRecordInTable((String) this.getValueAt(row, 0), tableName);
+    public void deleteData(int row) throws SQLException{
+        dbDriver.deleteRecordInTable((String) this.getValueAt(row, 0), tableName);
         this.removeRow(row);
     }
 
-    public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
+    public void editData(int row, String[] newData) throws SQLException{
         String primaryKey = (String) this.getValueAt(row, 0);
         String[] record = new String[newData.length];
         String[] columnLabels = new String[newData.length];
@@ -71,13 +78,13 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             record[i] = (!newData[i].equals((String) this.getValueAt(row, i))) ?
                 newData[i] : null;
         }
-        dBDriver.updateRecordInTable(primaryKey, columnLabels, record, tableName);
+        dbDriver.updateRecordInTable(primaryKey, columnLabels, record, tableName);
         for(int i = 0; i < this.getColumnCount(); i++){
             this.setValueAt(newData[i], row, i);
         }
     }
 
-    public void batchEdit(int[] rows, String[] newData, DatabaseDriver dbDriver) throws SQLException{
+    public void batchEdit(int[] rows, String[] newData) throws SQLException{
         String[] primaryKeys = new String[rows.length];
         for(int i = 0; i < primaryKeys.length; i++){
             primaryKeys[i] = (String) this.getValueAt(rows[i], 0);
@@ -100,6 +107,9 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         }
     }
 
+    public int getTotalRows() throws SQLException{
+        return dbDriver.totalRowsFromTable(tableName);
+    }
     /**
      * Checks if the {@code CSVHandlingTableModel} has changed
      * @return {@code true} if the {@code CSVHandlingTableModel} has changed,

@@ -79,7 +79,7 @@ public class EditProgramButton extends EditDataButton{
                     prgInput.getCCode()   
                 };
     
-                mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getdBDriver());
+                mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data);
                 JOptionPane.showMessageDialog(getActionButton(), "Program edited successfully!");
                 getDataFrame().dispose();
         
@@ -98,7 +98,7 @@ public class EditProgramButton extends EditDataButton{
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
             try {
-                mTable.getPTM().batchEdit(rowArray, data, mTable.getdBDriver());
+                mTable.getPTM().batchEdit(rowArray, data);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

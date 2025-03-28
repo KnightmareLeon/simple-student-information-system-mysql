@@ -47,10 +47,10 @@ public class DeleteProgramButton extends DeleteDataButton{
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
         } 
         if(confirm && mTable.getSelectedRowCount() == 1){
-            mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
+            mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
         } else if(confirm){
             for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()), mTable.getdBDriver());
+                mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
             }
         }
         return confirm;

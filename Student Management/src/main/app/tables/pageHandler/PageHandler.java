@@ -2,6 +2,7 @@ package main.app.tables.pageHandler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import main.app.buttons.pageHandler.PageHandlingButton;
 import main.app.input.fields.SearchBar;
 import main.app.input.filters.PageFilter;
 import main.app.tables.ManagementTable;
+import main.app.tables.tableModels.DatabaseHandlingTableModel;
 
 public class PageHandler extends JPanel{
     private final int ITEM_PER_PAGE = 50;
@@ -74,6 +76,17 @@ public class PageHandler extends JPanel{
     public int getCurrentPageIndex(){return currentPageIndex;}
     public void setCurrentPageIndex(int currentPageIndex){this.currentPageIndex = currentPageIndex;}
 
+    public int getRowCount(){return rowCount;}
+    public void setRowCount(){
+        try {
+            rowCount = ((DatabaseHandlingTableModel) mTable.getModel()).getTotalRows();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void setRowCount(int rowCount){this.rowCount = rowCount;}
+    public void setRowCount(boolean fromModel){rowCount = (fromModel) ? mTable.getModel().getRowCount() : mTable.getRowCount();}
+
     public int getMaxPageIndex(){return maxPageIndex;}
     public void setMaxPageIndex(int maxPageIndex){this.maxPageIndex = maxPageIndex;}
     public void setMaxPageIndex(){
@@ -81,21 +94,19 @@ public class PageHandler extends JPanel{
         maxPageIndex = rowCount / ITEM_PER_PAGE + v;
     }
 
-    public int getRowCount(){return rowCount;}
-    public void setRowCount(int rowCount){this.rowCount = rowCount;}
-    public void setRowCount(boolean fromModel){rowCount = (fromModel) ? mTable.getModel().getRowCount() : mTable.getRowCount();}
+    
 
     public int getItemPerPage(){return this.ITEM_PER_PAGE;}
 
     public void setPageText(){pageLabel.setText(String.format("/ %d", maxPageIndex));}
     public void setUpPageHandling(){
-        setRowCount(true);
+        setRowCount();
         setMaxPageIndex();
         initFilterAndButton();
     }
 
     public void initFilterAndButton() {
-        mTable.getRowSorter().setRowFilter(new PageFilter(this));
+        ((DatabaseHandlingTableModel)mTable.getModel()).getData(currentPageIndex);
         first.setEnabled(currentPageIndex>1);
         prev.setEnabled(currentPageIndex>1);
         next.setEnabled(currentPageIndex<maxPageIndex);

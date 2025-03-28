@@ -19,25 +19,26 @@ import main.database.DatabaseDriver;
 public class CollegeTableModel extends DatabaseHandlingTableModel implements OtherTableModelEditor{
     private ProgramTableModel ptm;
     public CollegeTableModel(DatabaseDriver dbDriver){
+        super(dbDriver);
         this.setColumnCount(2);
         this.setTableName("colleges");
         this.setColumnIdentifiers(new String[]{
             "Code",
             "Name"});
-        this.getData(dbDriver);
+        this.getData();
     }
 
     @Override
-    public void deleteData(int row, DatabaseDriver dbDriver) throws SQLException {
+    public void deleteData(int row) throws SQLException {
         String code = (String) this.getValueAt(row, 0);
-        super.deleteData(row, dbDriver);
+        super.deleteData(row);
         this.editOtherTableModel(code, "NULL");
     }
 
     @Override
-    public void editData(int row, String[] newData, DatabaseDriver dBDriver) throws SQLException{
+    public void editData(int row, String[] newData) throws SQLException{
         String prevCode = (String) this.getValueAt(row, 0);
-        super.editData(row, newData, dBDriver);
+        super.editData(row, newData);
         if(!prevCode.equals(newData[0])){
             this.editOtherTableModel(prevCode, newData[0]);
         }

@@ -75,7 +75,7 @@ public class EditCollegeButton extends EditDataButton{
                 clgInput.getCode(),
                 clgInput.getName()
             };
-            mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getdBDriver());
+            mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data);
             JOptionPane.showMessageDialog(getActionButton(), "College edited successfully!");
             getDataFrame().dispose();
         } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){

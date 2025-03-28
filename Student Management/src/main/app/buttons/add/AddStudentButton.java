@@ -76,7 +76,7 @@ public class AddStudentButton extends AddDataButton{
                                     == JOptionPane.YES_OPTION) ? true : false;
                     }
                     if(confirm){
-                        mTable.getSTM().addData(data, mTable.getdBDriver());
+                        mTable.getSTM().addData(data);
                         JOptionPane.showMessageDialog(getActionButton(), "Student added successfully!");
                         getDataFrame().dispose();
 

@@ -93,7 +93,7 @@ public class EditStudentButton extends EditDataButton{
                 }
     
                 if(confirm){
-                    mTable.getSTM().editData(mTable.convertRowIndexToModel(row), data, mTable.getdBDriver());
+                    mTable.getSTM().editData(mTable.convertRowIndexToModel(row), data);
                     JOptionPane.showMessageDialog(getActionButton(), "Student edited successfully!");
                     getDataFrame().dispose();
                 }
@@ -114,7 +114,7 @@ public class EditStudentButton extends EditDataButton{
                 for(int i = 0; i < mTable.getSelectedRowCount(); i++){
                     rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
                 }
-                mTable.getSTM().batchEdit(rowArray, data, mTable.getdBDriver());
+                mTable.getSTM().batchEdit(rowArray, data);
                 JOptionPane.showMessageDialog(getActionButton(), "Students edited successfully!");
                 getDataFrame().dispose();
             } catch (NullPointerExceptionWithWindow e){

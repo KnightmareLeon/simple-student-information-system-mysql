@@ -56,7 +56,7 @@ public class AddProgramButton extends AddDataButton{
                             pInput.getName(),
                             pInput.getCCode()   
                         };
-                        mTable.getPTM().addData(data, mTable.getdBDriver());
+                        mTable.getPTM().addData(data);
                         JOptionPane.showMessageDialog(getActionButton(), "Program added successfully!");
                         getDataFrame().dispose();
                     }

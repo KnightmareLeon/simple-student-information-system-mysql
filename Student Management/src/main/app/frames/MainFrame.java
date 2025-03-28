@@ -160,7 +160,7 @@ public class MainFrame extends JFrame{
 
         content.setBorder(padding);
 
-        setContentPane(content);
+        this.setContentPane(content);
         
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();

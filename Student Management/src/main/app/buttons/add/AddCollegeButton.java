@@ -55,7 +55,7 @@ public class AddCollegeButton extends AddDataButton{
                         clgInput.getCode(),
                         clgInput.getName()
                     };
-                    mTable.getCTM().addData(data, mTable.getdBDriver());
+                    mTable.getCTM().addData(data);
                     JOptionPane.showMessageDialog(getActionButton(), "College added successfully!");
                     getDataFrame().dispose();
                 } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){

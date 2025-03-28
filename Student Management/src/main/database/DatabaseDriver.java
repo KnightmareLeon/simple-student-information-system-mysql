@@ -10,6 +10,7 @@ import java.util.StringJoiner;
 public class DatabaseDriver {
     private Connection connection = null;
     private Statement statement;
+    private final int ITEMS_PER_READ = 50;
     public DatabaseDriver(String username, String password) throws SQLException{
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -23,10 +24,21 @@ public class DatabaseDriver {
         
     }
 
-    public ResultSet readFromTable(String tableName) throws SQLException{
+    public ResultSet readFromTable(String tableName, int page) throws SQLException {
         ResultSet resultSet = statement.executeQuery(
-            "SELECT * from " + tableName);
+            String.format("SELECT * from %s LIMIT %d OFFSET %d", 
+            tableName, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)));
         return resultSet;
+    }
+
+    public int totalRowsFromTable(String tableName) throws SQLException{
+        ResultSet totalRowsSet = statement.executeQuery(
+            "SELECT COUNT(*) FROM " + tableName
+        );
+        totalRowsSet.next();
+        int total = totalRowsSet.getInt(1);
+        totalRowsSet.close(); 
+        return total;
     }
 
     public void addToTable(String[] data, String tableName) throws SQLException{
@@ -59,12 +71,8 @@ public class DatabaseDriver {
         return recordExists;
     }
     public String[] getArrayFromColumn(String columnLabel, String tableName) throws SQLException{
-        
-        ResultSet totalRowsSet = statement.executeQuery(
-            "SELECT COUNT(*) FROM " + tableName
-        );
-        totalRowsSet.next();
-        int rows = totalRowsSet.getInt(1);
+
+        int rows = this.totalRowsFromTable(tableName);
         
         String[] res = new String[rows];
         ResultSet resultSet = statement.executeQuery(
@@ -75,7 +83,7 @@ public class DatabaseDriver {
         while(resultSet.next()){
             res[i++] = resultSet.getString(columnLabel);
         }
-        totalRowsSet.close(); resultSet.close();
+        resultSet.close();
         return res;
     }
 
