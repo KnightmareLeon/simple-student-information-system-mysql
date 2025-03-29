@@ -7,8 +7,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import main.app.buttons.DataFormButton;
-import main.app.frames.MainFrame;
 import main.app.tables.ManagementTable;
+import main.app.windows.MainFrame;
 
 /**
  * Abstract {@link DataFormButton} that will add the data type that will be handled by its child

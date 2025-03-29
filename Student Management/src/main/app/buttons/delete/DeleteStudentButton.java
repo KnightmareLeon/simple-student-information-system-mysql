@@ -1,7 +1,7 @@
 package main.app.buttons.delete;
 
-import main.app.frames.MainFrame;
 import main.app.tables.ManagementTable;
+import main.app.windows.MainFrame;
 
 import java.sql.SQLException;
 import java.util.Arrays;

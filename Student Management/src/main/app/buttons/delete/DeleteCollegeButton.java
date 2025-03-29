@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
-import main.app.frames.MainFrame;
 import main.app.tables.ManagementTable;
+import main.app.windows.MainFrame;
 
 /**
  * Deletes a {@link main.data.dataClass.College College}'s data based

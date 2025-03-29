@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 
-import main.app.frames.LogInFrame;
+import main.app.windows.LogInFrame;
 
 /**
  * Main class of the application

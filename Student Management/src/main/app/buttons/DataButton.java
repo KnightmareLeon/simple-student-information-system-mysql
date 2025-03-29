@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import javax.swing.JButton;
 
-import main.app.frames.MainFrame;
+import main.app.windows.MainFrame;
 
 public class DataButton extends JButton{
     

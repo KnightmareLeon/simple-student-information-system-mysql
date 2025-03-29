@@ -13,8 +13,8 @@ import javax.swing.JOptionPane;
 
 import main.app.buttons.DataButton;
 import main.app.errors.NoRowSelectedException;
-import main.app.frames.MainFrame;
 import main.app.tables.ManagementTable;
+import main.app.windows.MainFrame;
 
 /**
  * Abstract {@link JButton} that will delete the data type that will be handled by its child

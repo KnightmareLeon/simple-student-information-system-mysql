@@ -12,10 +12,10 @@ import main.app.errors.EmptyTableException;
 import main.app.errors.ExistingIDException;
 import main.app.errors.NoRowSelectedException;
 import main.app.errors.NullPointerExceptionWithWindow;
-import main.app.frames.MainFrame;
 import main.app.input.StudentInput;
 import main.app.input.InputType;
 import main.app.tables.ManagementTable;
+import main.app.windows.MainFrame;
 
 /**
  * {@code JButton} class that sets up all components needed to edit a

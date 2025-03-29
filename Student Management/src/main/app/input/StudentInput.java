@@ -21,10 +21,10 @@ import main.app.errors.EmptyInputException;
 import main.app.errors.EmptyTableException;
 import main.app.errors.NoRowSelectedException;
 import main.app.errors.NullPointerExceptionWithWindow;
-import main.app.frames.DataFrame;
 import main.app.input.fields.AutoCompletingComboBox;
 import main.app.input.fields.UpperCaseOnlyTextField;
 import main.app.tables.ManagementTable;
+import main.app.windows.DataFormDialog;
 
 /**
  * <p>
@@ -105,13 +105,13 @@ public class StudentInput extends DataInput{
      * {@code ManagementTable}.
      * @throws EmptyTableException 
     */
-    public StudentInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
+    public StudentInput(DataFormDialog dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
         this.setUpComponents(dFrame, mTable, frameGBC);
     }
 
     @Override
-    protected void setUpComponents(DataFrame dFrame, 
+    protected void setUpComponents(DataFormDialog dFrame, 
                                    ManagementTable mTable, 
                                    GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
         frameGBC.insets = new Insets(5, 5, 5, 5);
@@ -256,24 +256,24 @@ public class StudentInput extends DataInput{
             this.yearList.setSelectedItem(prevID.substring(0,4));
             this.idNumList.setSelectedItem(prevID.substring(5,9));
             this.fnField.setText(prevFN);
-            if(prevYL.equals("1")){
+            if(prevYL.equals(yOneButton.getText())){
                 this.ylList.setSelected(yOneButton.getModel(), true);
-            } else if(prevYL.equals("2")){
+            } else if(prevYL.equals(yTwoButton.getText())){
                 this.ylList.setSelected(yTwoButton.getModel(), true);
-            } else if(prevYL.equals("3")){
+            } else if(prevYL.equals(yThreeButton.getText())){
                 this.ylList.setSelected(yThreeButton.getModel(), true);
-            } else if(prevYL.equals("4")){
+            } else if(prevYL.equals(yFourButton.getText())){
                 this.ylList.setSelected(yFourButton.getModel(), true);
-            } else if(prevYL.equals("5")){
+            } else if(prevYL.equals(yFiveButton.getText())){
                 this.ylList.setSelected(yFiveButton.getModel(), true);
-            } else if(prevYL.equals("5+")){
+            } else if(prevYL.equals(yFivePlusButton.getText())){
                 this.ylList.setSelected(yFivePlusButton.getModel(), true);
             }
-            if(prevG.equals("M")){
+            if(prevG.equals(maleButton.getText())){
                 this.gList.setSelected(maleButton.getModel(), true);
-            } else if(prevG.equals("F")){
+            } else if(prevG.equals(femaleButton.getText())){
                 this.gList.setSelected(femaleButton.getModel(), true);
-            } else if(prevG.equals("LGBTQIA+")){
+            } else if(prevG.equals(othersButton.getText())){
                 this.gList.setSelected(othersButton.getModel(), true);
             }
             

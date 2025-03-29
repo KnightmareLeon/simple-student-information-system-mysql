@@ -10,18 +10,18 @@ import javax.swing.JButton;
 import main.app.errors.EmptyTableException;
 import main.app.errors.MultiEditCollegeException;
 import main.app.errors.NoRowSelectedException;
-import main.app.frames.DataFrame;
-import main.app.frames.MainFrame;
 import main.app.tables.ManagementTable;
+import main.app.windows.DataFormDialog;
+import main.app.windows.MainFrame;
 
 /**
  * Abstract {@code JButton} class that sets up the components
  * needed to get input for adding or editing data. Initializes
- * a {@link main.app.frames.DataFrame DataFrame} in which the 
+ * a {@link main.app.windows.DataFormDialog DataFrame} in which the 
  * will components be set up in.
  */
 public abstract class DataFormButton extends DataButton{
-    private DataFrame dFrame;
+    private DataFormDialog dFrame;
     private GridBagLayout gbl;
     private GridBagConstraints gbc;
     private JButton actionButton;
@@ -37,12 +37,12 @@ public abstract class DataFormButton extends DataButton{
     }
 
     /**
-     * Initializes the {@link main.app.frames.DataFrame DataFrame}
+     * Initializes the {@link main.app.windows.DataFormDialog DataFrame}
      * and components.
      * @param mTable
      */
     private void setUp(ManagementTable mTable){
-        this.dFrame = new DataFrame();
+        this.dFrame = new DataFormDialog();
         this.gbl = new GridBagLayout();
         this.gbc = new GridBagConstraints();
         this.dFrame.setLayout(gbl);
@@ -75,14 +75,14 @@ public abstract class DataFormButton extends DataButton{
     protected JButton getActionButton(){return this.actionButton;};
 
     /**
-     * Gets the {@link main.app.frames.DataFrame DataFrame} that will be initialized.
+     * Gets the {@link main.app.windows.DataFormDialog DataFrame} that will be initialized.
      * @return {@code DataFrame}
      */
-    protected DataFrame getDataFrame(){return this.dFrame;}
+    protected DataFormDialog getDataFrame(){return this.dFrame;}
 
     /**
      * Gets the {@link java.awt.GridBagConstraints GridBagConstraints} used for
-     * setting up the components in the {@link main.app.frames.DataFrame 
+     * setting up the components in the {@link main.app.windows.DataFormDialog 
      * DataFrame}.
      * @return {@code GridBagConstraints}
      */

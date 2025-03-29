@@ -12,10 +12,10 @@ import main.app.errors.ExistingCodeException;
 import main.app.errors.ExistingNameException;
 import main.app.errors.MultiEditCollegeException;
 import main.app.errors.NoRowSelectedException;
-import main.app.frames.MainFrame;
 import main.app.input.CollegeInput;
 import main.app.input.InputType;
 import main.app.tables.ManagementTable;
+import main.app.windows.MainFrame;
 
 /**
  * {@code JButton} class that sets up all components needed to edit a

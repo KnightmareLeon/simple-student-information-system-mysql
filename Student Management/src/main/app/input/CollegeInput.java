@@ -9,10 +9,10 @@ import javax.swing.JTextField;
 
 import main.app.errors.EmptyInputException;
 import main.app.errors.NoRowSelectedException;
-import main.app.frames.DataFrame;
 import main.app.input.fields.UpperCaseOnlyTextField;
 import main.app.tables.ManagementTable;
 //import main.data.maps.DataMap;
+import main.app.windows.DataFormDialog;
 
 /**
  * <p>
@@ -46,13 +46,13 @@ public class CollegeInput extends DataInput{
      * @throws NoRowSelectedException when user doesn't select a row in the 
      * {@code ManagementTable}.
      */
-    public CollegeInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException{
+    public CollegeInput(DataFormDialog dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException{
         super(inputType);
         this.setUpComponents(dFrame, mTable, frameGBC);
     }
 
     @Override
-    protected void setUpComponents(DataFrame dFrame,
+    protected void setUpComponents(DataFormDialog dFrame,
                                    ManagementTable mTable, 
                                    GridBagConstraints frameGBC) throws NoRowSelectedException{
         this.codeField.setPreferredSize(new Dimension(70, 20));

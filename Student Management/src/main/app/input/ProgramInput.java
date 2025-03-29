@@ -14,10 +14,10 @@ import javax.swing.JTextField;
 import main.app.errors.EmptyInputException;
 import main.app.errors.EmptyTableException;
 import main.app.errors.NoRowSelectedException;
-import main.app.frames.DataFrame;
 import main.app.input.fields.AutoCompletingComboBox;
 import main.app.input.fields.UpperCaseOnlyTextField;
 import main.app.tables.ManagementTable;
+import main.app.windows.DataFormDialog;
 
 /**
  * <p>
@@ -58,13 +58,13 @@ public class ProgramInput extends DataInput{
      * {@code ManagementTable}.
           * @throws EmptyTableException 
           */
-         public ProgramInput(DataFrame dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
+         public ProgramInput(DataFormDialog dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
         this.setUpComponents(dFrame, mTable, frameGBC);
     }
 
     @Override
-    protected void setUpComponents(DataFrame dFrame, 
+    protected void setUpComponents(DataFormDialog dFrame, 
                                    ManagementTable mTable, 
                                    GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
         
