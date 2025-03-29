@@ -38,15 +38,19 @@ public class DatabaseDriver {
                 "SHOW COLUMNS FROM " + tableName
             );
             StringJoiner valuesJoiner = new StringJoiner(" OR ");
+            String toBeSearched = (regex.equals("NULL")) ? " IS NULL" : " REGEXP \'(?i)" + regex + "\'" ;
             while(columns.next()){
                 valuesJoiner.add(columns.getString(1) + 
-                " REGEXP \'(?i)" + regex + "\'");
+                toBeSearched);
             }
             query = String.format("SELECT * from %s WHERE %s LIMIT %d OFFSET %d", 
             tableName, valuesJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
             columns.close();
         } else {
-            query = String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' LIMIT %d OFFSET %d", 
+            query = (regex.equals("NULL")) ?
+            String.format("SELECT * from %s WHERE %s IS NULL LIMIT %d OFFSET %d", 
+            tableName, columnLabel, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)) :
+            String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' LIMIT %d OFFSET %d", 
             tableName, columnLabel, regex, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
         }
         ResultSet resultSet = statement.executeQuery(query);
@@ -70,15 +74,19 @@ public class DatabaseDriver {
                 "SHOW COLUMNS FROM " + tableName
             );
             StringJoiner valuesJoiner = new StringJoiner(" OR ");
+            String toBeSearched = (regex.equals("NULL")) ? " IS NULL" : " REGEXP \'(?i)" + regex + "\'" ;
             while(columns.next()){
                 valuesJoiner.add(columns.getString(1) + 
-                " REGEXP \'(?i)" + regex + "\'");
+                toBeSearched);
             }
             query = String.format("SELECT COUNT(*) from %s WHERE %s", 
             tableName, valuesJoiner.toString());
             columns.close();
         } else {
-            query = String.format("SELECT COUNT(*) from %s WHERE %s REGEXP \'(?i)%s\' ", 
+            query = (regex.equals("NULL")) ?
+            String.format("SELECT COUNT(*) from %s WHERE %s IS NULL ", 
+            tableName, columnLabel) :
+            String.format("SELECT COUNT(*) from %s WHERE %s REGEXP \'(?i)%s\' ", 
             tableName, columnLabel, regex);
         }
         ResultSet totalRowsSet = statement.executeQuery(query);

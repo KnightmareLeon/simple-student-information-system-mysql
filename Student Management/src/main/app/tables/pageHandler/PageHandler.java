@@ -116,21 +116,23 @@ public class PageHandler extends JPanel{
     }
 
     public void initFilterAndButton() {
-        if(!searching){
+        if(currentPageIndex > maxPageIndex){currentPageIndex = maxPageIndex;}
+        if(!searching && rowCount > 0){
             ((DatabaseHandlingTableModel)mTable.getModel()).getData(currentPageIndex);
-        } else {
+        } else if (rowCount > 0){
             ((DatabaseHandlingTableModel)mTable.getModel()).getData(
                 currentPageIndex,
                 (String) searchFieldList.getSelectedItem(),
                 searchBar.getText()    
             );
+        } else {
+            ((DatabaseHandlingTableModel) mTable.getModel()).setRowCount(0);
         }
         
         first.setEnabled(currentPageIndex > 1);
         prev.setEnabled(currentPageIndex > 1);
         next.setEnabled(currentPageIndex < maxPageIndex);
         last.setEnabled(currentPageIndex < maxPageIndex);
-        if(currentPageIndex > maxPageIndex){currentPageIndex = maxPageIndex;}
         pageField.setText(Integer.toString(currentPageIndex));
     }
 }
