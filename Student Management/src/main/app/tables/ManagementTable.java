@@ -4,7 +4,6 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 
 import main.app.tables.pageHandler.PageHandler;
 import main.app.tables.tableModels.CollegeTableModel;
@@ -26,7 +25,6 @@ public class ManagementTable extends JTable{
     private CollegeTableModel ctm;
     private ProgramTableModel ptm;
     private StudentTableModel stm;
-    private TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>();
     private DatabaseDriver dbDriver;
     /**
      * Sets up all the {@link main.app.tables.tableModels.DatabaseHandlingTableModel
@@ -63,8 +61,6 @@ public class ManagementTable extends JTable{
      * StudentTableModel} 
      */
     public StudentTableModel getSTM(){return stm;}
-
-    public TableRowSorter<TableModel> getRowSorter(){return this.rowSorter;}
     
     /**
      * Does the original {@link javax.swing.JTable#setModel(TableModel) setModel} from
@@ -75,10 +71,6 @@ public class ManagementTable extends JTable{
     @Override
     public void setModel(TableModel tableModel){
         super.setModel(tableModel);
-        if(this.rowSorter != null){
-            this.rowSorter.setModel(tableModel);
-            this.setRowSorter(this.rowSorter);
-        }
         if(tableModel == this.stm){
             this.setColumns(10, 30, 30, 10, 10, 10);
         } else if(tableModel == this.ptm){

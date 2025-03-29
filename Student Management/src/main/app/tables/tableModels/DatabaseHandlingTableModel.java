@@ -31,7 +31,7 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     private String tableName;
     private DatabaseDriver dbDriver;
     private PageHandler pageHandler;
-
+    private String[] sortingOptions;
     public DatabaseHandlingTableModel(DatabaseDriver dbDriver){
         this.dbDriver = dbDriver;
     }
@@ -41,7 +41,7 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     public void getData(int page){
         this.setRowCount(0);
         try {
-            ResultSet resultSet = dbDriver.readFromTable(tableName, page);
+            ResultSet resultSet = dbDriver.readFromTable(tableName, page, sortingOptions);
             ResultSetMetaData rsmd = resultSet.getMetaData();
             int c = rsmd.getColumnCount();
             while(resultSet.next()){
@@ -61,7 +61,7 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         this.setRowCount(0);
         try {
             ResultSet resultSet = dbDriver.readFromTable(tableName, page, 
-            columnLabel.replaceAll(" ", ""), regex);
+            columnLabel.replaceAll(" ", ""), regex, sortingOptions);
             ResultSetMetaData rsmd = resultSet.getMetaData();
             int c = rsmd.getColumnCount();
             while(resultSet.next()){
@@ -134,6 +134,10 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     public void setPageHandler(PageHandler pageHandler){
         this.pageHandler = pageHandler;
     }
+
+    public void setSortingOptions(String[] sortingOptions){this.sortingOptions = sortingOptions;}
+
+    public String[] getSortingOptions(){return this.sortingOptions;}
 
     @Override
     public boolean isCellEditable(int row, int column) {return false;}

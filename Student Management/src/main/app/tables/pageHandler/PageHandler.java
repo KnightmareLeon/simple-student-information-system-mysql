@@ -37,7 +37,6 @@ public class PageHandler extends JPanel{
     private SearchFieldList searchFieldList;
 
     private boolean searching = false;
-    private boolean sorting = false;
 
     public PageHandler(ManagementTable mTable, SearchBar searchBar, SearchFieldList searchFieldList){
         this.mTable = mTable; 

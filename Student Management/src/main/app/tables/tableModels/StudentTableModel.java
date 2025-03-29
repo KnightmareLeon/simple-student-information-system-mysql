@@ -21,6 +21,7 @@ public class StudentTableModel extends DatabaseHandlingTableModel{
             "Year Level",
             "Gender",
             "Program Code"});
+        this.setSortingOptions(new String[]{"ID ASC"});
         this.getData();
     }
 

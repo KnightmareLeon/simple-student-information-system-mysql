@@ -5,18 +5,16 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
+import main.app.buttons.SortingOptionsButton;
 import main.app.buttons.add.*;
 import main.app.buttons.changeTable.*;
 import main.app.buttons.delete.*;
@@ -52,15 +50,7 @@ public class MainFrame extends JFrame{
     
         final SearchFieldList searchFieldList = new SearchFieldList(mTable);
         final SearchBar searchBar = new SearchBar();
-        final JButton sortingFormButton = new JButton("Sorting Options");
-        sortingFormButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                SortingFormDialog sortingFormDialog = new SortingFormDialog(mTable);
-            }
-            
-        });
+        
         final AddDataButton addStdButton = new AddStudentButton(mTable, this);
         final AddDataButton addPrgButton = new AddProgramButton(mTable, this);
         final AddDataButton addClgButton = new AddCollegeButton(mTable, this);
@@ -76,6 +66,8 @@ public class MainFrame extends JFrame{
         final PageHandler pageHandler = new PageHandler(mTable, searchBar, searchFieldList);
         searchBar.setPageHandler(pageHandler);
         mTable.setPageHandler(pageHandler);
+        final SortingOptionsButton sortingFormButton = new SortingOptionsButton(mTable, pageHandler);
+
         final ChangeToTableButton cStdTblButton = new ChangeToStudentTableButton(pageHandler, sp, mTable, 
             new AddDataButton[]{addStdButton, addPrgButton, addClgButton}, 
             new DeleteDataButton[]{delStdButton, delPrgButton, delClgButton},

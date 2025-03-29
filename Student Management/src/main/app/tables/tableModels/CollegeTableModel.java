@@ -22,6 +22,7 @@ public class CollegeTableModel extends DatabaseHandlingTableModel{
         this.setColumnIdentifiers(new String[]{
             "Code",
             "Name"});
+            this.setSortingOptions(new String[]{"Code ASC"});
         this.getData();
     }
 

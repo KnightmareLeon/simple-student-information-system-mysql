@@ -24,15 +24,27 @@ public class DatabaseDriver {
         
     }
 
-    public ResultSet readFromTable(String tableName, int page) throws SQLException {
+    public ResultSet readFromTable(String tableName, int page, String[] sortingOptions) throws SQLException {
+        StringJoiner sortJoiner = new StringJoiner(",");
+        for(String sortOption : sortingOptions){
+            sortJoiner.add(sortOption);
+        }
         ResultSet resultSet = statement.executeQuery(
-            String.format("SELECT * from %s LIMIT %d OFFSET %d", 
-            tableName, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)));
+            String.format("SELECT * from %s ORDER BY %s LIMIT %d OFFSET %d", 
+            tableName, sortJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)));
         return resultSet;
     }
 
-    public ResultSet readFromTable(String tableName, int page, String columnLabel, String regex) throws SQLException{
+    public ResultSet readFromTable(String tableName, 
+                                   int page, 
+                                   String columnLabel, 
+                                   String regex, 
+                                   String[] sortingOptions) throws SQLException{
         String query;
+        StringJoiner sortJoiner = new StringJoiner(",");
+        for(String sortOption : sortingOptions){
+            sortJoiner.add(sortOption);
+        }
         if(columnLabel.equals("All")){
             ResultSet columns = statement.executeQuery(
                 "SHOW COLUMNS FROM " + tableName
@@ -43,15 +55,15 @@ public class DatabaseDriver {
                 valuesJoiner.add(columns.getString(1) + 
                 toBeSearched);
             }
-            query = String.format("SELECT * from %s WHERE %s LIMIT %d OFFSET %d", 
-            tableName, valuesJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
+            query = String.format("SELECT * from %s WHERE %s ORDER BY %s LIMIT %d OFFSET %d", 
+            tableName, valuesJoiner.toString(), sortJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
             columns.close();
         } else {
             query = (regex.equals("NULL")) ?
-            String.format("SELECT * from %s WHERE %s IS NULL LIMIT %d OFFSET %d", 
-            tableName, columnLabel, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)) :
-            String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' LIMIT %d OFFSET %d", 
-            tableName, columnLabel, regex, ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
+            String.format("SELECT * from %s WHERE %s ORDER BY %s IS NULL LIMIT %d OFFSET %d", 
+            tableName, columnLabel, sortJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1)) :
+            String.format("SELECT * from %s WHERE %s REGEXP \'(?i)%s\' ORDER BY %s LIMIT %d OFFSET %d", 
+            tableName, columnLabel, regex, sortJoiner.toString(), ITEMS_PER_READ, ITEMS_PER_READ * (page - 1));
         }
         ResultSet resultSet = statement.executeQuery(query);
         return resultSet;
