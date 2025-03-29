@@ -63,7 +63,7 @@ public class MainFrame extends JFrame{
         
         final PageHandler pageHandler = new PageHandler(mTable, searchBar, searchFieldList);
         searchBar.setPageHandler(pageHandler);
-
+        mTable.setPageHandler(pageHandler);
         final ChangeToTableButton cStdTblButton = new ChangeToStudentTableButton(pageHandler, sp, mTable, 
             new AddDataButton[]{addStdButton, addPrgButton, addClgButton}, 
             new DeleteDataButton[]{delStdButton, delPrgButton, delClgButton},

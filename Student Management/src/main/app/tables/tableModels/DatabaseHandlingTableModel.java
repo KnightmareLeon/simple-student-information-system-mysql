@@ -2,6 +2,7 @@ package main.app.tables.tableModels;
 
 import javax.swing.table.DefaultTableModel;
 
+import main.app.tables.pageHandler.PageHandler;
 import main.database.DatabaseDriver;
 
 import java.sql.ResultSet;
@@ -27,12 +28,9 @@ import java.sql.SQLException;
  */
 public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
-    /**
-     * Sees if there are any changes to the table model.
-     */
-    private boolean changed = false;
     private String tableName;
     private DatabaseDriver dbDriver;
+    private PageHandler pageHandler;
 
     public DatabaseHandlingTableModel(DatabaseDriver dbDriver){
         this.dbDriver = dbDriver;
@@ -81,12 +79,14 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     public void addData(String[] data) throws SQLException{
         dbDriver.addToTable(data, tableName);
-        this.addRow(data);
+        pageHandler.setUpPageHandling();
+        pageHandler.setPageText();
     }
 
     public void deleteData(int row) throws SQLException{
         dbDriver.deleteRecordInTable((String) this.getValueAt(row, 0), tableName);
-        this.removeRow(row);
+        pageHandler.setUpPageHandling();
+        pageHandler.setPageText();
     }
 
     public void editData(int row, String[] newData) throws SQLException{
@@ -99,9 +99,8 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
                 newData[i] : null;
         }
         dbDriver.updateRecordInTable(primaryKey, columnLabels, record, tableName);
-        for(int i = 0; i < this.getColumnCount(); i++){
-            this.setValueAt(newData[i], row, i);
-        }
+        pageHandler.setUpPageHandling();
+        pageHandler.setPageText();
     }
 
     public void batchEdit(int[] rows, String[] newData) throws SQLException{
@@ -114,17 +113,8 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             columnLabels[newData.length - i] = this.getColumnName(this.getColumnCount() - i).replaceAll(" ", "");
         }
         dbDriver.batchUpdateRecordsInTable(primaryKeys, columnLabels, newData, tableName);
-        int tableI = this.getColumnCount() - 1;
-        for(int row: rows){
-            for(int i = newData.length - 1; i > -1; i--){
-                if(!newData[i].equals("-")){
-                    this.setValueAt(newData[i], row, tableI--);
-                } else {
-                    tableI--;
-                }
-            }
-            tableI = this.getColumnCount() - 1;
-        }
+        pageHandler.setUpPageHandling();
+        pageHandler.setPageText();
     }
 
     public int getTotalRows() throws SQLException{
@@ -137,22 +127,13 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         , regex);
     }
 
-    /**
-     * Checks if the {@code CSVHandlingTableModel} has changed
-     * @return {@code true} if the {@code CSVHandlingTableModel} has changed,
-     * otherwise {@code false}
-     */
-    public boolean isChanged(){return changed;}
-
-    /**
-     * Sets the state of {@link #changed} for this {@code CSVHandlingTableModel}
-     * @param changed - {@code boolean} value
-     */
-    public void setChange(boolean changed){this.changed = changed;}
-
     protected void setTableName(String tableName){this.tableName = tableName;}
 
     public String getTableName(){return tableName;}
+
+    public void setPageHandler(PageHandler pageHandler){
+        this.pageHandler = pageHandler;
+    }
 
     @Override
     public boolean isCellEditable(int row, int column) {return false;}

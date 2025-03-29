@@ -6,6 +6,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
+import main.app.tables.pageHandler.PageHandler;
 import main.app.tables.tableModels.CollegeTableModel;
 import main.app.tables.tableModels.ProgramTableModel;
 import main.app.tables.tableModels.StudentTableModel;
@@ -27,7 +28,6 @@ public class ManagementTable extends JTable{
     private StudentTableModel stm;
     private TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>();
     private DatabaseDriver dbDriver;
-
     /**
      * Sets up all the {@link main.app.tables.tableModels.DatabaseHandlingTableModel
      * CSVHandlingTableModels} and specific {@code JTable} customizations.
@@ -37,8 +37,6 @@ public class ManagementTable extends JTable{
         this.ctm = new CollegeTableModel(this.dbDriver);
         this.ptm = new ProgramTableModel(this.dbDriver);
         this.stm = new StudentTableModel(this.dbDriver);
-        this.ctm.setPTM(this.ptm);
-        this.ptm.setSTM(this.stm);
         this.setModel(this.stm);
         this.getTableHeader().setResizingAllowed(false);
     }
@@ -105,5 +103,11 @@ public class ManagementTable extends JTable{
             this.getColumnModel().getColumn(i).setPreferredWidth((int) (width * (percentages[i] / TOTAL)));    
             this.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
+    }
+
+    public void setPageHandler(PageHandler pageHandler){
+        stm.setPageHandler(pageHandler);
+        ptm.setPageHandler(pageHandler);
+        ctm.setPageHandler(pageHandler);
     }
 }

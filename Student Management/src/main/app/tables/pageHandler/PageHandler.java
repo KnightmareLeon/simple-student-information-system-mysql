@@ -126,10 +126,11 @@ public class PageHandler extends JPanel{
             );
         }
         
-        first.setEnabled(currentPageIndex>1);
-        prev.setEnabled(currentPageIndex>1);
-        next.setEnabled(currentPageIndex<maxPageIndex);
-        last.setEnabled(currentPageIndex<maxPageIndex);
+        first.setEnabled(currentPageIndex > 1);
+        prev.setEnabled(currentPageIndex > 1);
+        next.setEnabled(currentPageIndex < maxPageIndex);
+        last.setEnabled(currentPageIndex < maxPageIndex);
+        if(currentPageIndex > maxPageIndex){currentPageIndex = maxPageIndex;}
         pageField.setText(Integer.toString(currentPageIndex));
     }
 }
