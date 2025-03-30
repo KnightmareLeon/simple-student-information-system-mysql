@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.WindowConstants;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -31,22 +32,31 @@ public class SortingFormDialog extends JDialog implements ItemListener, ActionLi
     private ManagementTable mTable;
     private PageHandler pageHandler;
     public SortingFormDialog(ManagementTable mTable, PageHandler pageHandler){
+        
         this.mTable = mTable;
         this.pageHandler = pageHandler;
+        
         this.setResizable(false);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setTitle("Sorting Options");
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        
         JPanel main = new JPanel(new BorderLayout());
         JPanel content = new JPanel();
         content.setLayout(new GridLayout(0,3,10,10));
-        int columnCount = mTable.getColumnCount();
+        
         content.add(new JLabel("Sort Order"));
         content.add(new JLabel("Sort By"));
         content.add(new JLabel("ASC or DESC"));
+        
+        int columnCount = mTable.getColumnCount();
         orderLabels = new JLabel[columnCount];
         checkBoxes = new JCheckBox[columnCount];
         ascOrDesc = new ButtonGroup[columnCount];
         ascOrDescPanel = new JPanel[columnCount];
+        
+        String[] currentSortOpts = ((DatabaseHandlingTableModel)mTable.getModel()).getSortingOptions();
+        
         for(int i = 0; i < columnCount; i++){
             orderLabels[i] = new JLabel("-");
             checkBoxes[i] = new JCheckBox(mTable.getColumnName(i));
@@ -64,8 +74,26 @@ public class SortingFormDialog extends JDialog implements ItemListener, ActionLi
             content.add(orderLabels[i]);
             content.add(checkBoxes[i]);
             content.add(ascOrDescPanel[i]);
+
+        }
+        
+        for(int j = 0; j < currentSortOpts.length; j++){
+            String[] splitSortOpt = currentSortOpts[j].split(" ");
+            String columnName = splitSortOpt[0];
+            String orderType = splitSortOpt[1];
+            for(int k = 0; k < orderLabels.length; k++){
+                if(mTable.getColumnName(k).replaceAll(" ","").equals(columnName)){
+                    checkBoxes[k].setSelected(true);
+                    if(orderType.equals("DESC")){
+                        ascOrDesc[k].setSelected((
+                            (JToggleButton)ascOrDescPanel[k].getComponent(1)).getModel(), true);
+                    }
+                }
+            }
+            
         }
 
+        content.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         saveSortingButton.addActionListener(this);
 
         main.add(content, BorderLayout.CENTER);

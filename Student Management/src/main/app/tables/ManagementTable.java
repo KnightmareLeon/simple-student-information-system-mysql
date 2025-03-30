@@ -37,6 +37,7 @@ public class ManagementTable extends JTable{
         this.stm = new StudentTableModel(this.dbDriver);
         this.setModel(this.stm);
         this.getTableHeader().setResizingAllowed(false);
+        this.getTableHeader().setReorderingAllowed(false);
     }
 
     public DatabaseDriver getdBDriver(){return this.dbDriver;}
