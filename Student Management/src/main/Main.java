@@ -10,7 +10,6 @@ import main.app.windows.LogInFrame;
  * Main class of the application
  */
 public class Main {
-
     public static void main(String[] args) {
         FlatDarkLaf.setup();
         LogInFrame logInFrame = new LogInFrame();

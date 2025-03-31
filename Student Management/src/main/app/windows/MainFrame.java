@@ -33,17 +33,13 @@ import main.database.DatabaseDriver;
  * {@link main.app.buttons.edit.EditDataButton EditButtons}, and
  * {@link main.app.tables.ManagementTable ManagementTable} are initialized here.
  */
-public class MainFrame extends JFrame{
+public class MainFrame extends DefaultFrame{
 
     /**
      * Adds all components needed to the frame. 
      */
     public MainFrame(DatabaseDriver dbDriver){
-
-        setResizable(true);     
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Student Management System");
-        setLayout(new BorderLayout());
+        this.setResizable(true);
         
         final ManagementTable mTable = new ManagementTable(dbDriver);
         final JScrollPane sp = new JScrollPane(mTable);

@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import java.util.StringJoiner;
 
 public class DatabaseDriver {
@@ -15,9 +16,42 @@ public class DatabaseDriver {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/ssis",
+            "jdbc:mysql://localhost:3306",
             username, password);
             statement = connection.createStatement();
+            statement.executeUpdate("CREATE DATABASE IF NOT EXISTS uniflow_ssis");
+            statement.executeUpdate("USE uniflow_ssis");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS colleges ( " +
+                "Code VARCHAR(5) NOT NULL, " +
+                "Name varchar(50) NOT NULL, " +
+                "PRIMARY KEY (Code), " +
+                "UNIQUE KEY name (Name))");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS programs ( " +
+                "Code VARCHAR(20) NOT NULL, " +
+                "Name VARCHAR(100) NOT NULL, " +
+                "CollegeCode VARCHAR(5) DEFAULT NULL, " +
+                "PRIMARY KEY (Code), " +
+                "UNIQUE KEY Name (Name), " +
+                "KEY CollegeCode (CollegeCode), " +
+                "CONSTRAINT programs_ibfk_1 FOREIGN KEY (CollegeCode) " +
+                "REFERENCES colleges (Code) " +
+                "ON DELETE SET NULL ON UPDATE CASCADE)");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS students ( " +
+                "ID CHAR(9) NOT NULL, " +
+                "FirstName VARCHAR(100) NOT NULL, " +
+                "LastName VARCHAR(100) NOT NULL, " +
+                "YearLevel ENUM(\'1\',\'2\',\'3\',\'4\',\'5\',\'5+\') NOT NULL, " +
+                "Gender ENUM(\'M\',\'F\',\'LGBTQIA+\') NOT NULL, " +
+                "ProgramCode VARCHAR(20) DEFAULT NULL, " +
+                "PRIMARY KEY (ID), " +
+                "KEY ProgramCode (ProgramCode), " +
+                "CONSTRAINT students_ibfk_1 FOREIGN KEY (ProgramCode) " +
+                "REFERENCES programs (Code) " +
+                "ON DELETE SET NULL " +
+                "ON UPDATE CASCADE, " +
+                "CONSTRAINT chk_ID_format CHECK (" +
+                "REGEXP_LIKE(ID, _utf8mb4\'^(19[6-9][0-9]|20[0-9]{2})-(?!0000)[0-9]{4}$\')))"
+            );
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

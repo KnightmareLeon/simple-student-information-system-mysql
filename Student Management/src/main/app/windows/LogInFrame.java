@@ -1,6 +1,5 @@
 package main.app.windows;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -14,7 +13,6 @@ import java.sql.SQLException;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,13 +22,10 @@ import javax.swing.KeyStroke;
 
 import main.database.DatabaseDriver;
 
-public class LogInFrame extends JFrame{
+public class LogInFrame extends DefaultFrame{
 
     public LogInFrame(){
         this.setResizable(false);
-        this.setTitle("Student Management System");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
         
         final JLabel header = new JLabel("Login");
         header.setFont(header.getFont().deriveFont(Font.BOLD, 70));
