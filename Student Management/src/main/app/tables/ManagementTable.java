@@ -26,9 +26,10 @@ public class ManagementTable extends JTable{
     private ProgramTableModel ptm;
     private StudentTableModel stm;
     private DatabaseDriver dbDriver;
+
     /**
      * Sets up all the {@link main.app.tables.tableModels.DatabaseHandlingTableModel
-     * CSVHandlingTableModels} and specific {@code JTable} customizations.
+     * DatabaseHandlingTableModels} and specific {@code JTable} customizations.
      */
     public ManagementTable(DatabaseDriver dbDriver){
         this.dbDriver = dbDriver;
@@ -65,9 +66,8 @@ public class ManagementTable extends JTable{
     
     /**
      * Does the original {@link javax.swing.JTable#setModel(TableModel) setModel} from
-     * {@code JTable} but also sets the {@link #rowSorter} model, programatically
-     * sorts specific columns using {@link #initialSort()}, and adjusts columns widths
-     * based on the {@code CSVHandlingTableModel} that was set using {@link #setColumns}.
+     * {@code JTable} and adjusts columns widths based on the {@code DatabaseHandlingTableModel} 
+     * that was set using {@link #setColumns}.
      */
     @Override
     public void setModel(TableModel tableModel){
@@ -93,7 +93,8 @@ public class ManagementTable extends JTable{
         DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer();
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         for(int i = 0; i < this.getColumnCount(); i++){
-            this.getColumnModel().getColumn(i).setPreferredWidth((int) (width * (percentages[i] / TOTAL)));    
+            this.getColumnModel().getColumn(i).setPreferredWidth(
+                (int) (width * (percentages[i] / TOTAL)));    
             this.getColumnModel().getColumn(i).setCellRenderer(cellRenderer);
         }
     }

@@ -20,8 +20,8 @@ public abstract class AddDataButton extends DataFormButton{
     private ImageIcon plus = new ImageIcon(ICON_FILE_DIRECTORY + "plus-sign-svgrepo-com.png");
     private Image plusImg = plus.getImage();
     private Image scaledImg = plusImg.getScaledInstance((int)(WIDTH * 0.13),(int)(HEIGHT * 0.55), Image.SCALE_SMOOTH);
-    public AddDataButton(ManagementTable mTable, MainFrame mainFrame) {
-        super(mTable, mainFrame);
+    public AddDataButton(MainFrame mainFrame, ManagementTable mTable) {
+        super(mainFrame, mTable);
         this.setActionText("Add ");
         this.setIcon(new ImageIcon(this.scaledImg));
         this.setBackground(new Color(1, 50, 32));

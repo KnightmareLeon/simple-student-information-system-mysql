@@ -20,38 +20,30 @@ import main.app.windows.MainFrame;
  * a {@link main.app.windows.DataFormDialog DataFrame} in which the 
  * will components be set up in.
  */
-public abstract class DataFormButton extends DataButton{
-    private DataFormDialog dFrame;
+public abstract class DataFormButton extends DataButton implements ActionListener{
+    private DataFormDialog dataFormDialog;
     private GridBagLayout gbl;
     private GridBagConstraints gbc;
     private JButton actionButton;
-    public DataFormButton(ManagementTable mTable, MainFrame mainFrame){
-        super(mainFrame);
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e){
-                setUp(mTable);
-            }
-        });
-        
+
+    private ManagementTable mTable;
+    public DataFormButton(MainFrame mFrame, ManagementTable mTable){
+        super(mFrame);
+        this.addActionListener(this);
     }
 
-    /**
-     * Initializes the {@link main.app.windows.DataFormDialog DataFrame}
-     * and components.
-     * @param mTable
-     */
-    private void setUp(ManagementTable mTable){
-        this.dFrame = new DataFormDialog();
+    @Override
+    public void actionPerformed(ActionEvent ae){
+        this.dataFormDialog = new DataFormDialog();
         this.gbl = new GridBagLayout();
         this.gbc = new GridBagConstraints();
-        this.dFrame.setLayout(gbl);
+        this.dataFormDialog.setLayout(gbl);
         this.actionButton = new JButton();
         try {
             this.setUpComponents(mTable);
-            this.dFrame.pack();
-            this.dFrame.setLocationRelativeTo(null);
-            this.dFrame.setVisible(true);
+            this.dataFormDialog.pack();
+            this.dataFormDialog.setLocationRelativeTo(null);
+            this.dataFormDialog.setVisible(true);
         } catch (NoRowSelectedException | MultiEditCollegeException | EmptyTableException e) {
             e.startErrorWindow(mainFrame);
             e.printStackTrace();
@@ -60,7 +52,7 @@ public abstract class DataFormButton extends DataButton{
 
     /**
      * Sets up components for handling data.
-     * @param mTable - this app's custom {@code JTable} that also includes {@code DataMap}
+     * @param mTable - this app's custom {@code JTable} that also includes the {@code DatabaseDriver}
      * @throws NoRowSelectedException when user doesn't select a row in the 
      * {@code ManagementTable}. (NOTE: Only {@link main.app.buttons.edit.EditDataButton
      * EditDataButtons} will throw this.)
@@ -78,7 +70,7 @@ public abstract class DataFormButton extends DataButton{
      * Gets the {@link main.app.windows.DataFormDialog DataFrame} that will be initialized.
      * @return {@code DataFrame}
      */
-    protected DataFormDialog getDataFrame(){return this.dFrame;}
+    protected DataFormDialog getDataDialog(){return this.dataFormDialog;}
 
     /**
      * Gets the {@link java.awt.GridBagConstraints GridBagConstraints} used for

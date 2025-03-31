@@ -8,7 +8,6 @@ import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,17 +46,17 @@ public class MainFrame extends DefaultFrame{
         final SearchFieldList searchFieldList = new SearchFieldList(mTable);
         final SearchBar searchBar = new SearchBar();
         
-        final AddDataButton addStdButton = new AddStudentButton(mTable, this);
-        final AddDataButton addPrgButton = new AddProgramButton(mTable, this);
-        final AddDataButton addClgButton = new AddCollegeButton(mTable, this);
+        final AddDataButton addStdButton = new AddStudentButton(this, mTable);
+        final AddDataButton addPrgButton = new AddProgramButton(this, mTable);
+        final AddDataButton addClgButton = new AddCollegeButton(this, mTable);
     
         final DeleteDataButton delStdButton = new DeleteStudentButton(mTable, this);
         final DeleteDataButton delPrgButton = new DeleteProgramButton(mTable, this);
         final DeleteDataButton delClgButton = new DeleteCollegeButton(mTable, this);
     
-        final EditDataButton editStdButton = new EditStudentButton(mTable, this);
-        final EditDataButton editPrgButton = new EditProgramButton(mTable, this);
-        final EditDataButton editClgButton = new EditCollegeButton(mTable, this);
+        final EditDataButton editStdButton = new EditStudentButton(this, mTable);
+        final EditDataButton editPrgButton = new EditProgramButton(this, mTable);
+        final EditDataButton editClgButton = new EditCollegeButton(this, mTable);
         
         final PageHandler pageHandler = new PageHandler(mTable, searchBar, searchFieldList);
         searchBar.setPageHandler(pageHandler);
@@ -169,7 +168,7 @@ public class MainFrame extends DefaultFrame{
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 100, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100);
         setLocationRelativeTo(null);
         setVisible(true);  
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setExtendedState(DefaultFrame.MAXIMIZED_BOTH);
 
     }
 

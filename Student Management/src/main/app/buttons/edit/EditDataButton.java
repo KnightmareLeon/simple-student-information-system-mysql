@@ -21,8 +21,8 @@ public abstract class EditDataButton extends DataFormButton {
     private Image editImg = edit.getImage();
     private Image scaledImg = editImg.getScaledInstance((int)(WIDTH * 0.09),(int)(HEIGHT * 0.48), Image.SCALE_SMOOTH);
 
-    public EditDataButton(ManagementTable mTable, MainFrame mainFrame) {
-        super(mTable, mainFrame);
+    public EditDataButton(MainFrame mainFrame, ManagementTable mTable) {
+        super(mainFrame, mTable);
         this.setActionText("Edit ");
         this.setIcon(new ImageIcon(this.scaledImg));
         this.setBackground(new Color(139, 128, 0));

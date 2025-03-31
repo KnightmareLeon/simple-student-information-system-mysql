@@ -28,8 +28,8 @@ import main.app.windows.MainFrame;
 public class EditProgramButton extends EditDataButton{
 
     private ProgramInput prgInput;
-    public EditProgramButton(ManagementTable mTable, MainFrame mainFrame) {
-        super(mTable, mainFrame);
+    public EditProgramButton(MainFrame mainFrame, ManagementTable mTable) {
+        super(mainFrame, mTable);
         this.setDataText("Program");
         this.setText(this.getActionDataText());
         this.setVisible(false);
@@ -37,12 +37,12 @@ public class EditProgramButton extends EditDataButton{
 
     @Override
     protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException {
-        this.getDataFrame().setTitle("Edit Program");
+        this.getDataDialog().setTitle("Edit Program");
 
         if(mTable.getSelectedRowCount() == 1){
-            prgInput = new ProgramInput(this.getDataFrame(), mTable, this.getGBC(), InputType.EDIT_SINGLE);
+            prgInput = new ProgramInput(this.getDataDialog(), mTable, this.getGBC(), InputType.EDIT_SINGLE);
         } else {
-            prgInput = new ProgramInput(this.getDataFrame(), mTable, this.getGBC(), InputType.EDIT_MULTIPLE);
+            prgInput = new ProgramInput(this.getDataDialog(), mTable, this.getGBC(), InputType.EDIT_MULTIPLE);
         }
         
         //Edit Button
@@ -57,7 +57,7 @@ public class EditProgramButton extends EditDataButton{
         this.getGBC().gridx = 0; ++this.getGBC().gridy; 
         this.getGBC().gridwidth = 3;
         this.getGBC().fill = GridBagConstraints.HORIZONTAL;
-        this.getDataFrame().add(this.getActionButton(), this.getGBC());
+        this.getDataDialog().add(this.getActionButton(), this.getGBC());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class EditProgramButton extends EditDataButton{
     
                 mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data);
                 JOptionPane.showMessageDialog(getActionButton(), "Program edited successfully!");
-                getDataFrame().dispose();
+                getDataDialog().dispose();
         
             } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                 e.printStackTrace();
@@ -103,7 +103,7 @@ public class EditProgramButton extends EditDataButton{
                 e.printStackTrace();
             }
             JOptionPane.showMessageDialog(getActionButton(), "Programs edited successfully!");
-            getDataFrame().dispose();
+            getDataDialog().dispose();
         }
         
     }

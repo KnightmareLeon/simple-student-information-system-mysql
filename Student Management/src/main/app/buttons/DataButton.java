@@ -33,10 +33,16 @@ public class DataButton extends JButton{
      */
     protected void setDataText(String data){this.data = data;}
 
+
+    /**
+     * Gets both the data text
+     * @return {@link #actionText} and {@link #data}
+     */
     protected String getDataText(){return this.data;}
+    
     /**
      * Gets both the action and data text
      * @return {@link #actionText} and {@link #data}
      */
-    protected String getActionDataText(){return actionText + data;}
+    protected String getActionDataText(){return this.actionText + this.data;}
 }

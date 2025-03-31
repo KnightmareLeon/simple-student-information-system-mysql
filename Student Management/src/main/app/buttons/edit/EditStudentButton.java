@@ -28,20 +28,20 @@ import main.app.windows.MainFrame;
 public class EditStudentButton extends EditDataButton{
 
     private StudentInput stdInput;
-    public EditStudentButton(ManagementTable mTable, MainFrame mainFrame) {
-        super(mTable, mainFrame);
+    public EditStudentButton(MainFrame mainFrame, ManagementTable mTable) {
+        super(mainFrame, mTable);
         this.setDataText("Student");
         this.setText(this.getActionDataText());
     }
     
     @Override
     protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException {
-        this.getDataFrame().setTitle("Edit Student");
+        this.getDataDialog().setTitle("Edit Student");
 
         if(mTable.getSelectedRowCount() == 1){
-            stdInput = new StudentInput(this.getDataFrame(), mTable, this.getGBC(), InputType.EDIT_SINGLE);
+            stdInput = new StudentInput(this.getDataDialog(), mTable, this.getGBC(), InputType.EDIT_SINGLE);
         } else {
-            stdInput = new StudentInput(this.getDataFrame(), mTable, this.getGBC(), InputType.EDIT_MULTIPLE);
+            stdInput = new StudentInput(this.getDataDialog(), mTable, this.getGBC(), InputType.EDIT_MULTIPLE);
         }
         
         this.getActionButton().setText(this.getActionDataText());
@@ -53,7 +53,7 @@ public class EditStudentButton extends EditDataButton{
         });
 
         this.getGBC().gridy = 1; this.getGBC().fill = GridBagConstraints.HORIZONTAL;
-        this.getDataFrame().add(this.getActionButton(),this.getGBC());
+        this.getDataDialog().add(this.getActionButton(),this.getGBC());
     }
 
     @Override
@@ -95,7 +95,7 @@ public class EditStudentButton extends EditDataButton{
                 if(confirm){
                     mTable.getSTM().editData(mTable.convertRowIndexToModel(row), data);
                     JOptionPane.showMessageDialog(getActionButton(), "Student edited successfully!");
-                    getDataFrame().dispose();
+                    getDataDialog().dispose();
                 }
                
             } catch(EmptyInputException | NullPointerExceptionWithWindow | ExistingIDException e) {
@@ -116,7 +116,7 @@ public class EditStudentButton extends EditDataButton{
                 }
                 mTable.getSTM().batchEdit(rowArray, data);
                 JOptionPane.showMessageDialog(getActionButton(), "Students edited successfully!");
-                getDataFrame().dispose();
+                getDataDialog().dispose();
             } catch (NullPointerExceptionWithWindow e){
                 e.printStackTrace();
                 e.startErrorWindow(getActionButton());

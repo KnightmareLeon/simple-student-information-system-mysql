@@ -26,8 +26,8 @@ import main.app.windows.MainFrame;
  * @see ProgramInput {@code ProgramInput}
  */
 public class AddProgramButton extends AddDataButton{
-    public AddProgramButton(ManagementTable mTable, MainFrame mainFrame){
-        super(mTable, mainFrame);
+    public AddProgramButton(MainFrame mainFrame, ManagementTable mTable){
+        super(mainFrame, mTable);
         this.setDataText("Program");
         this.setText(this.getActionDataText());
         this.setVisible(false);
@@ -35,9 +35,9 @@ public class AddProgramButton extends AddDataButton{
 
     @Override
     protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException{
-        this.getDataFrame().setTitle("Add Program");
+        this.getDataDialog().setTitle("Add Program");
 
-        ProgramInput pInput = new ProgramInput(this.getDataFrame(), mTable, this.getGBC(), InputType.ADD);
+        ProgramInput pInput = new ProgramInput(this.getDataDialog(), mTable, this.getGBC(), InputType.ADD);
         
         //Add Button
         this.getActionButton().setText("Add Program");
@@ -58,7 +58,7 @@ public class AddProgramButton extends AddDataButton{
                         };
                         mTable.getPTM().addData(data);
                         JOptionPane.showMessageDialog(getActionButton(), "Program added successfully!");
-                        getDataFrame().dispose();
+                        getDataDialog().dispose();
                     }
                 } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                     e.printStackTrace();
@@ -71,6 +71,6 @@ public class AddProgramButton extends AddDataButton{
 
         this.getGBC().gridx = 0; this.getGBC().gridy = 4; this.getGBC().gridwidth = 3;
         this.getGBC().fill = GridBagConstraints.HORIZONTAL;
-        this.getDataFrame().add(getActionButton(), this.getGBC());
+        this.getDataDialog().add(getActionButton(), this.getGBC());
     }   
 }

@@ -26,8 +26,8 @@ import main.app.windows.MainFrame;
  * @see StudentInput {@code StudentInput}
  */
 public class AddStudentButton extends AddDataButton{
-    public AddStudentButton(ManagementTable mTable, MainFrame mainFrame){
-        super(mTable, mainFrame);
+    public AddStudentButton(MainFrame mainFrame, ManagementTable mTable){
+        super(mainFrame, mTable);
         this.setDataText("Student");
         this.setText(this.getActionDataText());
         this.setVisible(true);
@@ -35,9 +35,9 @@ public class AddStudentButton extends AddDataButton{
     
     @Override
     protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, EmptyTableException{
-        this.getDataFrame().setTitle("Add Student");
+        this.getDataDialog().setTitle("Add Student");
 
-        StudentInput stdInput = new StudentInput(this.getDataFrame(), mTable, this.getGBC(), InputType.ADD);
+        StudentInput stdInput = new StudentInput(this.getDataDialog(), mTable, this.getGBC(), InputType.ADD);
         
         //Add Student
         this.getActionButton().setText("Add Student");
@@ -78,7 +78,7 @@ public class AddStudentButton extends AddDataButton{
                     if(confirm){
                         mTable.getSTM().addData(data);
                         JOptionPane.showMessageDialog(getActionButton(), "Student added successfully!");
-                        getDataFrame().dispose();
+                        getDataDialog().dispose();
 
                     }
 
@@ -94,6 +94,6 @@ public class AddStudentButton extends AddDataButton{
         //Adding Components
         
         this.getGBC().gridy = 1; this.getGBC().fill = GridBagConstraints.HORIZONTAL;
-        this.getDataFrame().add(this.getActionButton(),this.getGBC());
+        this.getDataDialog().add(this.getActionButton(),this.getGBC());
     }
 }

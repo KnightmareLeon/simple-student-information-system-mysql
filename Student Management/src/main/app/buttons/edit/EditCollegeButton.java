@@ -27,8 +27,8 @@ import main.app.windows.MainFrame;
  */
 public class EditCollegeButton extends EditDataButton{
     private CollegeInput clgInput;
-    public EditCollegeButton(ManagementTable mTable, MainFrame mainFrame) {
-        super(mTable, mainFrame);
+    public EditCollegeButton(MainFrame mainFrame, ManagementTable mTable) {
+        super(mainFrame, mTable);
         this.setDataText("College");
         this.setText(this.getActionDataText());
         this.setVisible(false);
@@ -36,9 +36,9 @@ public class EditCollegeButton extends EditDataButton{
 
     @Override
     protected void setUpComponents(ManagementTable mTable) throws NoRowSelectedException, MultiEditCollegeException {
-        this.getDataFrame().setTitle("Edit College");
+        this.getDataDialog().setTitle("Edit College");
         if(mTable.getSelectedRowCount() <= 1){
-            clgInput = new CollegeInput(this.getDataFrame(), mTable, this.getGBC(), InputType.EDIT_SINGLE);
+            clgInput = new CollegeInput(this.getDataDialog(), mTable, this.getGBC(), InputType.EDIT_SINGLE);
         } else {
             throw new MultiEditCollegeException();
         }
@@ -55,7 +55,7 @@ public class EditCollegeButton extends EditDataButton{
 
         this.getGBC().gridx = 0; this.getGBC().gridy = 2; this.getGBC().gridwidth = 3; 
         this.getGBC().fill = GridBagConstraints.HORIZONTAL;
-        this.getDataFrame().add(this.getActionButton(),this.getGBC());
+        this.getDataDialog().add(this.getActionButton(),this.getGBC());
 
     }
 
@@ -77,7 +77,7 @@ public class EditCollegeButton extends EditDataButton{
             };
             mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data);
             JOptionPane.showMessageDialog(getActionButton(), "College edited successfully!");
-            getDataFrame().dispose();
+            getDataDialog().dispose();
         } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){
             e.printStackTrace();
             e.startErrorWindow(getActionButton());

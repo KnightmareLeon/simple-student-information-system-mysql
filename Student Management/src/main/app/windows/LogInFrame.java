@@ -38,7 +38,7 @@ public class LogInFrame extends DefaultFrame{
         final JPasswordField passwordField = new JPasswordField();
         passwordField.setPreferredSize(new Dimension(450,30));
 
-        final JButton logInButton = new JButton("Login");
+        final JButton logInButton = new JButton("Log in");
         logInButton.setPreferredSize(new Dimension(100,30));
         logInButton.putClientProperty( "JButton.buttonType", "roundRect" );
         logInButton.addActionListener(new ActionListener() {
@@ -48,14 +48,13 @@ public class LogInFrame extends DefaultFrame{
             }
         });
         logInButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Login");
-        logInButton.getActionMap().put("Login", new AbstractAction() {
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Log in");
+        logInButton.getActionMap().put("Log in", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e){
                 login(userField.getText(), new String(passwordField.getPassword()));
             }
         });
-
 
         final JPanel content = new JPanel();
         content.setLayout(new GridBagLayout());

@@ -1,7 +1,6 @@
 package main.app.windows;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 /**
  * A custom {@code JDialog} that is initialized by
@@ -12,7 +11,7 @@ import javax.swing.JFrame;
 public class DataFormDialog extends JDialog {
     public DataFormDialog(){
         this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
     }
 }

@@ -12,7 +12,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-import javax.swing.WindowConstants;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -31,6 +30,7 @@ public class SortingFormDialog extends JDialog implements ItemListener, ActionLi
 
     private ManagementTable mTable;
     private PageHandler pageHandler;
+
     public SortingFormDialog(ManagementTable mTable, PageHandler pageHandler){
         
         this.mTable = mTable;
@@ -39,7 +39,7 @@ public class SortingFormDialog extends JDialog implements ItemListener, ActionLi
         this.setResizable(false);
         this.setModalityType(ModalityType.APPLICATION_MODAL);
         this.setTitle("Sorting Options");
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         
         JPanel main = new JPanel(new BorderLayout());
         JPanel content = new JPanel();
