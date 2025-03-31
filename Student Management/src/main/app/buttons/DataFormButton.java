@@ -29,6 +29,7 @@ public abstract class DataFormButton extends DataButton implements ActionListene
     private ManagementTable mTable;
     public DataFormButton(MainFrame mFrame, ManagementTable mTable){
         super(mFrame);
+        this.mTable = mTable;
         this.addActionListener(this);
     }
 
