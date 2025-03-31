@@ -50,9 +50,9 @@ public class MainFrame extends DefaultFrame{
         final AddDataButton addPrgButton = new AddProgramButton(this, mTable);
         final AddDataButton addClgButton = new AddCollegeButton(this, mTable);
     
-        final DeleteDataButton delStdButton = new DeleteStudentButton(mTable, this);
-        final DeleteDataButton delPrgButton = new DeleteProgramButton(mTable, this);
-        final DeleteDataButton delClgButton = new DeleteCollegeButton(mTable, this);
+        final DeleteDataButton delStdButton = new DeleteStudentButton(this, mTable);
+        final DeleteDataButton delPrgButton = new DeleteProgramButton(this, mTable);
+        final DeleteDataButton delClgButton = new DeleteCollegeButton(this, mTable);
     
         final EditDataButton editStdButton = new EditStudentButton(this, mTable);
         final EditDataButton editPrgButton = new EditProgramButton(this, mTable);

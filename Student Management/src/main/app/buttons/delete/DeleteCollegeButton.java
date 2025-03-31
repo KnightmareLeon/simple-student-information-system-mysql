@@ -15,8 +15,8 @@ import main.app.windows.MainFrame;
  * DataMap}.
  */
 public class DeleteCollegeButton extends DeleteDataButton{
-    public DeleteCollegeButton(ManagementTable mTable, MainFrame mainFrame){
-        super(mTable, mainFrame);
+    public DeleteCollegeButton(MainFrame mainFrame, ManagementTable mTable){
+        super(mainFrame, mTable);
         this.setDataText("College");
         this.setText(this.getActionDataText());
         this.setVisible(false);

@@ -13,8 +13,8 @@ import java.util.Arrays;
  */
 public class DeleteStudentButton extends DeleteDataButton{
 
-    public DeleteStudentButton(ManagementTable mTable, MainFrame mainFrame) {
-        super(mTable, mainFrame);
+    public DeleteStudentButton(MainFrame mainFrame, ManagementTable mTable) {
+        super(mainFrame, mTable);
         this.setDataText("Student");
         this.setText(this.getActionDataText());
     }

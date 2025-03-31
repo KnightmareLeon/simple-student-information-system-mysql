@@ -15,8 +15,8 @@ import main.app.windows.MainFrame;
  * DataMap}.
  */
 public class DeleteProgramButton extends DeleteDataButton{
-    public DeleteProgramButton(ManagementTable mTable, MainFrame mainFrame){
-        super(mTable, mainFrame);
+    public DeleteProgramButton(MainFrame mainFrame, ManagementTable mTable){
+        super(mainFrame, mTable);
         this.setDataText("Program");
         this.setText(this.getActionDataText());
         this.setVisible(false);
