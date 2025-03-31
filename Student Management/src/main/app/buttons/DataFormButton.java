@@ -4,8 +4,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.KeyStroke;
 
 import main.app.errors.EmptyTableException;
 import main.app.errors.MultiEditCollegeException;
@@ -40,6 +43,14 @@ public abstract class DataFormButton extends DataButton implements ActionListene
         this.gbc = new GridBagConstraints();
         this.dataFormDialog.setLayout(gbl);
         this.actionButton = new JButton();
+        this.actionButton.getInputMap(WHEN_IN_FOCUSED_WINDOW).put(
+            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Do Action");
+        this.actionButton.getActionMap().put("Do Action", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                actionButton.doClick();
+            }
+        });
         try {
             this.setUpComponents(mTable);
             this.dataFormDialog.pack();

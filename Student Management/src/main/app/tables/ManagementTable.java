@@ -1,5 +1,8 @@
 package main.app.tables;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -39,6 +42,14 @@ public class ManagementTable extends JTable{
         this.setModel(this.stm);
         this.getTableHeader().setResizingAllowed(false);
         this.getTableHeader().setReorderingAllowed(false);
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e){
+                if(e.getButton()== MouseEvent.BUTTON3){
+                    clearSelection();
+                }
+            }
+        });
     }
 
     public DatabaseDriver getdBDriver(){return this.dbDriver;}
