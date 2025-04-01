@@ -36,7 +36,6 @@ public class SearchBar extends UpperCaseTextField{
             public void actionPerformed(ActionEvent e) {
                 if(getText().length() > 0){
                     pageHandler.setToSearching();
-                    
                 } else{
                     pageHandler.setToNotSearching();
                 }

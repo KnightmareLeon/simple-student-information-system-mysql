@@ -16,7 +16,7 @@ public class UpperCaseOnlyDocumentFilter extends UpperCaseDocumentFilter{
     @Override
     public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
         if (text != null) {
-              text = text.replaceAll("[$&+,:;=?@#|\"<>.^*()\\[\\]{}\\/%!0-9]", "");
+            text = text.replaceAll("[$&+,:;=?@#|\"<>.^*()\\[\\]{}\\/%!0-9]", "");
         }
         super.replace(fb, offset, length, text, attrs);
     }

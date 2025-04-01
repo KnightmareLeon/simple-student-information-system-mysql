@@ -79,7 +79,7 @@ public class StudentInput extends DataInput{
     private JRadioButton yThreeButton = new JRadioButton("3");
     private JRadioButton yFourButton = new JRadioButton("4");
     private JRadioButton yFiveButton = new JRadioButton("5");
-    private JRadioButton yFivePlusButton = new JRadioButton("5+");
+    private JRadioButton ySixPlusButton = new JRadioButton("6+");
     private JRadioButton yNoUpdateButton = new JRadioButton("-");
 
     //Input Buttons for Gender
@@ -96,22 +96,20 @@ public class StudentInput extends DataInput{
     private String[] prgCodeList; //Program Code List
 
     /**
-     * @param dFrame - this app's custom {@code JFrame} in which the components
+     * @param dataDialog - this app's custom {@code JDialog} in which the components
      * will be displayed.
-     * @param dMap - {@code DataMap} that handles and maps all data during 
-     * the application's runtime.
-     * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataFrame}.
+     * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataDialog}.
      * @throws NoRowSelectedException when user doesn't select a row in the 
      * {@code ManagementTable}.
      * @throws EmptyTableException 
     */
-    public StudentInput(DataFormDialog dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
+    public StudentInput(DataFormDialog dataFormDialog, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
-        this.setUpComponents(dFrame, mTable, frameGBC);
+        this.setUpComponents(dataFormDialog, mTable, frameGBC);
     }
 
     @Override
-    protected void setUpComponents(DataFormDialog dFrame, 
+    protected void setUpComponents(DataFormDialog dataFormDialog, 
                                    ManagementTable mTable, 
                                    GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
         frameGBC.insets = new Insets(5, 5, 5, 5);
@@ -125,7 +123,7 @@ public class StudentInput extends DataInput{
         this.ylList.add(yThreeButton); this.ylPanel.add(this.yThreeButton); this.yThreeButton.setActionCommand(this.yThreeButton.getText());
         this.ylList.add(yFourButton); this.ylPanel.add(this.yFourButton); this.yFourButton.setActionCommand(this.yFourButton.getText());
         this.ylList.add(yFiveButton); this.ylPanel.add(this.yFiveButton); this.yFiveButton.setActionCommand(this.yFiveButton.getText());
-        this.ylList.add(yFivePlusButton); this.ylPanel.add(this.yFivePlusButton); this.yFivePlusButton.setActionCommand(this.yFivePlusButton.getText());
+        this.ylList.add(ySixPlusButton); this.ylPanel.add(this.ySixPlusButton); this.ySixPlusButton.setActionCommand(this.ySixPlusButton.getText());
 
         //Setting up Gender Buttons
         this.gPanel.setLayout(new GridBagLayout());
@@ -238,7 +236,7 @@ public class StudentInput extends DataInput{
         }
         
         frameGBC.gridx = frameGBC.gridy = 0;
-        dFrame.add(inputPanel, frameGBC);
+        dataFormDialog.add(inputPanel, frameGBC);
         frameGBC.ipady = 10;
         
         if(this.inputType == InputType.EDIT_SINGLE || this.inputType == InputType.EDIT_MULTIPLE){
@@ -266,8 +264,8 @@ public class StudentInput extends DataInput{
                 this.ylList.setSelected(yFourButton.getModel(), true);
             } else if(prevYL.equals(yFiveButton.getText())){
                 this.ylList.setSelected(yFiveButton.getModel(), true);
-            } else if(prevYL.equals(yFivePlusButton.getText())){
-                this.ylList.setSelected(yFivePlusButton.getModel(), true);
+            } else if(prevYL.equals(ySixPlusButton.getText())){
+                this.ylList.setSelected(ySixPlusButton.getModel(), true);
             }
             if(prevG.equals(maleButton.getText())){
                 this.gList.setSelected(maleButton.getModel(), true);

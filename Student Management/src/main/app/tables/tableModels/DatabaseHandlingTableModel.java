@@ -59,9 +59,15 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     
     public void getData(int page, String columnLabel, String regex){
         this.setRowCount(0);
+        String newRegex = "";
+        for(char regexChar : regex.toCharArray()){
+            newRegex += (Character.toString(regexChar).matches("[.+*?^$()\\[\\]{}\\|]")) ?
+                "\\\\" + regexChar : regexChar;
+        }
+        System.out.println(newRegex);
         try {
             ResultSet resultSet = dbDriver.readFromTable(tableName, page, 
-            columnLabel.replaceAll(" ", ""), regex, sortingOptions);
+            columnLabel.replaceAll(" ", ""), newRegex, sortingOptions);
             ResultSetMetaData rsmd = resultSet.getMetaData();
             int c = rsmd.getColumnCount();
             while(resultSet.next()){
@@ -122,9 +128,14 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
     }
 
     public int getTotalRows(String columnLabel, String regex) throws SQLException{
+        String newRegex = "";
+        for(char regexChar : regex.toCharArray()){
+            newRegex += (Character.toString(regexChar).matches("[.+*?^$()\\[\\]{}\\|]")) ?
+                "\\\\" + regexChar : regexChar;
+        }
         return dbDriver.totalRowsFromTable(tableName, 
         columnLabel.replaceAll(" ", "")
-        , regex);
+        , newRegex);
     }
 
     protected void setTableName(String tableName){this.tableName = tableName;}
