@@ -64,7 +64,6 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             newRegex += (Character.toString(regexChar).matches("[.+*?^$()\\[\\]{}\\|]")) ?
                 "\\\\" + regexChar : regexChar;
         }
-        System.out.println(newRegex);
         try {
             ResultSet resultSet = dbDriver.readFromTable(tableName, page, 
             columnLabel.replaceAll(" ", ""), newRegex, sortingOptions);
