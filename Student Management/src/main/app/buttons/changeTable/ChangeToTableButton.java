@@ -43,6 +43,7 @@ public abstract class ChangeToTableButton extends JToggleButton{
         searchFieldList.set();
         
         pageHandler.setCurrentPageIndex(1);
+        pageHandler.setToNotSearching();
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
     }
