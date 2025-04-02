@@ -21,16 +21,9 @@ import main.app.windows.DataFormDialog;
 
 /**
  * <p>
- * Sets up the components needed to handle a {@link main.data.dataClass.Program 
- * Program}'s data. 
- * <li> These include:
- * <ul>
- * <li> Code
- * <li> Name
- * <li> College Code (Depends on data in 
- * {@link main.data.maps.CollegeMap CollegeMap}
- * that is in {@link DataMap})
- * </ul>
+ * Sets up the components needed to add or update data to the programs 
+ * table of this application's designated MySQL database.
+ * </p>
  * @see StudentInput {@code StudentInput}
  * @see CollegeInput {@code CollegeInput}
  */
@@ -49,24 +42,30 @@ public class ProgramInput extends DataInput{
     private JComboBox<String> cCodeList;
 
     /**
-     * @param dFrame - this app's custom {@code JFrame} in which the components 
-     * will be displayed
-     * @param dMap - {@code DataMap} that handles and maps all data during 
-     * the application's runtime.
-     * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataFrame}
-     * @throws NoRowSelectedException when user doesn't select a row in the 
+     * 
+     * @param dataFormDialog - this app's custom {@code JDialog} in which the components 
+     * for adding or editing data will be displayed.
+     * @param mTable - the app's custom {@code JTable} for displaying data.
+     * @param dialogGBC - {@code GridBagConstrainsts} of the {@code DataFormDialog}.
+     * @param inputType - either {@code ADD} or {@code EDIT_SINGLE}
+     * @throws NoRowSelectedException when user doesn't select at least one row in the 
      * {@code ManagementTable}.
-          * @throws EmptyTableException 
-          */
-         public ProgramInput(DataFormDialog dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
+     * @throws EmptyTableException when there is still no data from its parent table.
+     * For the programs table, its parent table would be the colleges table.
+     */
+    public ProgramInput(DataFormDialog dataFormDialog,
+                        ManagementTable mTable,
+                        GridBagConstraints dialogGBC,
+                        InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
-        this.setUpComponents(dFrame, mTable, frameGBC);
+        this.setUpComponents(dataFormDialog, mTable, dialogGBC);
     }
 
     @Override
     protected void setUpComponents(DataFormDialog dFrame, 
                                    ManagementTable mTable, 
-                                   GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
+                                   GridBagConstraints dialogGBC) 
+                                   throws NoRowSelectedException, EmptyTableException{
         
         try {
             if(mTable.getdBDriver().isTableEmpty("colleges")){
@@ -98,30 +97,30 @@ public class ProgramInput extends DataInput{
             
         });
 
-        frameGBC.insets = new Insets(5, 5, 5, 5);
-        frameGBC.fill = GridBagConstraints.HORIZONTAL; 
-        frameGBC.ipady = 10;
+        dialogGBC.insets = new Insets(5, 5, 5, 5);
+        dialogGBC.fill = GridBagConstraints.HORIZONTAL; 
+        dialogGBC.ipady = 10;
         if(this.inputType == InputType.ADD || this.inputType == InputType.EDIT_SINGLE){
 
-            frameGBC.gridx = frameGBC.gridy = 0; dFrame.add(this.codeLabel, frameGBC);
-            frameGBC.gridy = 1; dFrame.add(this.nameLabel,frameGBC);        
-            frameGBC.gridy = 2; dFrame.add(this.cCodeLabel,frameGBC);
-            frameGBC.gridy = 3; dFrame.add(this.cNameLabel, frameGBC);
-            frameGBC.gridx = 1; frameGBC.gridy = 0; frameGBC.gridwidth = 2;
-            frameGBC.fill = GridBagConstraints.NONE; frameGBC.anchor = GridBagConstraints.LINE_START;
-            dFrame.add(this.codeField,frameGBC);
-            frameGBC.gridy = 1; dFrame.add(this.nameField, frameGBC);
-            frameGBC.gridy = 2; dFrame.add(this.cCodeList, frameGBC);
-            frameGBC.gridy = 3; dFrame.add(this.cName, frameGBC);
+            dialogGBC.gridx = dialogGBC.gridy = 0; dFrame.add(this.codeLabel, dialogGBC);
+            dialogGBC.gridy = 1; dFrame.add(this.nameLabel,dialogGBC);        
+            dialogGBC.gridy = 2; dFrame.add(this.cCodeLabel,dialogGBC);
+            dialogGBC.gridy = 3; dFrame.add(this.cNameLabel, dialogGBC);
+            dialogGBC.gridx = 1; dialogGBC.gridy = 0; dialogGBC.gridwidth = 2;
+            dialogGBC.fill = GridBagConstraints.NONE; dialogGBC.anchor = GridBagConstraints.LINE_START;
+            dFrame.add(this.codeField,dialogGBC);
+            dialogGBC.gridy = 1; dFrame.add(this.nameField, dialogGBC);
+            dialogGBC.gridy = 2; dFrame.add(this.cCodeList, dialogGBC);
+            dialogGBC.gridy = 3; dFrame.add(this.cName, dialogGBC);
         } else {
             this.cCodeList.addItem("-");
             this.cCodeList.setSelectedItem("-");
-            frameGBC.gridx = frameGBC.gridy = 0; dFrame.add(this.cCodeLabel,frameGBC);
-            frameGBC.gridy = 1; dFrame.add(this.cNameLabel, frameGBC);
-            frameGBC.gridx = 1; frameGBC.gridy = 0; frameGBC.gridwidth = 2;
-            frameGBC.fill = GridBagConstraints.NONE; frameGBC.anchor = GridBagConstraints.LINE_START;
-            dFrame.add(this.cCodeList, frameGBC);
-            frameGBC.gridy = 1; dFrame.add(this.cName, frameGBC);
+            dialogGBC.gridx = dialogGBC.gridy = 0; dFrame.add(this.cCodeLabel,dialogGBC);
+            dialogGBC.gridy = 1; dFrame.add(this.cNameLabel, dialogGBC);
+            dialogGBC.gridx = 1; dialogGBC.gridy = 0; dialogGBC.gridwidth = 2;
+            dialogGBC.fill = GridBagConstraints.NONE; dialogGBC.anchor = GridBagConstraints.LINE_START;
+            dFrame.add(this.cCodeList, dialogGBC);
+            dialogGBC.gridy = 1; dFrame.add(this.cName, dialogGBC);
         }
         
         if(this.inputType == InputType.EDIT_SINGLE || this.inputType == InputType.EDIT_MULTIPLE){

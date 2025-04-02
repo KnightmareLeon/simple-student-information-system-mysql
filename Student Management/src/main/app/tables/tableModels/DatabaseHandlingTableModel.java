@@ -11,20 +11,13 @@ import java.sql.SQLException;
 
 /**
  * An abstract class that is a custom {@code DefaultTableModel} that handles
- * the CSV files in which this application's data is stored. It can read and
- * save data to the csv file that is designated in its {@code fileName} field.
- * It also calls the {@code DataMap} that handles data during the application's 
- * runtime.
- * <p>
- * Can implement the {@code OtherTableModelEditor} interface to allow the 
- * {@code CSVHandlingTableModel} to handle data from another {@code CSVHandlingTableModel}
+ * its designated table from this app's designated MySQL database.
  * @see {@link StudentTableModel} - the child class that
- * handles the csv file and data for students.
+ * handles the students table of this app's designated MySQL database.
  * @see {@link ProgramTableModel} - the child class that 
- * handles the csv file and data for programs.
+ * handles the programs table of this app's designated MySQL database.
  * @see {@link CollegeTableModel} - the child class that 
- * handles the csv file and data for colleges.
- * @see {@link OtherTableModelEditor}
+ * handles the colleges table of this app's designated MySQL database.
  */
 public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 

@@ -11,18 +11,13 @@ import main.app.errors.EmptyInputException;
 import main.app.errors.NoRowSelectedException;
 import main.app.input.fields.UpperCaseOnlyTextField;
 import main.app.tables.ManagementTable;
-//import main.data.maps.DataMap;
 import main.app.windows.DataFormDialog;
 
 /**
  * <p>
- * Sets up the components needed to handle a {@link main.data.dataClass.College 
- * College}'s data. 
- * <li> These include:
- * <ul>
- * <li> Code
- * <li> Name
- * </ul>
+ * Sets up the components needed to add or update data to the colleges 
+ * table of this application's designated MySQL database. 
+ * </p>
  * @see StudentInput {@code StudentInput}
  * @see ProgramInput {@code ProgramInput}
  */
@@ -37,35 +32,37 @@ public class CollegeInput extends DataInput{
 
     /**
      * 
-     * @param dFrame - this app's custom {@code JFrame} in which the components 
-     * will be displayed.
-     * @param dMap - {@code DataMap} that handles and maps all data during 
-     * the application's runtime.
-     * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataFrame}.
-     * @param inputType - either {@code ADD} or {@code EDIT_SINGLE}
-     * @throws NoRowSelectedException when user doesn't select a row in the 
+     * @param dataFormDialog - this app's custom {@code JDialog} in which the components 
+     * for adding or editing data will be displayed.
+     * @param mTable - the app's custom {@code JTable} for displaying data.
+     * @param dialogGBC - {@code GridBagConstrainsts} of the {@code DataFormDialog}.
+     * @param inputType - either {@code ADD} or {@code EDIT_SINGLE}.
+     * @throws NoRowSelectedException when user doesn't select at least one row in the 
      * {@code ManagementTable}.
      */
-    public CollegeInput(DataFormDialog dFrame, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException{
+    public CollegeInput(DataFormDialog dataFormDialog,
+                        ManagementTable mTable,
+                        GridBagConstraints dialogGBC,
+                        InputType inputType) throws NoRowSelectedException{
         super(inputType);
-        this.setUpComponents(dFrame, mTable, frameGBC);
+        this.setUpComponents(dataFormDialog, mTable, dialogGBC);
     }
 
     @Override
     protected void setUpComponents(DataFormDialog dFrame,
                                    ManagementTable mTable, 
-                                   GridBagConstraints frameGBC) throws NoRowSelectedException{
+                                   GridBagConstraints dialogGBC) throws NoRowSelectedException{
         this.codeField.setPreferredSize(new Dimension(70, 20));
         this.nameField.setPreferredSize(new Dimension(400, 20));
-        frameGBC.insets = new Insets(5, 5, 5, 5);
-        frameGBC.fill = GridBagConstraints.HORIZONTAL; 
-        frameGBC.ipady = 10;
-        frameGBC.gridx = frameGBC.gridy = 0; dFrame.add(codeLabel,frameGBC);
-        frameGBC.gridy = 1; dFrame.add(nameLabel,frameGBC);
-        frameGBC.gridx = 2; frameGBC.gridy = 0; frameGBC.fill = GridBagConstraints.NONE;
-        frameGBC.anchor = GridBagConstraints.LINE_START;
-        dFrame.add(codeField,frameGBC);
-        frameGBC.gridy = 1; dFrame.add(nameField,frameGBC);
+        dialogGBC.insets = new Insets(5, 5, 5, 5);
+        dialogGBC.fill = GridBagConstraints.HORIZONTAL; 
+        dialogGBC.ipady = 10;
+        dialogGBC.gridx = dialogGBC.gridy = 0; dFrame.add(codeLabel,dialogGBC);
+        dialogGBC.gridy = 1; dFrame.add(nameLabel,dialogGBC);
+        dialogGBC.gridx = 2; dialogGBC.gridy = 0; dialogGBC.fill = GridBagConstraints.NONE;
+        dialogGBC.anchor = GridBagConstraints.LINE_START;
+        dFrame.add(codeField,dialogGBC);
+        dialogGBC.gridy = 1; dFrame.add(nameField,dialogGBC);
 
         if(this.inputType == InputType.EDIT_SINGLE){
             int row = mTable.getSelectedRow();

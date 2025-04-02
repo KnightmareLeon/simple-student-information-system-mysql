@@ -43,6 +43,7 @@ public class PageHandler extends JPanel{
         this.searchBar = searchBar;
         this.searchFieldList = searchFieldList;
 
+        this.pageField.setHorizontalAlignment(JTextField.RIGHT);
         this.po.add(this.pageField); this.po.add(this.pageLabel);
         
         first = new PageHandlingButton(this, "|<", PageHandlingButton.FIRST);

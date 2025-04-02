@@ -28,20 +28,10 @@ import main.app.windows.DataFormDialog;
 
 /**
  * <p>
- * Sets up the components needed to handle a {@link main.data.dataClass.Student 
- * Student}'s data. 
- * <li> These include:
- * <ul>
- * <li> ID [YYYY-NNNN]
- * <li> First Name
- * <li> Last Name
- * <li> Year Level [1, 2, 3, 4, 5, 5+]
- * <li> Gender [MALE, FEMALE, OTHERS]
- * <li> Program Code (Depends on data in 
- * {@link main.data.maps.ProgramMap ProgramMap} 
- * that is in {@link DataMap})
- * </ul>
- * @see ProgramInput {@code ProgramInput}
+ * Sets up the components needed to add or update data to the students 
+ * table of this application's designated MySQL database.
+ * </p>
+ * @see StudentInput {@code StudentInput}
  * @see CollegeInput {@code CollegeInput}
  */
 public class StudentInput extends DataInput{
@@ -96,23 +86,27 @@ public class StudentInput extends DataInput{
     private String[] prgCodeList; //Program Code List
 
     /**
-     * @param dataDialog - this app's custom {@code JDialog} in which the components
-     * will be displayed.
-     * @param frameGBC - {@code GridBagConstrainsts} of the {@code DataDialog}.
-     * @throws NoRowSelectedException when user doesn't select a row in the 
+     * @param dataFormDialog - this app's custom {@code JDialog} in which the components 
+     * for adding or editing data will be displayed.
+     * @param mTable - the app's custom {@code JTable} for displaying data.
+     * @param dialogGBC - {@code GridBagConstrainsts} of the {@code DataFormDialog}.
+     * @param inputType - either {@code ADD} or {@code EDIT_SINGLE}
+     * @throws NoRowSelectedException when user doesn't select at least one row in the 
      * {@code ManagementTable}.
-     * @throws EmptyTableException 
-    */
-    public StudentInput(DataFormDialog dataFormDialog, ManagementTable mTable, GridBagConstraints frameGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
+     * @throws EmptyTableException when there is still no data from its parent table.
+     * For the students table, its parent table would be the programs table.
+     */
+    public StudentInput(DataFormDialog dataFormDialog, ManagementTable mTable, GridBagConstraints dialogGBC, InputType inputType) throws NoRowSelectedException, EmptyTableException{
         super(inputType);
-        this.setUpComponents(dataFormDialog, mTable, frameGBC);
+        this.setUpComponents(dataFormDialog, mTable, dialogGBC);
     }
 
     @Override
     protected void setUpComponents(DataFormDialog dataFormDialog, 
                                    ManagementTable mTable, 
-                                   GridBagConstraints frameGBC) throws NoRowSelectedException, EmptyTableException{
-        frameGBC.insets = new Insets(5, 5, 5, 5);
+                                   GridBagConstraints dialogGBC) 
+                                   throws NoRowSelectedException, EmptyTableException{
+        dialogGBC.insets = new Insets(5, 5, 5, 5);
         
         this.inputPanel.setLayout(panelGBL);
         
@@ -235,9 +229,9 @@ public class StudentInput extends DataInput{
             this.panelGBC.gridy = 3; this.inputPanel.add(this.pn, this.panelGBC);
         }
         
-        frameGBC.gridx = frameGBC.gridy = 0;
-        dataFormDialog.add(inputPanel, frameGBC);
-        frameGBC.ipady = 10;
+        dialogGBC.gridx = dialogGBC.gridy = 0;
+        dataFormDialog.add(inputPanel, dialogGBC);
+        dialogGBC.ipady = 10;
         
         if(this.inputType == InputType.EDIT_SINGLE || this.inputType == InputType.EDIT_MULTIPLE){
             if(mTable.getSelectedRowCount() == 0){throw new NoRowSelectedException();}

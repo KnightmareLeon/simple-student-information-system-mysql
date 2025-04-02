@@ -4,13 +4,8 @@ import main.database.DatabaseDriver;
 
 
 /**
- * A {@link DatabaseHandlingTableModel} that handles {@link main.data.dataClass.Program 
- * Programs}' data. Its designated file is "programs.csv". It implements 
- * {@link OtherTableModelEditor}, with the {@code CSVHandlingTableModel} that it edits is 
- * the {@link StudentTableModel}.
- * <p>
- * It has three columns: "Code", "Name", and "College Code"
- * 
+ * A {@link DatabaseHandlingTableModel} that handles data for the students table for
+ * this app's designated MySQL database. It has three columns: "Code", "Name", and "College Code"
  */
 public class ProgramTableModel extends DatabaseHandlingTableModel{
     public ProgramTableModel(DatabaseDriver dbDriver){

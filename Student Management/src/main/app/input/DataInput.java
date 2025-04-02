@@ -16,25 +16,26 @@ import main.app.windows.DataFormDialog;
  */
 public abstract class DataInput {
     
-
     protected InputType inputType;
 
     public DataInput(InputType inputType){
         this.inputType = inputType;
     }
+
     /**
      * Sets up the components needed for data handling.
      * 
-     * @param dFrame - this app's custom {@code JFrame} in which the components will be displayed.
-     * @param dMap - {@link DataMap} that handles and maps all data during 
-     * the application's runtime.
-     * @param frameGBC - {@code GridBagConstrainsts} of the {@link DataFormDialog}.
-     * @throws NoRowSelectedException  when user doesn't select a row in the 
+     * @param dataFormDialog - this app's custom {@code JDialog} in which the components 
+     * for adding or editing data will be displayed.
+     * @param mTable - the app's custom {@code JTable} for displaying data.
+     * @param dialogGBC - {@code GridBagConstrainsts} of the {@code DataFormDialog}.
+     * @throws NoRowSelectedException  when user doesn't select at least one row in the 
      * {@code ManagementTable}.
+     * @throws EmptyTableException when there is still no data from its parent table.
+     * For the programs table, its parent table would be the colleges table.
      */
-    protected abstract void setUpComponents(DataFormDialog dFrame, 
+    protected abstract void setUpComponents(DataFormDialog dataFormDialog, 
                                             ManagementTable mTable, 
-                                            GridBagConstraints frameGBC
+                                            GridBagConstraints dialogGBC
                                             ) throws NoRowSelectedException, EmptyTableException;
-
 }

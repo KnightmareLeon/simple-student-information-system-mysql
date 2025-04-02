@@ -11,15 +11,11 @@ import main.app.tables.pageHandler.PageHandler;
 
 /**
  * A custom {@code JTextField} that is a child class of {@link UpperCaseTextField}.
- * Filters a {@code JTable} by whatever is the input text of this text field 
- * through a {@code TableRowSorter}. The columns that it filters is based on 
- * {@link SearchFieldList}, if the chosen item is "Any", this will filter
- * the {@code JTable} based on any column, else it will be based on the
- * chosen choice of the user
- * 
+ * When the user presses "Enter". The {@link PageHandler} gets the text from this
+ * and uses it to for search substrings based on the column of choice in the 
+ * {@link SearchFieldList}. The searching is perforemed through a MySQL query
+ * handled by a method in the {@code DatabaseDriver}.
  * <p>
- * For this application, it filters the {@code ManagementTable}.
- * @see UpperCaseTextField {@code UpperCaseTextField}
  * @see main.app.tables.ManagementTable {@code ManagementTable}
  */
 public class SearchBar extends UpperCaseTextField{
@@ -43,7 +39,6 @@ public class SearchBar extends UpperCaseTextField{
                 pageHandler.setUpPageHandling();
                 pageHandler.setPageText();
             }
-            
         });
     }
 
