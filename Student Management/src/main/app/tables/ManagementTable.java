@@ -16,12 +16,9 @@ import main.database.DatabaseDriver;
 
 /**
  * Custom {@code JTable} that the application uses. Has three initialized
- * {@link main.app.tables.tableModels.DatabaseHandlingTableModel CSVHandlingTableModels}:
- * the {@link main.app.tables.tableModels.StudentTableModel StudentTableModel}, 
- * the {@link main.app.tables.tableModels.ProgramTableModel ProgramTableModel}, and
- * the {@link main.app.tables.tableModels.CollegeTableModel CollegeTableModel}.
- * Also initializes the {@link main.data.maps.DataMap DataMap}. The table is first
- * set with the {@code StudentTableModel}. The {@link main.app.buttons.changeTable.ChangeToTableButton
+ * {@link main.app.tables.tableModels.DatabaseHandlingTableModel DatabaseHandlingTableModels}:
+ * the {@link StudentTableModel}, the {@link ProgramTableModel}, and the {@link CollegeTableModel}. 
+ * The table is first set with the {@code StudentTableModel}. The {@link main.app.buttons.changeTable.ChangeToTableButton
  * changeToTableButtons} will handle changing the set table model.
  */
 public class ManagementTable extends JTable{
@@ -45,7 +42,7 @@ public class ManagementTable extends JTable{
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
-                if(e.getButton()== MouseEvent.BUTTON3){
+                if(e.getButton() == MouseEvent.BUTTON3){
                     clearSelection();
                 }
             }

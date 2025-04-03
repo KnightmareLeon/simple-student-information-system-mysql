@@ -4,7 +4,6 @@ import main.app.tables.ManagementTable;
 import main.app.windows.MainFrame;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 /**
  * Deletes a {@link main.data.dataClass.Student Student}'s data based
  * on the selected row(s) in {@link ManagementTable}. Deletes that
@@ -28,12 +27,7 @@ public class DeleteStudentButton extends DeleteDataButton{
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
-
-            Arrays.sort(rowArray);
-
-            for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getSTM().deleteData(rowArray[i]);
-            }
+            mTable.getSTM().deleteData(rowArray);
         }
         return true;
         

@@ -87,7 +87,7 @@ public abstract class DataFormButton extends DataButton implements ActionListene
     /**
      * Gets the {@link java.awt.GridBagConstraints GridBagConstraints} used for
      * setting up the components in the {@link main.app.windows.DataFormDialog 
-     * DataFrame}.
+     * DataFormDialog}.
      * @return {@code GridBagConstraints}
      */
     protected GridBagConstraints getGBC(){return this.gbc;}

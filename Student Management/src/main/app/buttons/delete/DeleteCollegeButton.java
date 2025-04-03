@@ -1,7 +1,6 @@
 package main.app.buttons.delete;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -28,14 +27,18 @@ public class DeleteCollegeButton extends DeleteDataButton{
         int totalPrgs = 0;
         int[] rowArray = new int[mTable.getSelectedRowCount()];
         if(mTable.getSelectedRowCount() == 1){
-            totalPrgs = mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRow(), 0), "programs");
+            totalPrgs = mTable.getdBDriver().matchesWithForeignKey(
+                (String) mTable.getValueAt(mTable.getSelectedRow(), 
+                0), 
+                "programs");
 
         } else {
             for(int i = 0; i < mTable.getSelectedRowCount(); i++){
-                totalPrgs += mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), "programs");
+                totalPrgs += mTable.getdBDriver().matchesWithForeignKey(
+                    (String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), 
+                    "programs");
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
-            Arrays.sort(rowArray);
         }
 
         if(totalPrgs > 0){
@@ -49,9 +52,7 @@ public class DeleteCollegeButton extends DeleteDataButton{
         if(confirm && mTable.getSelectedRowCount() == 1){
             mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
         } else if(confirm){
-            for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
-            }
+            mTable.getCTM().deleteData(rowArray);
         }
         return confirm;
     }

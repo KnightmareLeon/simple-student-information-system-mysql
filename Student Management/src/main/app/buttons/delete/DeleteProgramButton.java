@@ -1,7 +1,6 @@
 package main.app.buttons.delete;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 
 import javax.swing.JOptionPane;
 
@@ -34,7 +33,6 @@ public class DeleteProgramButton extends DeleteDataButton{
                 totalStds += mTable.getdBDriver().matchesWithForeignKey((String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), "students");
                 rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
             }
-            Arrays.sort(rowArray);
         }
 
         if(totalStds > 0){
@@ -49,9 +47,7 @@ public class DeleteProgramButton extends DeleteDataButton{
         if(confirm && mTable.getSelectedRowCount() == 1){
             mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
         } else if(confirm){
-            for(int i = rowArray.length - 1; i > -1; i--){
-                mTable.getPTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
-            }
+            mTable.getPTM().deleteData(rowArray);
         }
         return confirm;
     }

@@ -87,6 +87,16 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         pageHandler.setPageText();
     }
 
+    public void deleteData(int[] rows) throws SQLException{
+        String[] primaryKeys = new String[rows.length];
+        for(int i = 0; i < primaryKeys.length; i++){
+            primaryKeys[i] = (String) this.getValueAt(rows[i], 0);
+        } 
+        dbDriver.batchDeleteRecordsInTable(primaryKeys, tableName);
+        pageHandler.setUpPageHandling();
+        pageHandler.setPageText();
+    }
+
     public void editData(int row, String[] newData) throws SQLException{
         String primaryKey = (String) this.getValueAt(row, 0);
         String[] record = new String[newData.length];

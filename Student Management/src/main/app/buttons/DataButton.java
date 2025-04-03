@@ -22,7 +22,7 @@ public class DataButton extends JButton{
     /**
      * Sets what kind of action that the {@code DataButton} will do
      * @param actionText - {@code String} value that is either
-     * <b>Add</b> or <b>Edit</b>
+     * <b>Add</b>, <b>Delete</b>, or <b>Edit</b>
      */
     protected void setActionText(String actionText){this.actionText = actionText;}
 
@@ -32,7 +32,6 @@ public class DataButton extends JButton{
      * <b>Student</b>, <b>Program</b>, or <b>College</b>
      */
     protected void setDataText(String data){this.data = data;}
-
 
     /**
      * Gets both the data text

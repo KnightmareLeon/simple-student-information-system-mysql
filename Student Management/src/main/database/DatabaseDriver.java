@@ -253,6 +253,19 @@ public class DatabaseDriver {
         );
     }
 
+    public void batchDeleteRecordsInTable(String[] primaryKeys, String tableName) throws SQLException{
+        String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
+        StringJoiner primaryKeysJoiner = new StringJoiner(",");
+        for(int i = 0; i < primaryKeys.length; i++){
+            primaryKeysJoiner.add("\'"  + primaryKeys[i] + "\'");
+        }
+        statement.executeUpdate(
+            "DELETE FROM " + tableName +
+            " WHERE " + primaryColumn + " IN (" + 
+            primaryKeysJoiner.toString() + ")"
+        );
+    }
+
     public int matchesWithForeignKey(String foreignKey, String tableName) throws SQLException{
         String foreignKeyColumn = (tableName.equals("students")) ? "ProgramCode": "CollegeCode" ;
         ResultSet totalMatchesSet = statement.executeQuery(
