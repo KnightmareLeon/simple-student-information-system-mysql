@@ -4,6 +4,7 @@ import main.app.tables.ManagementTable;
 import main.app.windows.MainFrame;
 
 import java.sql.SQLException;
+
 /**
  * Deletes a {@link main.data.dataClass.Student Student}'s data based
  * on the selected row(s) in {@link ManagementTable}. Deletes that
@@ -20,16 +21,11 @@ public class DeleteStudentButton extends DeleteDataButton{
 
     @Override
     protected boolean delete(ManagementTable mTable) throws SQLException {
-        if(mTable.getSelectedRowCount() == 1){
-            mTable.getSTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
-        } else {
-            int[] rowArray = new int[mTable.getSelectedRowCount()];
-            for(int i = 0; i < mTable.getSelectedRowCount(); i++){
-                rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
-            }
-            mTable.getSTM().deleteData(rowArray);
+        int[] rowArray = new int[mTable.getSelectedRowCount()];
+        for(int i = 0; i < mTable.getSelectedRowCount(); i++){
+            rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
         }
+        mTable.getSTM().deleteData(rowArray);
         return true;
-        
     }
 }

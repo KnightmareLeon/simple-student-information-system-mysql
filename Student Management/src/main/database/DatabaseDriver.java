@@ -274,7 +274,9 @@ public class DatabaseDriver {
             foreignKey + "\'"
         );
         totalMatchesSet.next();
-        return totalMatchesSet.getInt(1);
+        int res = totalMatchesSet.getInt(1);
+        totalMatchesSet.close();
+        return res;
     }
 
     public boolean isTableEmpty(String tableName) throws SQLException{
@@ -282,6 +284,8 @@ public class DatabaseDriver {
             "SELECT EXISTS (SELECT 1 FROM " + tableName + ")"
         );
         emptyCheckerSet.next();
-        return emptyCheckerSet.getInt(1) == 0;
+        boolean res = emptyCheckerSet.getInt(1) == 0;
+        emptyCheckerSet.close();
+        return res;
     }
 }

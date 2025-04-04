@@ -8,10 +8,7 @@ import main.app.tables.ManagementTable;
 import main.app.windows.MainFrame;
 
 /**
- * Deletes a {@link main.data.dataClass.College College}'s data based
- * on the selected row(s) in {@link ManagementTable}. Deletes that
- * selected row and the copy of data in {@link main.data.maps.DataMap
- * DataMap}.
+ * 
  */
 public class DeleteCollegeButton extends DeleteDataButton{
     public DeleteCollegeButton(MainFrame mainFrame, ManagementTable mTable){
@@ -26,19 +23,11 @@ public class DeleteCollegeButton extends DeleteDataButton{
         boolean confirm = true;
         int totalPrgs = 0;
         int[] rowArray = new int[mTable.getSelectedRowCount()];
-        if(mTable.getSelectedRowCount() == 1){
-            totalPrgs = mTable.getdBDriver().matchesWithForeignKey(
-                (String) mTable.getValueAt(mTable.getSelectedRow(), 
-                0), 
-                "programs");
-
-        } else {
-            for(int i = 0; i < mTable.getSelectedRowCount(); i++){
-                totalPrgs += mTable.getdBDriver().matchesWithForeignKey(
-                    (String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), 
-                    "programs");
-                rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
-            }
+        for(int i = 0; i < mTable.getSelectedRowCount(); i++){
+            totalPrgs += mTable.getdBDriver().matchesWithForeignKey(
+                (String) mTable.getValueAt(mTable.getSelectedRows()[i], 0), 
+                mTable.getPTM().getTableName());
+            rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
         }
 
         if(totalPrgs > 0){
@@ -49,11 +38,9 @@ public class DeleteCollegeButton extends DeleteDataButton{
                   "College Deletion Confirmation", 
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
         } 
-        if(confirm && mTable.getSelectedRowCount() == 1){
-            mTable.getCTM().deleteData(mTable.convertRowIndexToModel(mTable.getSelectedRow()));
-        } else if(confirm){
-            mTable.getCTM().deleteData(rowArray);
-        }
+        
+        if(confirm){mTable.getCTM().deleteData(rowArray);}
+
         return confirm;
     }
 }

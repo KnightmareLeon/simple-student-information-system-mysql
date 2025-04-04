@@ -11,6 +11,8 @@ package main.app.input;
  */
 public enum InputType{
     ADD,
+    DELETE,
+    DELETE_MULTIPLE,
     EDIT_SINGLE,
     EDIT_MULTIPLE
 }

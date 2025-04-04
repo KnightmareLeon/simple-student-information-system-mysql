@@ -79,7 +79,6 @@ public class AddStudentButton extends AddDataButton{
                         mTable.getSTM().addData(data);
                         JOptionPane.showMessageDialog(getActionButton(), "Student added successfully!");
                         getDataDialog().dispose();
-
                     }
 
                 } catch(EmptyInputException | NullPointerExceptionWithWindow | ExistingIDException e) {
