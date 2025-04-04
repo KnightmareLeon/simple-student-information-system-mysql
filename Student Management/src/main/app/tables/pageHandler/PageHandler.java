@@ -116,7 +116,7 @@ public class PageHandler extends JPanel{
     }
 
     public void initFilterAndButton() {
-        if(currentPageIndex > maxPageIndex){currentPageIndex = maxPageIndex;}
+        if(currentPageIndex > maxPageIndex && currentPageIndex == 0){currentPageIndex = maxPageIndex;}
         if(!searching && rowCount > 0){
             ((DatabaseHandlingTableModel)mTable.getModel()).getData(currentPageIndex);
         } else if (rowCount > 0){

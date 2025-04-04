@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 
 import main.app.buttons.SortingOptionsButton;
+import main.app.buttons.UndoButton;
 import main.app.buttons.add.*;
 import main.app.buttons.changeTable.*;
 import main.app.buttons.delete.*;
@@ -39,12 +40,15 @@ public class MainFrame extends DefaultFrame{
      */
     public MainFrame(DatabaseDriver dbDriver){
         this.setResizable(true);
-        
+
         final ManagementTable mTable = new ManagementTable(dbDriver);
         final JScrollPane sp = new JScrollPane(mTable);
     
         final SearchFieldList searchFieldList = new SearchFieldList(mTable);
         final SearchBar searchBar = new SearchBar();
+        
+        final UndoButton undoButton = new UndoButton();
+        mTable.setUndoButton(undoButton);
         
         final AddDataButton addStdButton = new AddStudentButton(this, mTable);
         final AddDataButton addPrgButton = new AddProgramButton(this, mTable);
@@ -61,6 +65,7 @@ public class MainFrame extends DefaultFrame{
         final PageHandler pageHandler = new PageHandler(mTable, searchBar, searchFieldList);
         searchBar.setPageHandler(pageHandler);
         mTable.setPageHandler(pageHandler);
+        undoButton.setPageHandler(pageHandler);
         final SortingOptionsButton sortingFormButton = new SortingOptionsButton(mTable, pageHandler);
 
         final ChangeToTableButton cStdTblButton = new ChangeToStudentTableButton(pageHandler, sp, mTable, 
@@ -135,11 +140,14 @@ public class MainFrame extends DefaultFrame{
         tools.add(searchFieldList, toolsGBC);
 
         toolsGBC.gridx = 4;
-        toolsGBC.weightx = 10;
         tools.add(sortingFormButton, toolsGBC);
 
+        toolsGBC.gridx = 5;
+        toolsGBC.weightx = 10;
+        tools.add(undoButton, toolsGBC);
+
         toolsGBC.fill = GridBagConstraints.BOTH;
-        toolsGBC.gridx = 5; toolsGBC.fill = GridBagConstraints.NONE; 
+        toolsGBC.gridx = 6; toolsGBC.fill = GridBagConstraints.NONE; 
         toolsGBC.anchor = GridBagConstraints.LINE_END;
         tools.add(dataButtons, toolsGBC);
 

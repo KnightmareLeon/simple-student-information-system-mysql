@@ -2,7 +2,6 @@ package main.app.tables.tableModels;
 
 import main.database.DatabaseDriver;
 
-
 /**
  * A {@link DatabaseHandlingTableModel} that handles data for the students table for
  * this app's designated MySQL database. It has three columns: "Code", "Name", and "College Code"

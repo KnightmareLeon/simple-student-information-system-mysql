@@ -279,6 +279,34 @@ public class DatabaseDriver {
         return res;
     }
 
+    public String[] matchesWithChildTable(String primaryKey, String tableName) throws SQLException{
+        
+        String childTableName = (tableName.equals("colleges")) ? "programs": "students" ;
+        String foreignKeyColumn = (childTableName.equals("students")) ? "ProgramCode": "CollegeCode" ;
+        ResultSet totalMatchesSet = statement.executeQuery(
+            "SELECT COUNT(*) FROM " + childTableName +
+            " WHERE " + foreignKeyColumn + "=\'" +
+            primaryKey + "\'"
+        );
+        totalMatchesSet.next();
+        int totalMatches = totalMatchesSet.getInt(1);
+        totalMatchesSet.close();
+        
+        ResultSet resultSet = statement.executeQuery(
+            "SELECT * FROM " + childTableName +
+            " WHERE " + foreignKeyColumn + "=\'" +
+            primaryKey + "\'"
+        );
+
+        int i = 0;
+        String[] res = new String[totalMatches];
+        while(resultSet.next()){
+            res[i++] = resultSet.getString(1);
+        }
+        resultSet.close();
+        return res;
+    }
+
     public boolean isTableEmpty(String tableName) throws SQLException{
         ResultSet emptyCheckerSet = statement.executeQuery(
             "SELECT EXISTS (SELECT 1 FROM " + tableName + ")"

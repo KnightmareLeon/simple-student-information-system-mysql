@@ -2,7 +2,10 @@ package main.app.tables.tableModels;
 
 import javax.swing.table.DefaultTableModel;
 
+import main.app.buttons.UndoButton;
 import main.app.tables.pageHandler.PageHandler;
+import main.app.undo.UndoAddAction;
+import main.app.undo.UndoDeleteAction;
 import main.database.DatabaseDriver;
 
 import java.sql.ResultSet;
@@ -21,10 +24,12 @@ import java.sql.SQLException;
  */
 public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
-    private String tableName;
     private DatabaseDriver dbDriver;
     private PageHandler pageHandler;
+    private UndoButton undoButton;
+    private String tableName;
     private String[] sortingOptions;
+
     public DatabaseHandlingTableModel(DatabaseDriver dbDriver){
         this.dbDriver = dbDriver;
     }
@@ -77,12 +82,16 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     public void addData(String[] data) throws SQLException{
         dbDriver.addToTable(data, tableName);
+        undoButton.addUndoAction(new UndoAddAction(data[0], tableName, dbDriver));
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
     }
 
     public void deleteData(int row) throws SQLException{
-        dbDriver.deleteRecordInTable((String) this.getValueAt(row, 0), tableName);
+        String primaryKey = (String) this.getValueAt(row, 0);
+        
+        
+        dbDriver.deleteRecordInTable(primaryKey, tableName);
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
     }
@@ -91,6 +100,12 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
         String[] primaryKeys = new String[rows.length];
         for(int i = 0; i < primaryKeys.length; i++){
             primaryKeys[i] = (String) this.getValueAt(rows[i], 0);
+            String[] data = new String[this.getColumnCount()];
+            String[] affectedChildKeys = dbDriver.matchesWithChildTable(primaryKeys[i], tableName);
+            for(int c = 0; c < this.getColumnCount(); c++){
+                data[c] = (String) this.getValueAt(rows[i], c);
+            }
+            undoButton.addUndoAction(new UndoDeleteAction(data, affectedChildKeys, tableName, dbDriver));
         } 
         dbDriver.batchDeleteRecordsInTable(primaryKeys, tableName);
         pageHandler.setUpPageHandling();
@@ -146,6 +161,10 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     public void setPageHandler(PageHandler pageHandler){
         this.pageHandler = pageHandler;
+    }
+
+    public void setUndoButton(UndoButton undoButton){
+        this.undoButton = undoButton;
     }
 
     public void setSortingOptions(String[] sortingOptions){this.sortingOptions = sortingOptions;}

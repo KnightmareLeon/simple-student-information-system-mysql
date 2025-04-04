@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
+import main.app.buttons.UndoButton;
 import main.app.tables.pageHandler.PageHandler;
 import main.app.tables.tableModels.CollegeTableModel;
 import main.app.tables.tableModels.ProgramTableModel;
@@ -111,5 +112,11 @@ public class ManagementTable extends JTable{
         stm.setPageHandler(pageHandler);
         ptm.setPageHandler(pageHandler);
         ctm.setPageHandler(pageHandler);
+    }
+
+    public void setUndoButton(UndoButton undoButton){
+        stm.setUndoButton(undoButton);  
+        ptm.setUndoButton(undoButton);  
+        ctm.setUndoButton(undoButton);  
     }
 }
