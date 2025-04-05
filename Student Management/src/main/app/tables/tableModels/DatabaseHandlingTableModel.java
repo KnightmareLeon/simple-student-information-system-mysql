@@ -6,6 +6,7 @@ import main.app.buttons.UndoButton;
 import main.app.tables.pageHandler.PageHandler;
 import main.app.undo.UndoAddAction;
 import main.app.undo.UndoDeleteAction;
+import main.app.undo.UndoEditAction;
 import main.database.DatabaseDriver;
 
 import java.sql.ResultSet;
@@ -114,14 +115,19 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     public void editData(int row, String[] newData) throws SQLException{
         String primaryKey = (String) this.getValueAt(row, 0);
+        String newKey = newData[0];
         String[] record = new String[newData.length];
+        String[] prev = new String[newData.length];
         String[] columnLabels = new String[newData.length];
         for(int i = 0; i < newData.length; i++){
             columnLabels[i] = this.getColumnName(i).replaceAll(" ", "");
             record[i] = (!newData[i].equals((String) this.getValueAt(row, i))) ?
                 newData[i] : null;
+            prev[i] = (!newData[i].equals((String) this.getValueAt(row, i))) ?
+                (String) this.getValueAt(row, i) : null;
         }
         dbDriver.updateRecordInTable(primaryKey, columnLabels, record, tableName);
+        undoButton.addUndoAction(new UndoEditAction(newKey, columnLabels, prev, tableName, dbDriver));
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
     }
