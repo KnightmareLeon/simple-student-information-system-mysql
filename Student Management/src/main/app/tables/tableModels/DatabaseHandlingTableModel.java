@@ -99,6 +99,8 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     public void deleteData(int[] rows) throws SQLException{
         String[] primaryKeys = new String[rows.length];
+        String[][] dataArr = new String[rows.length][];
+        String[][] affectedChildKeysArr = new String[rows.length][];
         for(int i = 0; i < primaryKeys.length; i++){
             primaryKeys[i] = (String) this.getValueAt(rows[i], 0);
             String[] data = new String[this.getColumnCount()];
@@ -106,8 +108,10 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
             for(int c = 0; c < this.getColumnCount(); c++){
                 data[c] = (String) this.getValueAt(rows[i], c);
             }
-            undoButton.addUndoAction(new UndoDeleteAction(data, affectedChildKeys, tableName, dbDriver));
+            dataArr[i] = data;
+            affectedChildKeysArr[i] = affectedChildKeys;
         } 
+        undoButton.addUndoAction(new UndoDeleteAction(dataArr, affectedChildKeysArr, tableName, dbDriver));
         dbDriver.batchDeleteRecordsInTable(primaryKeys, tableName);
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
