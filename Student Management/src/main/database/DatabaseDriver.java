@@ -205,9 +205,13 @@ public class DatabaseDriver {
         StringJoiner columnsJoiner = new StringJoiner(",");
         byte c = 0;
         for(int i = 0; i < columnLabels.length; i++){
-            if(newData[i] != null){
+            if(newData[i] == null){
+                c++;
+            } else if(newData[i].equals("NULL")){
+                columnsJoiner.add(columnLabels[i] + "=" + newData[i]);
+            } else {
                 columnsJoiner.add(columnLabels[i] + "=\'" + newData[i] + "\'");
-            } else {c++;}
+            }
         }
         if(c < newData.length){
             statement.executeUpdate(

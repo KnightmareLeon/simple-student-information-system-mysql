@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import main.app.buttons.UndoButton;
 import main.app.tables.pageHandler.PageHandler;
 import main.app.undo.UndoAddAction;
+import main.app.undo.UndoBatchEditAction;
 import main.app.undo.UndoDeleteAction;
 import main.app.undo.UndoEditAction;
 import main.database.DatabaseDriver;
@@ -138,14 +139,21 @@ public abstract class DatabaseHandlingTableModel extends DefaultTableModel{
 
     public void batchEdit(int[] rows, String[] newData) throws SQLException{
         String[] primaryKeys = new String[rows.length];
+        String[][] prevDataArr = new String[rows.length][];
         for(int i = 0; i < primaryKeys.length; i++){
             primaryKeys[i] = (String) this.getValueAt(rows[i], 0);
+            String[] prevData = new String[newData.length];
+            for(int j = newData.length; j > 0; j--){
+                prevData[newData.length - j] = (String) this.getValueAt(rows[i], this.getColumnCount() - j);
+            }
+            prevDataArr[i] = prevData;
         } 
         String[] columnLabels = new String[newData.length];
         for(int i = newData.length ; i > 0; i--){
             columnLabels[newData.length - i] = this.getColumnName(this.getColumnCount() - i).replaceAll(" ", "");
         }
         dbDriver.batchUpdateRecordsInTable(primaryKeys, columnLabels, newData, tableName);
+        undoButton.addUndoAction(new UndoBatchEditAction(primaryKeys, columnLabels, prevDataArr, tableName, dbDriver));
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
     }
