@@ -27,8 +27,8 @@ public class CollegeInput extends DataInput{
     private JLabel nameLabel = new JLabel("Name:");
 
     //Input Fields
-    private JTextField codeField = new UpperCaseOnlyTextField();
-    private JTextField nameField = new UpperCaseOnlyTextField();
+    private JTextField codeField = new UpperCaseOnlyTextField(5);
+    private JTextField nameField = new UpperCaseOnlyTextField(50);
 
     /**
      * 

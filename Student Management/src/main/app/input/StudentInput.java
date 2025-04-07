@@ -58,8 +58,8 @@ public class StudentInput extends DataInput{
     private GridBagConstraints idGBC = new GridBagConstraints();
 
     //Input Text Fields for First Name and Last Name
-    private JTextField fnField = new UpperCaseOnlyTextField();
-    private JTextField lnField = new UpperCaseOnlyTextField();
+    private JTextField fnField = new UpperCaseOnlyTextField(100);
+    private JTextField lnField = new UpperCaseOnlyTextField(100);
 
     //Input Buttons for Year Level
     private JPanel ylPanel = new JPanel();

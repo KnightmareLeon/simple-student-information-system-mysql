@@ -37,8 +37,8 @@ public class ProgramInput extends DataInput{
     private JLabel cName =  new JLabel();
 
     //Input Fields
-    private JTextField codeField = new UpperCaseOnlyTextField();
-    private JTextField nameField = new UpperCaseOnlyTextField();
+    private JTextField codeField = new UpperCaseOnlyTextField(20);
+    private JTextField nameField = new UpperCaseOnlyTextField(100);
     private JComboBox<String> cCodeList;
 
     /**

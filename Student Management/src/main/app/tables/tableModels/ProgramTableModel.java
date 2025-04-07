@@ -17,6 +17,5 @@ public class ProgramTableModel extends DatabaseHandlingTableModel{
             "College Code"});
         this.setSortingOptions(new String[]{"Code ASC"});
         this.getData();
-    }
-    
+    }    
 }

@@ -5,10 +5,13 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
 /**
- * Custom {@code DocumentFilter} whose parent is {@link UpperCaseDocumentFilter}.
+ * Custom {@code DocumentFilter} whose parent is {@link LimitedUpperCaseDocumentFilter}.
  * Only allows uppercase letters with some select special characters.
  */
-public class UpperCaseOnlyDocumentFilter extends UpperCaseDocumentFilter{
+public class UpperCaseOnlyDocumentFilter extends LimitedUpperCaseDocumentFilter{
+    public UpperCaseOnlyDocumentFilter(int limit) {
+        super(limit);
+    }
     @Override
     public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
         super.insertString(fb, offset, text.replaceAll("[$&+,:;=?@#|\"<>.^*()\\[\\]{}\\/%!0-9]", ""), attr);

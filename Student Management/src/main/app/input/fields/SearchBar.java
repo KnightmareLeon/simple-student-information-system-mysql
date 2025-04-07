@@ -22,6 +22,7 @@ public class SearchBar extends UpperCaseTextField{
 
     private PageHandler pageHandler;
     public SearchBar(){
+        super(50);
         this.getInputMap(JComponent.WHEN_FOCUSED).put(
             KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), 
             "Search"

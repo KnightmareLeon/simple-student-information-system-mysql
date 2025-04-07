@@ -12,9 +12,10 @@ import main.app.input.filters.UpperCaseOnlyDocumentFilter;
  * This only accepts uppercase letters along with some selected special characters.
  */
 public class UpperCaseOnlyTextField extends JTextField{
-    private UpperCaseOnlyDocumentFilter filter = new UpperCaseOnlyDocumentFilter();
+    private UpperCaseOnlyDocumentFilter filter;
 
-    public UpperCaseOnlyTextField(){
+    public UpperCaseOnlyTextField(int limit){
+        filter = new UpperCaseOnlyDocumentFilter(limit);
         ((AbstractDocument) this.getDocument()).setDocumentFilter(filter);
         this.setPreferredSize(new Dimension(400,20));
     }
