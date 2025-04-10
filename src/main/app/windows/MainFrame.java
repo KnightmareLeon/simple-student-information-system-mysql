@@ -5,6 +5,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -169,6 +172,19 @@ public class MainFrame extends DefaultFrame{
         pageHandler.setUpPageHandling();
         pageHandler.setPageText();
         
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e){
+                try {
+                    dbDriver.closeConnection();
+                    System.exit(0);
+                } catch (SQLException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            
+        });
+        this.setDefaultCloseOperation(MainFrame.DO_NOTHING_ON_CLOSE);
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 100, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100);
         setLocationRelativeTo(null);
         setVisible(true);  

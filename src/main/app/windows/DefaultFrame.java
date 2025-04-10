@@ -16,7 +16,6 @@ import javax.swing.JFrame;
 public abstract class DefaultFrame extends JFrame{
     public DefaultFrame(){
         this.setTitle("UniFlow Student Management System");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
         Toolkit toolkit = this.getToolkit();
         ArrayList<Image> images = new ArrayList<Image>(4);

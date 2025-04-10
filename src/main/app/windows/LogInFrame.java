@@ -34,7 +34,7 @@ public class LogInFrame extends DefaultFrame{
 
     public LogInFrame(){
         this.setResizable(false);
-        
+        this.setDefaultCloseOperation(LogInFrame.EXIT_ON_CLOSE);
         final JLabel header = new JLabel("Login");
         header.setFont(header.getFont().deriveFont(Font.BOLD, 70));
 
