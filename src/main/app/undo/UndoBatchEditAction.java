@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import main.database.DatabaseDriver;
 
+/**
+ * Handles the undo action of batch editing records in the database.
+ */
 public class UndoBatchEditAction extends UndoAction{
     private String[] primaryKeys;
     private String[] columnLabels;

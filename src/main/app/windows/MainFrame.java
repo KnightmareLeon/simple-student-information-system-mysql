@@ -26,12 +26,8 @@ import main.app.tables.pageHandler.PageHandler;
 import main.database.DatabaseDriver;
 
 /**
- * The main {@code JFrame} of the application. The 
- * {@link main.app.input.fields.SearchBar SearchBar},
- * {@link main.app.buttons.add.AddDataButton AddButtons},
- * {@link main.app.buttons.delete.DeleteDataButton DeleteButtons},
- * {@link main.app.buttons.edit.EditDataButton EditButtons}, and
- * {@link main.app.tables.ManagementTable ManagementTable} are initialized here.
+ * {@code JFrame} class that sets up all components needed to
+ * display the main window of the application.
  */
 public class MainFrame extends DefaultFrame{
 

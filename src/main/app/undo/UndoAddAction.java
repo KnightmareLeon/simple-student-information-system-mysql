@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import main.database.DatabaseDriver;
 
+/**
+ * Handles the undo action of adding a record to the database.
+ */
 public class UndoAddAction extends UndoAction{
     private String primaryKey;
     public UndoAddAction(String primaryKey, String tableName, DatabaseDriver dbDriver) {

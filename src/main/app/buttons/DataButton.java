@@ -6,6 +6,13 @@ import javax.swing.JButton;
 
 import main.app.windows.MainFrame;
 
+/**
+ * {@code JButton} class that is used to set up the action
+ * and data text of the button. This class is extended by
+ * {@link main.app.buttons.add.AddDataButton AddDataButton},
+ * {@link main.app.buttons.delete.DeleteDataButton DeleteDataButton},
+ * and {@link main.app.buttons.edit.EditDataButton EditDataButton}.
+ */
 public class DataButton extends JButton{
     
     private String actionText;

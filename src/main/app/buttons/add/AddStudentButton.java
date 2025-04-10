@@ -19,10 +19,7 @@ import main.app.windows.MainFrame;
 
 /**
  * {@code JButton} class that sets up all components needed to add a new
- * {@link main.data.dataClass.Student Student}'s data. The action button that 
- * it sets up will send the new data to the {@link main.data.maps.DataMap 
- * DataMap} and {@link main.app.tables.ManagementTable ManagementTable} when 
- * clicked.
+ * student to the database.
  * @see StudentInput {@code StudentInput}
  */
 public class AddStudentButton extends AddDataButton{

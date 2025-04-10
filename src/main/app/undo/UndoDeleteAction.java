@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import main.database.DatabaseDriver;
 
+/**
+ * Handles the undo action of deleting at least one record from the database.
+ */
 public class UndoDeleteAction extends UndoAction{
     private String[][] dataArr;
     private String[][] affectedChildKeysArr;

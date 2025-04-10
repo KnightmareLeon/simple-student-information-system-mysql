@@ -7,6 +7,12 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+/**
+ * Abstract {@code JFrame} that will be extended by the main frame of the application
+ * and the login frame. It sets the title, default close operation, layout, and icon images.
+ * @see MainFrame {@code MainFrame}
+ * @see LogInFrame {@code LogInFrame}
+ */
 public abstract class DefaultFrame extends JFrame{
     public DefaultFrame(){
         this.setTitle("UniFlow Student Management System");

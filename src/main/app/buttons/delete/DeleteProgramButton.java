@@ -8,10 +8,8 @@ import main.app.tables.ManagementTable;
 import main.app.windows.MainFrame;
 
 /**
- * Deletes a {@link main.data.dataClass.Program Program}'s data based
- * on the selected row(s) in {@link ManagementTable}. Deletes that
- * selected row and the copy of data in {@link main.data.maps.DataMap
- * DataMap}.
+ * Deletes a program's data in the database based on the selected 
+ * row(s) in {@link ManagementTable}.
  */
 public class DeleteProgramButton extends DeleteDataButton{
     public DeleteProgramButton(MainFrame mainFrame, ManagementTable mTable){

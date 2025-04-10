@@ -22,6 +22,14 @@ import javax.swing.KeyStroke;
 
 import main.database.DatabaseDriver;
 
+/**
+ * This frame is used to log in to the database. The username and password
+ * are passed to the {@link DatabaseDriver}, which will attempt to connect
+ * to the database. If the connection is successful, the main frame
+ * is opened. If the connection fails, an error message is displayed.
+ * The username and password that the user must use to log in are
+ * the same as the ones used to log in to the their MySQL account.
+ */
 public class LogInFrame extends DefaultFrame{
 
     public LogInFrame(){

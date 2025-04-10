@@ -17,6 +17,13 @@ import main.app.input.fields.SearchFieldList;
 import main.app.tables.ManagementTable;
 import main.app.tables.tableModels.DatabaseHandlingTableModel;
 
+
+/**
+ * {@code JPanel} class that handles the pagination of a table.
+ * It contains buttons to navigate through the pages and a text field
+ * to enter the page number.
+ * @see ManagementTable {@code ManagementTable}
+ */
 public class PageHandler extends JPanel{
     private final int ITEM_PER_PAGE = 50;
     private int maxPageIndex;

@@ -7,6 +7,12 @@ import javax.swing.JButton;
 
 import main.app.tables.pageHandler.PageHandler;
 
+
+/**
+ * {@code JButton} class that handles the pagination of a table.
+ * It contains buttons to navigate through the pages.
+ * @see PageHandler {@code PageHandler}
+ */
 public class PageHandlingButton extends JButton{
     public static final byte FIRST = 0;
     public static final byte PREV = 1;

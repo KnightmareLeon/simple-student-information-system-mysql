@@ -12,6 +12,11 @@ import javax.swing.KeyStroke;
 import main.app.tables.pageHandler.PageHandler;
 import main.app.undo.UndoAction;
 
+/**
+ * {@code JButton} class that handles the undo action of the
+ * {@link main.app.buttons.UndoButton UndoButton}. The {@code UndoButton} class
+ * is used to undo the last action performed on the database.
+ */
 public class UndoButton extends JButton{
     private Stack<UndoAction> undoStack = new Stack<>();
     private PageHandler pageHandler;

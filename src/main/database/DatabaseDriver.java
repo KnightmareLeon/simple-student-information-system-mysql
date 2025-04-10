@@ -8,6 +8,10 @@ import java.sql.Statement;
 
 import java.util.StringJoiner;
 
+/**
+ * This class handles the connection to the database and provides methods
+ * to perform CRUD operations on the database.
+ */
 public class DatabaseDriver {
     private Connection connection = null;
     private Statement statement;
@@ -58,6 +62,27 @@ public class DatabaseDriver {
         
     }
 
+    /**
+     * Closes the connection to the database.
+     * @throws SQLException
+     */
+    public void closeConnection() throws SQLException{
+        if(statement != null){
+            statement.close();
+        }
+        if(connection != null){
+            connection.close();
+        }
+    }
+
+    /**
+     * Reads data from the specified table and returns a ResultSet.
+     * @param tableName The name of the table to read from.
+     * @param page The page number to read.
+     * @param sortingOptions The sorting options for the query.
+     * @return A ResultSet containing the data from the table.
+     * @throws SQLException
+     */
     public ResultSet readFromTable(String tableName, int page, String[] sortingOptions) throws SQLException {
         StringJoiner sortJoiner = new StringJoiner(",");
         for(String sortOption : sortingOptions){
@@ -69,6 +94,16 @@ public class DatabaseDriver {
         return resultSet;
     }
 
+    /**
+     * Reads data from the specified table and returns a ResultSet.
+     * @param tableName The name of the table to read from.
+     * @param page The page number to read.
+     * @param columnLabel The column label to filter by.
+     * @param regex The regex pattern to filter by.
+     * @param sortingOptions The sorting options for the query.
+     * @return A ResultSet containing the data from the table.
+     * @throws SQLException
+     */
     public ResultSet readFromTable(String tableName, 
                                    int page, 
                                    String columnLabel, 
@@ -103,6 +138,12 @@ public class DatabaseDriver {
         return resultSet;
     }
 
+    /**
+     * Returns the total number of rows in the specified table.
+     * @param tableName The name of the table to count rows from.
+     * @return The total number of rows in the table.
+     * @throws SQLException
+     */
     public int totalRowsFromTable(String tableName) throws SQLException{
         ResultSet totalRowsSet = statement.executeQuery(
             "SELECT COUNT(*) FROM " + tableName
@@ -113,6 +154,14 @@ public class DatabaseDriver {
         return total;
     }
 
+    /**
+     * Returns the total number of rows in the specified table that match the given regex.
+     * @param tableName The name of the table to count rows from.
+     * @param columnLabel The column label to filter by.
+     * @param regex The regex pattern to filter by.
+     * @return The total number of rows in the table that match the regex.
+     * @throws SQLException
+     */
     public int totalRowsFromTable(String tableName, String columnLabel, String regex) throws SQLException{
         String query;
         if(columnLabel.equals("All")){
@@ -142,6 +191,12 @@ public class DatabaseDriver {
         return total;
     }
 
+    /**
+     * Adds a new record to the specified table.
+     * @param data The data to be added to the table.
+     * @param tableName The name of the table to add the data to.
+     * @throws SQLException
+     */
     public void addToTable(String[] data, String tableName) throws SQLException{
         StringJoiner valuesJoiner = new StringJoiner(",");
         for(String dataEntry : data){
@@ -153,6 +208,14 @@ public class DatabaseDriver {
         );
     }
 
+    /**
+     * Checks if a record exists in the specified table.
+     * @param columnLabel The column label to check.
+     * @param tableName The name of the table to check.
+     * @param record The record to check for.
+     * @return true if the record exists, false otherwise.
+     * @throws SQLException
+     */
     public boolean ifRecordExists(String columnLabel, String tableName, String record) throws SQLException{
         ResultSet resultSet = statement.executeQuery(
             "SELECT " + columnLabel + " from " + tableName + " WHERE " + 
@@ -162,6 +225,16 @@ public class DatabaseDriver {
         return recordExists;
     }
 
+    /**
+     * Checks if a record exists in the specified table with two column labels.
+     * @param columnLabel1 The first column label to check.
+     * @param columnLabel2 The second column label to check.
+     * @param tableName The name of the table to check.
+     * @param record1 The first record to check for.
+     * @param record2 The second record to check for.
+     * @return true if the record exists, false otherwise.
+     * @throws SQLException
+     */
     public boolean ifRecordExists(String columnLabel1, String columnLabel2, String tableName,
                                   String record1, String record2) throws SQLException{
         ResultSet resultSet = statement.executeQuery(
@@ -171,6 +244,14 @@ public class DatabaseDriver {
         resultSet.close();
         return recordExists;
     }
+
+    /**
+     * Returns an array of strings from the specified column in the table.
+     * @param columnLabel The column label to read from.
+     * @param tableName The name of the table to read from.
+     * @return An array of strings from the specified column.
+     * @throws SQLException
+     */
     public String[] getArrayFromColumn(String columnLabel, String tableName) throws SQLException{
 
         int rows = this.totalRowsFromTable(tableName);
@@ -188,6 +269,14 @@ public class DatabaseDriver {
         return res;
     }
 
+    /**
+     * Returns a string from the specified column in the table based on the primary key.
+     * @param primaryKey The primary key to search for.
+     * @param columnLabel The column label to read from.
+     * @param tableName The name of the table to read from.
+     * @return A string from the specified column based on the primary key.
+     * @throws SQLException
+     */
     public String getData(String primaryKey, String columnLabel, String tableName) throws SQLException{
         String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         ResultSet resultSet = statement.executeQuery(
@@ -200,6 +289,14 @@ public class DatabaseDriver {
         return res;
     }
 
+    /**
+     * Updates a record in the specified table based on the primary key.
+     * @param primaryKey The primary key to search for.
+     * @param columnLabels The column labels to update.
+     * @param newData The new data to update with.
+     * @param tableName The name of the table to update.
+     * @throws SQLException
+     */
     public void updateRecordInTable(String primaryKey, String[] columnLabels, String[] newData, String tableName) throws SQLException{
         String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         StringJoiner columnsJoiner = new StringJoiner(",");
@@ -223,6 +320,14 @@ public class DatabaseDriver {
         }
     }
 
+    /**
+     * Updates multiple records in the specified table based on the primary keys.
+     * @param primaryKeys The primary keys to search for.
+     * @param columnLabels The column labels to update.
+     * @param newData The new data to update with.
+     * @param tableName The name of the table to update.
+     * @throws SQLException
+     */
     public void batchUpdateRecordsInTable(String[] primaryKeys, String[] columnLabels, String[] newData, String tableName) throws SQLException{
         String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         StringJoiner columnsJoiner = new StringJoiner(",");
@@ -248,6 +353,12 @@ public class DatabaseDriver {
         }
     }
 
+    /**
+     * Deletes a record from the specified table based on the primary key.
+     * @param primaryKey The primary key to search for.
+     * @param tableName The name of the table to delete from.
+     * @throws SQLException
+     */
     public void deleteRecordInTable(String primaryKey, String tableName) throws SQLException{
         String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         statement.executeUpdate(
@@ -257,6 +368,12 @@ public class DatabaseDriver {
         );
     }
 
+    /**
+     * Deletes multiple records from the specified table based on the primary keys.
+     * @param primaryKeys The primary keys to search for.
+     * @param tableName The name of the table to delete from.
+     * @throws SQLException
+     */
     public void batchDeleteRecordsInTable(String[] primaryKeys, String tableName) throws SQLException{
         String primaryColumn = (tableName.equals("students")) ? "ID" : "Code" ;
         StringJoiner primaryKeysJoiner = new StringJoiner(",");
@@ -270,6 +387,13 @@ public class DatabaseDriver {
         );
     }
 
+    /**
+     * Checks if a foreign key exists in the specified table.
+     * @param foreignKey The foreign key to check for.
+     * @param tableName The name of the table to check.
+     * @return The number of matches found.
+     * @throws SQLException
+     */
     public int matchesWithForeignKey(String foreignKey, String tableName) throws SQLException{
         String foreignKeyColumn = (tableName.equals("students")) ? "ProgramCode": "CollegeCode" ;
         ResultSet totalMatchesSet = statement.executeQuery(
@@ -283,6 +407,13 @@ public class DatabaseDriver {
         return res;
     }
 
+    /**
+     * Checks if a primary key has matches in the child table.
+     * @param primaryKey The primary key to check for.
+     * @param tableName The name of the parent table.
+     * @return An array of strings containing the matches found.
+     * @throws SQLException
+     */
     public String[] matchesWithChildTable(String primaryKey, String tableName) throws SQLException{
         
         String childTableName = (tableName.equals("colleges")) ? "programs": "students" ;
@@ -311,6 +442,12 @@ public class DatabaseDriver {
         return res;
     }
 
+    /**
+     * Checks if a table is empty.
+     * @param tableName The name of the table to check.
+     * @return true if the table is empty, false otherwise.
+     * @throws SQLException
+     */
     public boolean isTableEmpty(String tableName) throws SQLException{
         ResultSet emptyCheckerSet = statement.executeQuery(
             "SELECT EXISTS (SELECT 1 FROM " + tableName + ")"

@@ -4,6 +4,9 @@ import java.sql.SQLException;
 
 import main.database.DatabaseDriver;
 
+/**
+ * Handles the undo action of editing a record in the database.
+ */
 public class UndoEditAction extends UndoAction{
 
     private String primaryKey;

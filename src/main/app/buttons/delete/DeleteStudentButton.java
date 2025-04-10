@@ -6,10 +6,8 @@ import main.app.windows.MainFrame;
 import java.sql.SQLException;
 
 /**
- * Deletes a {@link main.data.dataClass.Student Student}'s data based
- * on the selected row(s) in {@link ManagementTable}. Deletes that
- * selected row and the copy of data in {@link main.data.maps.DataMap
- * DataMap}.
+ * Deletes a student's data in the database based on the selected
+ * row(s) in {@link ManagementTable}.
  */
 public class DeleteStudentButton extends DeleteDataButton{
 

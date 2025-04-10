@@ -20,6 +20,10 @@ import main.app.tables.ManagementTable;
 import main.app.tables.pageHandler.PageHandler;
 import main.app.tables.tableModels.DatabaseHandlingTableModel;
 
+/**
+ * {@code JDialog} class that sets up all components needed to
+ * display the sorting options of the table.
+ */
 public class SortingFormDialog extends JDialog implements ItemListener, ActionListener{
     private JLabel[] orderLabels;
     private JCheckBox[] checkBoxes;

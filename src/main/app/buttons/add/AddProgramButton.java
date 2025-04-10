@@ -19,10 +19,7 @@ import main.app.windows.MainFrame;
 
 /**
  * {@code JButton} class that sets up all components needed to add a new
- * {@link main.data.dataClass.Program Program}'s data. The action button that 
- * it sets up will send the new data to the {@link main.data.maps.DataMap 
- * DataMap} and {@link main.app.tables.ManagementTable ManagementTable} when 
- * clicked.
+ * program to the database.
  * @see ProgramInput {@code ProgramInput}
  */
 public class AddProgramButton extends AddDataButton{

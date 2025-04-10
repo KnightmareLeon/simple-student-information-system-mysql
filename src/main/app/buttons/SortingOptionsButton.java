@@ -9,6 +9,10 @@ import main.app.tables.ManagementTable;
 import main.app.tables.pageHandler.PageHandler;
 import main.app.windows.SortingFormDialog;
 
+/**
+ * {@code JButton} class that sets up all components needed to
+ * display the sorting options of the table.
+ */
 public class SortingOptionsButton extends JButton implements ActionListener{
 
     private ManagementTable mTable;

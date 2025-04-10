@@ -8,7 +8,8 @@ import main.app.tables.ManagementTable;
 import main.app.windows.MainFrame;
 
 /**
- * 
+ * Deletes a college's data in the database based on the selected 
+ * row(s) in {@link ManagementTable}.
  */
 public class DeleteCollegeButton extends DeleteDataButton{
     public DeleteCollegeButton(MainFrame mainFrame, ManagementTable mTable){

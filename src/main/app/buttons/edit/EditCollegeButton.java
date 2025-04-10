@@ -18,11 +18,9 @@ import main.app.tables.ManagementTable;
 import main.app.windows.MainFrame;
 
 /**
- * {@code JButton} class that sets up all components needed to edit a
- * {@link main.data.dataClass.College College}'s data. The action button that 
- * it sets up will send the new data to the {@link main.data.maps.DataMap 
- * DataMap} and {@link main.app.tables.ManagementTable ManagementTable} when 
- * clicked.
+ * {@code JButton} class that sets up all components needed to edit at
+ * least one college's data in the database based on the selected
+ * row(s) in {@link ManagementTable}.
  * @see CollegeInput {@code CollegeInput}
  */
 public class EditCollegeButton extends EditDataButton{
