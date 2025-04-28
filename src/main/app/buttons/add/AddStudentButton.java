@@ -70,8 +70,14 @@ public class AddStudentButton extends AddDataButton{
                             "Name already exists. Do you want to proceed?", 
                               "Same Name Confirmation", 
                                     JOptionPane.YES_NO_OPTION) 
-                                    == JOptionPane.YES_OPTION) ? true : false;
+                                    == JOptionPane.YES_OPTION);
                     }
+                    confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the student" 
+                                + " that will be added are correct.", 
+                                "Confirm Adding Student", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
                     if(confirm){
                         mTable.getSTM().addData(data);
                         JOptionPane.showMessageDialog(getActionButton(), "Student added successfully!");

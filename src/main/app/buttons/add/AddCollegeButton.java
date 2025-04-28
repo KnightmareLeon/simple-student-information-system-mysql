@@ -52,9 +52,18 @@ public class AddCollegeButton extends AddDataButton{
                         clgInput.getCode(),
                         clgInput.getName()
                     };
-                    mTable.getCTM().addData(data);
-                    JOptionPane.showMessageDialog(getActionButton(), "College added successfully!");
-                    getDataDialog().dispose();
+                    boolean confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the college" 
+                                + " that will be added are correct.", 
+                                "Confirm Adding College", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
+                    if(confirm){
+                        mTable.getCTM().addData(data);
+                        JOptionPane.showMessageDialog(getActionButton(), "College added successfully!");
+                        getDataDialog().dispose();
+                    }
+                    
                 } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){
                     e.printStackTrace();
                     e.startErrorWindow(getActionButton());

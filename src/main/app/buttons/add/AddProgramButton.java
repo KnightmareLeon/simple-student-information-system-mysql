@@ -53,9 +53,17 @@ public class AddProgramButton extends AddDataButton{
                             pInput.getName(),
                             pInput.getCCode()   
                         };
-                        mTable.getPTM().addData(data);
-                        JOptionPane.showMessageDialog(getActionButton(), "Program added successfully!");
-                        getDataDialog().dispose();
+                        boolean confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the program" 
+                                + " that will be added are correct.", 
+                                "Confirm Adding Program", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
+                        if(confirm){
+                            mTable.getPTM().addData(data);
+                            JOptionPane.showMessageDialog(getActionButton(), "Program added successfully!");
+                            getDataDialog().dispose();
+                        }
                     }
                 } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                     e.printStackTrace();

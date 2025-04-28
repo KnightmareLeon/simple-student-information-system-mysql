@@ -35,8 +35,12 @@ public class LogInFrame extends DefaultFrame{
     public LogInFrame(){
         this.setResizable(false);
         this.setDefaultCloseOperation(LogInFrame.EXIT_ON_CLOSE);
+
         final JLabel header = new JLabel("Login");
         header.setFont(header.getFont().deriveFont(Font.BOLD, 70));
+
+        final JLabel subheader = new JLabel("Use you MySQL account username" +
+            " and password to log in.");
 
         final JLabel userLabel = new JLabel("Username");
         final JTextField userField = new JTextField();
@@ -69,18 +73,21 @@ public class LogInFrame extends DefaultFrame{
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.gridx = gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 60, 0);
+        gbc.insets = new Insets(0, 0, 10, 0);
         content.add(header,gbc);
-        gbc.gridy = 1; gbc.insets = new Insets(0, 0, 3, 0);
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 60, 0);
+        content.add(subheader, gbc);
+        gbc.gridy = 2; gbc.insets = new Insets(0, 0, 3, 0);
         gbc.anchor = GridBagConstraints.FIRST_LINE_START;
         content.add(userLabel,gbc);
-        gbc.gridy = 2; gbc.insets = new Insets(0, 0, 6, 0);
+        gbc.gridy = 3; gbc.insets = new Insets(0, 0, 6, 0);
         content.add(userField,gbc);
-        gbc.gridy = 3; gbc.insets = new Insets(0, 0, 3, 0);
+        gbc.gridy = 4; gbc.insets = new Insets(0, 0, 3, 0);
         content.add(passwordLabel,gbc);
-        gbc.gridy = 4; gbc.insets = new Insets(0, 0, 30, 0);
+        gbc.gridy = 5; gbc.insets = new Insets(0, 0, 30, 0);
         content.add(passwordField,gbc);
-        gbc.gridy = 5; gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridy = 6; gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.CENTER; gbc.fill = GridBagConstraints.BOTH;
         content.add(logInButton,gbc);
         
