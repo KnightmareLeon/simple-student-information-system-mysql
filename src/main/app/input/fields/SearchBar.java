@@ -5,8 +5,11 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.text.AbstractDocument;
 
+import main.app.input.filters.SearchBarFilter;
 import main.app.tables.pageHandler.PageHandler;
 
 /**
@@ -18,11 +21,14 @@ import main.app.tables.pageHandler.PageHandler;
  * <p>
  * @see main.app.tables.ManagementTable {@code ManagementTable}
  */
-public class SearchBar extends UpperCaseTextField{
+public class SearchBar extends JTextField{
 
     private PageHandler pageHandler;
+    private SearchBarFilter filter;
     public SearchBar(){
         super(50);
+        filter = new SearchBarFilter(50);
+        ((AbstractDocument) this.getDocument()).setDocumentFilter(filter);
         this.getInputMap(JComponent.WHEN_FOCUSED).put(
             KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), 
             "Search"

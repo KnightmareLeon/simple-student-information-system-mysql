@@ -4,24 +4,25 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-/**
- * Custom {@code DocumentFilter} whose parent is {@link LimitedUpperCaseDocumentFilter}.
- * Only allows uppercase letters with some select special characters.
- */
-public class UpperCaseOnlyDocumentFilter extends LimitedUpperCaseDocumentFilter{
-    public UpperCaseOnlyDocumentFilter(int limit) {
-        super(limit);
+public abstract class LimitedDocumentFilter extends DocumentFilter{
+    private int limit;
+
+    public LimitedDocumentFilter(int limit) {
+        this.limit = limit;
     }
 
     @Override
     public void insertString(DocumentFilter.FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
-        super.insertString(fb, offset, text.replaceAll("[$&+,:;=?@#|\"<>.^*()\\[\\]{}\\/%!0-9]", ""), attr);
+        if (text != null && (fb.getDocument().getLength() + text.length()) > limit) {
+            text = text.substring(0, limit - fb.getDocument().getLength());
+        }
+        super.insertString(fb, offset, text, attr);
     }
     
     @Override
     public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-        if (text != null) {
-            text = text.replaceAll("[$&+,:;=?@#|\"<>.^*()\\[\\]{}\\/%!0-9]", "");
+        if (text != null && (fb.getDocument().getLength() + text.length()) > limit) {
+            text = text.substring(0, limit - fb.getDocument().getLength());
         }
         super.replace(fb, offset, length, text, attrs);
     }
