@@ -89,7 +89,13 @@ public class EditStudentButton extends EditDataButton{
                           "Same Name Confirmation", 
                                 JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) ? true : false;
                 }
-    
+                
+                confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the student" 
+                                + " that will be edited are correct.", 
+                                "Confirm Editing Student", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
                 if(confirm){
                     mTable.getSTM().editData(mTable.convertRowIndexToModel(row), data);
                     JOptionPane.showMessageDialog(getActionButton(), "Student edited successfully!");
@@ -112,9 +118,17 @@ public class EditStudentButton extends EditDataButton{
                 for(int i = 0; i < mTable.getSelectedRowCount(); i++){
                     rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
                 }
-                mTable.getSTM().batchEdit(rowArray, data);
-                JOptionPane.showMessageDialog(getActionButton(), "Students edited successfully!");
-                getDataDialog().dispose();
+                boolean confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the students" 
+                                + " that will be edited are correct.", 
+                                "Confirm Editing Students", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
+                if(confirm){
+                    mTable.getSTM().batchEdit(rowArray, data);
+                    JOptionPane.showMessageDialog(getActionButton(), "Students edited successfully!");
+                    getDataDialog().dispose();
+                }
             } catch (NullPointerExceptionWithWindow e){
                 e.printStackTrace();
                 e.startErrorWindow(getActionButton());

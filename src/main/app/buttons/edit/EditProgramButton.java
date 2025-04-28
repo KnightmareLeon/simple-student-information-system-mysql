@@ -76,10 +76,17 @@ public class EditProgramButton extends EditDataButton{
                     prgInput.getName(),
                     prgInput.getCCode()   
                 };
-    
-                mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data);
-                JOptionPane.showMessageDialog(getActionButton(), "Program edited successfully!");
-                getDataDialog().dispose();
+                boolean confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the program" 
+                                + " that will be edited are correct.", 
+                                "Confirm Editing Program", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
+                if(confirm){
+                    mTable.getPTM().editData(mTable.convertRowIndexToModel(row), data);
+                    JOptionPane.showMessageDialog(getActionButton(), "Program edited successfully!");
+                    getDataDialog().dispose();
+                }
         
             } catch (EmptyInputException | ExistingCodeException | ExistingNameException e){
                 e.printStackTrace();
@@ -88,21 +95,30 @@ public class EditProgramButton extends EditDataButton{
                 e.printStackTrace();
             } 
         } else {
-            String[] data = {
-                prgInput.getCCode()   
-            };
-            int[] rowArray = new int[mTable.getSelectedRowCount()];
-            for(int i = 0; i < mTable.getSelectedRowCount(); i++){
-                rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
-            }
             try {
-                mTable.getPTM().batchEdit(rowArray, data);
+                String[] data = {
+                    prgInput.getCCode()   
+                };
+                int[] rowArray = new int[mTable.getSelectedRowCount()];
+                for(int i = 0; i < mTable.getSelectedRowCount(); i++){
+                    rowArray[i] = mTable.convertRowIndexToModel(mTable.getSelectedRows()[i]);
+                }
+                boolean confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                    "Please confirm that the details of the programs"
+                                    + " that will be edited are correct.", 
+                                    "Confirm Editing Programs", 
+                                    JOptionPane.YES_NO_OPTION) 
+                                    == JOptionPane.YES_OPTION;
+                if(confirm){
+                    mTable.getPTM().batchEdit(rowArray, data);
+                    JOptionPane.showMessageDialog(getActionButton(), "Programs edited successfully!");
+                    getDataDialog().dispose();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            JOptionPane.showMessageDialog(getActionButton(), "Programs edited successfully!");
-            getDataDialog().dispose();
+                
+            
         }
-        
     }
 }

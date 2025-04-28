@@ -73,9 +73,17 @@ public class EditCollegeButton extends EditDataButton{
                 clgInput.getCode(),
                 clgInput.getName()
             };
-            mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data);
-            JOptionPane.showMessageDialog(getActionButton(), "College edited successfully!");
-            getDataDialog().dispose();
+            boolean confirm = JOptionPane.showConfirmDialog(getActionButton(), 
+                                "Please confirm that the details of the college" 
+                                + " that will be edited are correct.", 
+                                "Confirm Editing College", 
+                                JOptionPane.YES_NO_OPTION) 
+                                == JOptionPane.YES_OPTION;
+            if(confirm){
+                mTable.getCTM().editData(mTable.convertRowIndexToModel(row), data);
+                JOptionPane.showMessageDialog(getActionButton(), "College edited successfully!");
+                getDataDialog().dispose();
+            }
         } catch(EmptyInputException | ExistingCodeException | ExistingNameException e){
             e.printStackTrace();
             e.startErrorWindow(getActionButton());
